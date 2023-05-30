@@ -166,16 +166,15 @@ local function create_line()
 			{ hl = "DiagnosticSignError", strings = { pinned_bufer(), graple_tag() } },
 			{ hl = mode_hl_inv, strings = { filename } },
 			"%<", -- Mark general truncate point
-			{ hl = "DiagnosticSignError", strings = { require("lsp-status").status_errors() } },
 			"%=", -- End left alignment
-			{ hl = "DiagnosticSignError", strings = { require("lsp-status").status_errors() } },
-			{ hl = "DiagnosticSignWarn", strings = { require("lsp-status").status_warnings() } },
-			{ hl = "DiagnosticSignInfo", strings = { require("lsp-status").status_info() } },
-			{ hl = "DiagnosticSignHint", strings = { require("lsp-status").status_hints() } },
 			"%<", -- Mark general truncate point
 			-- { hl = "@field", strings = { filename } },
 			"%=", -- End left alignment
 
+			{ hl = "DiagnosticSignError", strings = { require("lsp-status").status_errors() } },
+			{ hl = "DiagnosticWarn", strings = { require("lsp-status").status_warnings() } },
+			{ hl = "DiagnosticInfo", strings = { require("lsp-status").status_info() } },
+			{ hl = "DiagnosticHint", strings = { require("lsp-status").status_hints() } },
 			{ hl = lsp_status, strings = { lsp } },
 			-- { hl = "MiniStatuslineFileinfo", strings = { icon } },
 			{ hl = mode_hl, strings = { codeium_status } },

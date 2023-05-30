@@ -54,8 +54,10 @@ return {
 		"folke/tokyonight.nvim",
 		lazy = true,
 		opts = {
-			transparent = true,
-			style = "night",
+			transparent = vim.g.transparent_enabled,
+			-- night, storm, moon, day
+			style = "moon",
+			sidebars = { "qf", "vista_kind", "terminal", "lazy", "undotree", "diff", "neo-tree", "telescope" },
 		},
 	},
 	{
@@ -81,7 +83,7 @@ return {
 		lazy = true,
 		config = function()
 			require("gruvbox").setup({
-				contrast = "soft",
+				-- contrast = "soft",
 				-- transparent_mode = true,
 				transparent_mode = vim.g.transparent_enabled,
 			})
