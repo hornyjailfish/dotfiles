@@ -56,7 +56,7 @@ return {
 		opts = {
 			transparent = vim.g.transparent_enabled,
 			-- night, storm, moon, day
-			style = "moon",
+			style = "night",
 			sidebars = { "qf", "vista_kind", "terminal", "lazy", "undotree", "diff", "neo-tree", "telescope" },
 		},
 	},
