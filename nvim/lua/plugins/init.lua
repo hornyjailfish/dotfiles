@@ -1,6 +1,6 @@
 require("config")
 return {
-	{ "lewis6991/gitsigns.nvim", event = "BufReadPost" },
+	{ "lewis6991/gitsigns.nvim", event = "BufReadPost", config = true },
 	{
 		-- dont like it because i cant preview diff while go through list
 		"mbbill/undotree",

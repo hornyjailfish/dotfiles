@@ -9,7 +9,7 @@ local function modules_loaded(...)
 	return loaded_count == #module_names
 end
 
-local all_loaded = modules_loaded("portal", "trailblazer")
+local all_loaded = modules_loaded("portal", "trailblazer", "treesitter")
 
 if all_loaded then
 	return

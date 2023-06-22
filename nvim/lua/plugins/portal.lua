@@ -33,7 +33,7 @@ return {
 	},
 	dependencies = {
 		"cbochs/grapple.nvim",
-		--- realy?
+		--- really?
 		"LeonHeidelbach/trailblazer.nvim",
 	},
 }

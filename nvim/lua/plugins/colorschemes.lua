@@ -80,7 +80,7 @@ return {
 	},
 	{
 		"ellisonleao/gruvbox.nvim",
-		lazy = true,
+		lazy = false,
 		config = function()
 			require("gruvbox").setup({
 				-- contrast = "soft",
