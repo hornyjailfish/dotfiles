@@ -1,5 +1,7 @@
 local close_bad_buffers = function()
-	require("zen-mode").close()
+	if pcall(require, "zen-mode") then
+		require("zen-mode").close()
+	end
 
 	-- vim.notify.dismiss({ silent = true, pending = true })
 

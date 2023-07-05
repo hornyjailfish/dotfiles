@@ -63,7 +63,6 @@ return {
 							},
 							cargo = {
 								loadoutdirsfromcheck = true,
-								-- features = { "bevy/dynamic" },
 							},
 							procmacro = {
 								enable = true,
@@ -162,9 +161,11 @@ return {
 			return {
 				sources = {
 					-- nls.builtins.formatting.prettierd,
-					nls.builtins.formatting.stylua,
-					nls.builtins.diagnostics.flake8,
 					nls.builtins.code_actions.gitsigns,
+					nls.builtins.formatting.stylua,
+					-- nls.builtins.diagnostics.flake8,
+					nls.builtins.diagnostics.tidy,
+					nls.builtins.hover.printenv,
 				},
 			}
 		end,

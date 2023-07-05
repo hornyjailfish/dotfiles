@@ -80,13 +80,14 @@ return {
 	},
 	{
 		"ellisonleao/gruvbox.nvim",
-		lazy = false,
+		lazy = true,
 		config = function()
 			require("gruvbox").setup({
-				-- contrast = "soft",
+				contrast = "soft",
 				-- transparent_mode = true,
 				transparent_mode = vim.g.transparent_enabled,
 			})
+			-- vim.cmd.colo("gruvbox")
 		end,
 	},
 

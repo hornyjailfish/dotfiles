@@ -18,7 +18,7 @@ return {
 	},
 	opts = {
 		-- i dont like sorting of portals mostly need to fix it
-		labels = { "n", "t", "e", "s" },
+		labels = { "n", "e", "i", "o" },
 		select_first = true,
 		---The raw window options used for the portal window
 		window_options = {
@@ -34,6 +34,6 @@ return {
 	dependencies = {
 		"cbochs/grapple.nvim",
 		--- really?
-		"LeonHeidelbach/trailblazer.nvim",
+		-- "LeonHeidelbach/trailblazer.nvim",
 	},
 }

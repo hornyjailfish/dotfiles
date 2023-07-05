@@ -13,6 +13,7 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
 	spec = {
+		{ import = "plugins.folke" },
 		{ import = "plugins" },
 		{ import = "plugins.mini" },
 	},
@@ -41,6 +42,6 @@ require("lazy").setup({
 })
 
 -- dont lazyload colorschemes they say
-vim.g.transparent_enabled = false
+vim.g.transparent_enabled = true
 vim.cmd.colo("gruvbox")
 vim.cmd.redrawstatus()
