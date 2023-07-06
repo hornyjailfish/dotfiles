@@ -160,7 +160,7 @@ return {
 			local nls = require("null-ls")
 			return {
 				sources = {
-					-- nls.builtins.formatting.prettierd,
+					nls.builtins.formatting.prettierd,
 					nls.builtins.code_actions.gitsigns,
 					nls.builtins.formatting.stylua,
 					-- nls.builtins.diagnostics.flake8,
