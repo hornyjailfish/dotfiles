@@ -1,10 +1,10 @@
 return {
-	"echasnovski/mini.flies",
+	"echasnovski/mini.files",
 	version = false,
 	keys = {
-		{ "<leader>bf", "<cmd>lua require('mini.flies').toggle()<cr>", desc = "Toggle Mini Flies" },
+		{ "<leader>bf", "<cmd>lua require('mini.files').open()<cr>", desc = "Toggle Mini Files" },
 	},
-	main = "mini.flies",
+	main = "mini.files",
 	config = true,
 	opts = {},
 }
