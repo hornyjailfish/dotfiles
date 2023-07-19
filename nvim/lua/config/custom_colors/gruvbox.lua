@@ -10,4 +10,6 @@ return function()
 	vim.cmd.hi({ args = { "link  Type GruvboxBlue" }, bang = true })
 	-- vim.cmd.hi({ args = { "link  SignColumn GruvboxFg1" }, bang = true })
 	vim.cmd.hi({ args = { "link  @lsp.type.typeParameter GruvboxPurple" }, bang = true })
+	local palette = require("gruvbox.palette")
+	return palette
 end

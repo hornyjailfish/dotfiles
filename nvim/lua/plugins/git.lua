@@ -1,16 +1,16 @@
 return {
 	{
 		"neogitorg/neogit",
-    dependencies = 'nvim-lua/plenary.nvim',
+		dependencies = "nvim-lua/plenary.nvim",
 		cmd = "Neogit",
-		event = "VeryLazy",
+		-- event = "VeryLazy",
 		opts = {
 			disable_buildin_notifications = false,
-      integration = {
-        telescope = true,
-      },
+			integration = {
+				telescope = true,
+			},
 		},
-  },
+	},
 	{ "lewis6991/gitsigns.nvim", event = "BufReadPost", config = true },
 	-- {
 	-- 	"tpope/vim-fugitive",

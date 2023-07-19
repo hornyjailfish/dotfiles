@@ -2,18 +2,26 @@ vim.api.nvim_create_autocmd({ "ColorScheme" }, {
 	pattern = { "*" },
 	callback = function(e)
 		local path = "config.custom_colors."
-		path = path .. e.match
+		-- path = path .. e.match
+		path = path .. vim.g.colors_name
+		local palette = {}
 		local ok, highlights = pcall(require, path)
 		if ok then
-			highlights()
+			-- INFO: file in config/custom_colors/%coloname% should return palette table for shipwright
+			palette = highlights()
 		else
 			vim.notify("cant load user-defined highlights for " .. e.match, 3)
 		end
+
+		-- try build theme for wezterm
+		require("util.shipwright_utils").create_palette(palette)
+		local shipfile = vim.fs.normalize(vim.fn.stdpath("config") .. "/shipwright_build.lua")
+		require("shipwright").build(shipfile)
 	end,
 })
 
 vim.api.nvim_create_autocmd({ "FileType" }, {
-	pattern = { "qf", "help", "man", "lspinfo", "spectre_panel", "obsidianbacklinks" },
+	pattern = { "qf", "help", "man", "lspinfo", "neo-tree", "spectre_panel", "obsidianbacklinks" },
 	callback = function()
 		vim.cmd([[
       nnoremap <silent> <buffer> q :close<CR> 

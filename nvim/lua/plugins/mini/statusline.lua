@@ -20,13 +20,13 @@ end
 -----Sections
 ---@return __statusline_section
 local section_filename = function(gs)
-	if isnt_normal_buffer() then
-		return "%t"
-	else
-		-- File name with 'truncate', 'modified', 'readonly' flags
-		-- Use relative path if truncated
-		return "%f"
-	end
+	-- if isnt_normal_buffer() then
+	-- return "%t"
+	-- else
+	-- File name with 'truncate', 'modified', 'readonly' flags
+	-- Use relative path if truncated
+	return "%f"
+	-- end
 end
 
 local codeium_loaded = function()
@@ -145,56 +145,57 @@ local graple_tag = function()
 end
 
 local function create_line()
+	vim.cmd("redrawstatus")
 	local line = {}
-	if isnt_normal_buffer() then
-		local filename = section_filename({ trunc_width = 100 })
-		line = {
-			{ hl = "MiniStatuslineFileinfo", strings = { filename } },
-		}
-	else
-		local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = 9999 })
-		local mode_hl_inv = alt_mode_hl()
-		local git = MiniStatusline.section_git({ trunc_width = 75 })
-		-- local diagnostics = MiniStatusline.section_diagnostics({ use_icons = false, trunc_width = 75 })
-		local filename = MiniStatusline.section_filename({ trunc_width = 2000 })
-		local location = MiniStatusline.section_location({ trunc_width = 99999 })
-		local icon, color = require("nvim-web-devicons").get_icon_color_by_filetype(vim.bo.filetype)
-		local lsp, lsp_status = lsp_loading_status()
-		local codeium_status, codeium_hl = codeium()
-		line = {
-			-- "%<", -- Mark general truncate point
-      {hl = "SignColumn",strings = { require('NeoComposer.ui').status_recording() } },
-			{ hl = "DiagnosticSignError", strings = { pinned_bufer(), graple_tag() } },
-			{ hl = mode_hl_inv, strings = { filename } },
-			"%<", -- Mark general truncate point
-			"%<", -- Mark general truncate point
-      "%=", -- End left alignment
-			-- { hl = "@field", strings = { filename } },
-			"%=", -- End left alignment
+	-- if isnt_normal_buffer() then
+	-- 	local filename = section_filename({ trunc_width = 100 })
+	-- 	line = {
+	-- 		{ hl = "MiniStatuslineFileinfo", strings = { filename } },
+	-- 	}
+	-- else
+	local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = 9999 })
+	local mode_hl_inv = alt_mode_hl()
+	local git = MiniStatusline.section_git({ trunc_width = 75 })
+	-- local diagnostics = MiniStatusline.section_diagnostics({ use_icons = false, trunc_width = 75 })
+	local filename = MiniStatusline.section_filename({ trunc_width = 2000 })
+	local location = MiniStatusline.section_location({ trunc_width = 99999 })
+	local icon, color = require("nvim-web-devicons").get_icon_color_by_filetype(vim.bo.filetype)
+	local lsp, lsp_status = lsp_loading_status()
+	local codeium_status, codeium_hl = codeium()
+	line = {
+		-- "%<", -- Mark general truncate point
+		{ hl = "SignColumn", strings = { require("NeoComposer.ui").status_recording() } },
+		{ hl = "DiagnosticSignError", strings = { pinned_bufer(), graple_tag() } },
+		{ hl = mode_hl_inv, strings = { filename } },
+		"%<", -- Mark general truncate point
+		"%<", -- Mark general truncate point
+		"%=", -- End left alignment
+		-- { hl = "@field", strings = { filename } },
+		"%=", -- End left alignment
 
-			{ hl = "DiagnosticSignError", strings = { require("lsp-status").status_errors() } },
-			{ hl = "DiagnosticWarn", strings = { require("lsp-status").status_warnings() } },
-			{ hl = "DiagnosticInfo", strings = { require("lsp-status").status_info() } },
-			{ hl = "DiagnosticHint", strings = { require("lsp-status").status_hints() } },
-			{ hl = lsp_status, strings = { lsp } },
-			-- { hl = "MiniStatuslineFileinfo", strings = { icon } },
-			{ hl = mode_hl, strings = { codeium_status } },
-			{ hl = mode_hl, strings = { location } },
-		}
-		vim.api.nvim_set_hl(0, "MiniStatuslineModeNormal", { fg = color, reverse = true })
-		vim.api.nvim_set_hl(0, "MiniStatuslineModeNormalAlt", { fg = color, reverse = false })
-	end
+		{ hl = "DiagnosticSignError", strings = { require("lsp-status").status_errors() } },
+		{ hl = "DiagnosticWarn", strings = { require("lsp-status").status_warnings() } },
+		{ hl = "DiagnosticInfo", strings = { require("lsp-status").status_info() } },
+		{ hl = "DiagnosticHint", strings = { require("lsp-status").status_hints() } },
+		{ hl = lsp_status, strings = { lsp } },
+		-- { hl = "MiniStatuslineFileinfo", strings = { icon } },
+		{ hl = mode_hl, strings = { codeium_status } },
+		{ hl = mode_hl, strings = { location } },
+	}
+	vim.api.nvim_set_hl(0, "MiniStatuslineModeNormal", { fg = color, reverse = true })
+	vim.api.nvim_set_hl(0, "MiniStatuslineModeNormalAlt", { fg = color, reverse = false })
+	-- end
 	-- vim.api.nvim_set_hl(0, "MiniStatuslineFileinfo", { bg = mode_hl.bg, fg = color })
 	-- vim.api.nvim_set_hl(0, "MiniStatuslineFilenameInverted", { fg = color, reverse = true })
 	-- vim.api.nvim_set_hl(0, "MiniStatuslineFilename", { reverse = true, link = mode_hl })
 	-- vim.api.nvim_set_hl(0, "MiniStatuslineFilename", { reverse = true })
 	-- remove_empty_tables(line)
-	vim.cmd("redrawstatus")
 	return MiniStatusline.combine_groups(line)
 end
 
 -- inactive line creation
 local function inactive_line()
+	vim.cmd("redrawstatus")
 	local filename = section_filename()
 	return MiniStatusline.combine_groups({
 		{ hl = "Comment", strings = { filename } },
@@ -215,6 +216,7 @@ return {
 				use_icons = true,
 			})
 			create_copy_hl()
+			-- vim.cmd("redrawstatus")
 		end,
 	},
 }
