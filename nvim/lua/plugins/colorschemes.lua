@@ -53,41 +53,55 @@ return {
 		---TOOOOKKKKIIIIOOOO
 		"folke/tokyonight.nvim",
 		lazy = true,
+    priority = 99999,
 		opts = {
 			transparent = vim.g.transparent_enabled,
 			-- night, storm, moon, day
-			style = "night",
+			style = "moon",
 			sidebars = { "qf", "vista_kind", "terminal", "lazy", "undotree", "diff", "neo-tree", "telescope" },
 		},
+    config = function(_,opts)
+      require("tokyonight").setup(opts)
+      vim.cmd("colorscheme tokyonight")
+    end
+
+
 	},
 	{
 		"mcchrish/zenbones.nvim",
 		lazy = true,
 		config = function()
-			local name = "zenbones"
+			local name = "seoulbones"
 			vim.g.bones_compat = 1
 			vim.api.nvim_set_var(name, {
+        -- use vim.g.transparent_enabled with nvim-transparent is prefered way
+        transparent_background = vim.g.transparent_enabled,
+        colorize_diagnostic_underline_text = false,
+        -- transparent_background = true,
+
+
+        -- dark background opts
+        lighten_comments = 30,
 				darkness = "warm",
+        lighten_noncurrent_window = true,
 
-				-- use vim.g.transparent_enabled with nvim-transparent is prefered way
-				transparent_background = vim.g.transparent_enabled,
-				-- transparent_background = true,
-
-				lighten_comments = 30,
-				darken_comments = 30,
+        -- light background opts
+        darken_noncurrent_window =true,
+				darken_comments = 0,
 			})
 		end,
 	},
 	{
 		"ellisonleao/gruvbox.nvim",
+    priority = 99999,
 		lazy = true,
 		config = function()
 			require("gruvbox").setup({
-				contrast = "soft",
+				-- contrast = "soft",
 				-- transparent_mode = true,
 				transparent_mode = vim.g.transparent_enabled,
 			})
-			-- vim.cmd.colo("gruvbox")
+			vim.cmd.colo("gruvbox")
 		end,
 	},
 

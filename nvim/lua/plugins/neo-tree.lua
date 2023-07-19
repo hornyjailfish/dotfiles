@@ -2,6 +2,7 @@ local icons = require("config.icons").kinds
 return {
 	{
 		"nvim-neo-tree/neo-tree.nvim",
+    branch = "v3.x",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
@@ -34,28 +35,9 @@ return {
 				hide_dotfiles = true,
 			},
 			follow_current_file = true,
-			-- document_symbols = {
-			-- 	follow_cursor = true,
-			-- 	client_filters = "all",
-			-- 	kinds = {
-			-- 		File = { icon = icons.File, hl = "Tag" },
-			-- 		Namespace = { icon = icons.Namespace, hl = "Include" },
-			-- 		Package = { icon = icons.Package, hl = "Label" },
-			-- 		Class = { icon = icons.Class, hl = "Include" },
-			-- 		Property = { icon = icons.Property, hl = "@property" },
-			-- 		Enum = { icon = icons.Enum, hl = "@number" },
-			-- 		Function = { icon = icons.Function, hl = "Function" },
-			-- 		String = { icon = icons.String, hl = "String" },
-			-- 		Number = { icon = icons.Number, hl = "Number" },
-			-- 		Array = { icon = icons.Array, hl = "Type" },
-			-- 		Object = { icon = icons.Object, hl = "Type" },
-			-- 		Key = { icon = icons.Key, hl = "" },
-			-- 		Struct = { icon = icons.Struct, hl = "Type" },
-			-- 		Operator = { icon = icons.Operator, hl = "Operator" },
-			-- 		TypeParameter = { icon = icons.TypeParameter, hl = "Type" },
-			-- 		StaticMethod = { icon = icons.Method, hl = "Function" },
-			-- 	},
-			-- },
+			window = {
+				width = 30,
+			},
 			source_selectior = {
 				statusline = false,
 				winbar = true,

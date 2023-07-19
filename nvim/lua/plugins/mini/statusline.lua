@@ -163,11 +163,12 @@ local function create_line()
 		local codeium_status, codeium_hl = codeium()
 		line = {
 			-- "%<", -- Mark general truncate point
+      {hl = "SignColumn",strings = { require('NeoComposer.ui').status_recording() } },
 			{ hl = "DiagnosticSignError", strings = { pinned_bufer(), graple_tag() } },
 			{ hl = mode_hl_inv, strings = { filename } },
 			"%<", -- Mark general truncate point
-			"%=", -- End left alignment
 			"%<", -- Mark general truncate point
+      "%=", -- End left alignment
 			-- { hl = "@field", strings = { filename } },
 			"%=", -- End left alignment
 

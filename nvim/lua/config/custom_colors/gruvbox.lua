@@ -1,5 +1,5 @@
 return function()
-	vim.o.background = "dark"
+	-- vim.o.background = "dark"
 	vim.cmd.hi({ args = { "link  Operator GruvboxOrange" }, bang = true }) -- +-=etc
 	vim.cmd.hi({ args = { "link  Special GruvboxSignBlue" }, bang = true }) --(){}[],
 	vim.cmd.hi({ args = { "link  String GruvboxFg3" }, bang = true }) -- strings in ""

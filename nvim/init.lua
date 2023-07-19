@@ -42,6 +42,7 @@ require("lazy").setup({
 })
 
 -- dont lazyload colorschemes they say
-vim.g.transparent_enabled = true
-vim.cmd.colo("gruvbox")
-vim.cmd.redrawstatus()
+vim.o.background = "dark"
+vim.g.transparent_enabled = false
+vim.cmd.colo("tokyonight")
+-- vim.cmd.redrawstatus()
