@@ -5,7 +5,7 @@ return {
 		cmd = "Neogit",
 		-- event = "VeryLazy",
 		opts = {
-			disable_buildin_notifications = false,
+			disable_buildin_notifications = true,
 			integration = {
 				telescope = true,
 			},
