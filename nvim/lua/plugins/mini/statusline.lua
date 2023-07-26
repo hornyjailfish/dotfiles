@@ -146,6 +146,10 @@ end
 
 local function create_line()
 	vim.cmd("redrawstatus")
+	local err, macro = pcall(require, "NeoComposer.ui")
+	if err then
+		macro = macro.status_recording()
+	end
 	local line = {}
 	-- if isnt_normal_buffer() then
 	-- 	local filename = section_filename({ trunc_width = 100 })
@@ -164,7 +168,7 @@ local function create_line()
 	local codeium_status, codeium_hl = codeium()
 	line = {
 		-- "%<", -- Mark general truncate point
-		{ hl = "SignColumn", strings = { require("NeoComposer.ui").status_recording() } },
+		{ hl = "SignColor", strings = { macro, git } },
 		{ hl = "DiagnosticSignError", strings = { pinned_bufer(), graple_tag() } },
 		{ hl = mode_hl_inv, strings = { filename } },
 		"%<", -- Mark general truncate point

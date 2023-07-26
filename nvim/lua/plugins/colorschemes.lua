@@ -52,7 +52,7 @@ return {
 	{
 		---TOOOOKKKKIIIIOOOO
 		"folke/tokyonight.nvim",
-		lazy = true,
+		lazy = false,
 		priority = 99999,
 		opts = {
 			transparent = vim.g.transparent_enabled,
@@ -62,7 +62,7 @@ return {
 		},
 		config = function(_, opts)
 			require("tokyonight").setup(opts)
-			vim.cmd("colorscheme tokyonight")
+			vim.cmd.colo("tokyonight")
 		end,
 	},
 	{

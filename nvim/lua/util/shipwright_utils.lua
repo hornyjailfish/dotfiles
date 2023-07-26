@@ -49,7 +49,6 @@ get_hl = function(name)
 		if not (color.bg or color.fg) then
 			return default
 		end
-		-- BUG: string.format cuts heading/trailing zeroes
 		if color.bg then
 			color.bg = string.format("#%06x", color.bg)
 		else
@@ -61,7 +60,7 @@ get_hl = function(name)
 		else
 			color.fg = default.fg
 		end
-		-- print(vim.inspect(color))
+		-- print(name, vim.inspect(color))
 		return color
 	end
 end
@@ -70,13 +69,15 @@ end
 local general_palette = function()
 	local base = {
 		fg = get_hl("@text").fg,
+		-- selection_fg = get_hl("Visual").fg, --in some cases nil
 		bg = get_hl("Normal").bg,
 		cursor_fg = get_hl("Cursor").fg,
 		cursor_bg = get_hl("Cursor").bg,
 		cursor_border = get_hl("CursorLine").bg,
-		selection_fg = get_hl("Visual").fg, -- nil
+		selection_fg = get_hl("Type").fg,
 		selection_bg = get_hl("Visual").bg,
-		--- bottom one is controversial but i try LUL
+
+		--- bottom one is controversial but its ok most of the time
 		black = get_hl("Comment").fg,
 		red = get_hl("DiagnosticVirtualTextError").bg,
 		green = get_hl("DiagnosticVirtualTextHint").bg,
@@ -85,9 +86,10 @@ local general_palette = function()
 		magenta = get_hl("Statement").fg,
 		cyan = get_hl("Label").fg,
 		white = "#FFFFFF",
-		bright_black = get_hl("CursorLine").bg,
+		-- bright_black = get_hl("CursorLine").bg,
+		bright_black = get_hl("DiagnosticWarn").fg,
 		bright_red = get_hl("DiagnosticError").fg,
-		bright_green = get_hl("@keyword").fg,
+		bright_green = get_hl("Type").fg,
 		bright_yellow = get_hl("DiagnosticWarn").fg,
 		bright_blue = get_hl("IncSearch").bg,
 		bright_magenta = get_hl("Identifier").fg,

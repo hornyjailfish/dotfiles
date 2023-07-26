@@ -44,5 +44,5 @@ require("lazy").setup({
 -- dont lazyload colorschemes they say
 vim.o.background = "dark"
 vim.g.transparent_enabled = false
-vim.cmd.colo("tokyonight")
+-- vim.cmd.colo("tokyonight")
 -- vim.cmd.redrawstatus()
