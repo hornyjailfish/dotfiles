@@ -62,7 +62,7 @@ return {
 								importprefix = "by_self",
 							},
 							cargo = {
-								loadoutdirsfromcheck = true,
+								loadoutdirsfromcheck = false,
 							},
 							procmacro = {
 								enable = true,

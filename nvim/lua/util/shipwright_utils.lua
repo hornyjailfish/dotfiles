@@ -2,6 +2,7 @@
 
 local default = vim.api.nvim_get_hl(0, { name = "Normal" })
 local dumb_color = { "#333333", "#aaaaa0" }
+
 local find_hl = function(get)
 	local result = vim.api.nvim_get_hl(0, { name = get })
 	return result
