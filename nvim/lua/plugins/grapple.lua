@@ -1,12 +1,16 @@
 local function create_tag()
 	if require("grapple").exists() then
 		require("grapple").toggle()
+		require("neo-tree.sources.manager").refresh("filesystem")
+		require("neo-tree.sources.manager").refresh("buffers")
 		return
 	end
 	local prompt = "Input name for tag "
 	local tag = ""
 	tag = vim.fn.input({ prompt = prompt .. "->", cancelreturn = "\b" })
 	if tag == "\b" then
+		require("neo-tree.sources.manager").refresh("filesystem")
+		require("neo-tree.sources.manager").refresh("buffers")
 		return
 	end
 	if tag ~= "" then
@@ -17,6 +21,9 @@ local function create_tag()
 	else
 		require("grapple").toggle()
 	end
+	require("neo-tree.sources.manager").refresh("filesystem")
+	require("neo-tree.sources.manager").refresh("buffers")
+	-- require("neo-tree.events").fire_event("grapple_event")
 end
 
 return {

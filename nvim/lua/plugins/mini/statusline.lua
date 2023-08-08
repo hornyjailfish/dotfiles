@@ -5,7 +5,7 @@ local isnt_normal_buffer = function()
 	-- For more information see ":h buftype"
 	return vim.bo.buftype ~= ""
 end
-
+local blocked_filetypes = { ["neo-tree"] = true, ["starter"] = true }
 -- local function remove_empty_tables(t)
 -- 	local i = 1
 -- 	while i <= #t do
@@ -16,18 +16,6 @@ end
 -- 		end
 -- 	end
 -- end
-
------Sections
----@return __statusline_section
-local section_filename = function(gs)
-	-- if isnt_normal_buffer() then
-	-- return "%t"
-	-- else
-	-- File name with 'truncate', 'modified', 'readonly' flags
-	-- Use relative path if truncated
-	return "%f"
-	-- end
-end
 
 local codeium_loaded = function()
 	if package.loaded["Codeium"] or vim.fn.exists("g:loaded_codeium") ~= 0 then
@@ -108,7 +96,6 @@ local modes = setmetatable({
 --
 local alt_mode_hl = function()
 	local mode_info = modes[vim.fn.mode()]
-
 	return mode_info.hl
 end
 
@@ -145,11 +132,10 @@ local graple_tag = function()
 end
 
 local function create_line()
-	vim.cmd("redrawstatus")
-	local err, macro = pcall(require, "NeoComposer.ui")
-	if err then
-		macro = macro.status_recording()
+	if blocked_filetypes[vim.bo.filetype] then
+		return ""
 	end
+	vim.cmd("redrawstatus")
 	local line = {}
 	-- if isnt_normal_buffer() then
 	-- 	local filename = section_filename({ trunc_width = 100 })
@@ -168,12 +154,10 @@ local function create_line()
 	local codeium_status, codeium_hl = codeium()
 	line = {
 		-- "%<", -- Mark general truncate point
-		{ hl = "SignColor", strings = { macro, git } },
 		{ hl = "DiagnosticSignError", strings = { pinned_bufer(), graple_tag() } },
+		{ hl = "SignColor", strings = { git } },
+		"%<", -- Mark general truncate point
 		{ hl = mode_hl_inv, strings = { filename } },
-		"%<", -- Mark general truncate point
-		"%<", -- Mark general truncate point
-		"%=", -- End left alignment
 		-- { hl = "@field", strings = { filename } },
 		"%=", -- End left alignment
 
@@ -200,7 +184,7 @@ end
 -- inactive line creation
 local function inactive_line()
 	vim.cmd("redrawstatus")
-	local filename = section_filename()
+	local filename = MiniStatusline.section_filename({ trunc_width = 2000 })
 	return MiniStatusline.combine_groups({
 		{ hl = "Comment", strings = { filename } },
 	})
@@ -212,6 +196,7 @@ return {
 		version = false,
 		-- event = "VeryLazy",
 		config = function()
+			create_copy_hl()
 			require("mini.statusline").setup({
 				content = {
 					active = create_line,
@@ -219,7 +204,6 @@ return {
 				},
 				use_icons = true,
 			})
-			create_copy_hl()
 			-- vim.cmd("redrawstatus")
 		end,
 	},

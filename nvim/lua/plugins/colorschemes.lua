@@ -61,6 +61,7 @@ return {
 			sidebars = { "qf", "vista_kind", "terminal", "lazy", "undotree", "diff", "neo-tree", "telescope" },
 		},
 		config = function(_, opts)
+			vim.g.transparent_enabled = false
 			require("tokyonight").setup(opts)
 			vim.cmd.colo("tokyonight")
 		end,

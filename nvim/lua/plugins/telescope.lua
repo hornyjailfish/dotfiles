@@ -11,12 +11,19 @@ return {
 	keys = {
 		{
 			"<leader>,",
-			"<cmd>Telescope buffers show_all_buffers=true theme=ivy previewer=false<cr>",
+			-- "<cmd>Telescope buffers show_all_buffers=true theme=ivy previewer=false<cr>",
+			function()
+				require("hbac.telescope").pin_picker({
+					layout_strategy = "horizontal",
+					previewer = false,
+					defaults = { theme = ivy },
+				})
+			end,
 			desc = "Switch Buffer",
 		},
 		{ "<leader>/", Util.telescope("live_grep"), desc = "Find in Files (Grep)" },
 		{ "<leader>:", "<cmd>Telescope command_history theme=ivy<cr>", desc = "Command History" },
-		{ "<leader><space>", Util.telescope("files", { cwd = false, previewer=false}), desc = "Find Files (cwd)" }, -- find
+		{ "<leader><space>", Util.telescope("files", { cwd = false, previewer = false }), desc = "Find Files (cwd)" }, -- find
 		{ "<leader>ff", Util.telescope("files"), desc = "Find Files (root dir)" },
 		{ "<leader>fF", Util.telescope("files", { cwd = false }), desc = "Find Files (cwd)" },
 		{ "<leader>fr", "<cmd>Telescope oldfiles<cr>", desc = "Recent" },

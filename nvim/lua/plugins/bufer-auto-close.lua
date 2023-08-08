@@ -4,7 +4,15 @@ return {
 	dependencies = { "echasnovski/mini.bufremove" },
 	keys = {
 		{ "<leader>bD", "<cmd>Hbac close_unpinned<cr>", desc = "Delete not pined buffers" },
-		{ "<leader>b<space>", "<cmd>Hbac toggle_pin<cr>", desc = "Pin or unpin current buffer" },
+		{
+			"<leader>b<space>",
+			function()
+				require("hbac").toggle_pin()
+				require("neo-tree.sources.manager").refresh("filesystem")
+				require("neo-tree.sources.manager").refresh("buffers")
+			end,
+			desc = "Pin or unpin current buffer",
+		},
 	},
 	config = function()
 		require("hbac").setup({
@@ -13,6 +21,10 @@ return {
 			close_command = function(bufnr)
 				require("mini.bufremove").delete(bufnr, false)
 			end,
+			pin_icons = {
+				pinned = { " ", hl = "DiagnosticOk" },
+				unpinned = { " ", hl = "DiagnosticError" },
+			},
 			close_buffers_with_windows = true, -- hbac will close buffers with associated windows if this option is `true`
 		})
 	end,
