@@ -5,7 +5,50 @@ local isnt_normal_buffer = function()
 	-- For more information see ":h buftype"
 	return vim.bo.buftype ~= ""
 end
-local blocked_filetypes = { ["neo-tree"] = true, ["starter"] = true }
+
+local blocked_filetypes = {
+	["neo-tree"] = true,
+	["starter"] = true,
+	["undotree"] = true,
+	["Trouble"] = true,
+}
+---show todos and stuff in statusline
+---returns a highlight-supported string of TODO comment statistics
+-- PERF: expensive function, proper throttling required
+-- [ Check https://github.com/folke/todo-comments.nvim/issues/172#issuecomment-1382691260 ]
+local todo = {
+	---@type table<string,string> map of TODO keywords and their icons
+	render = {
+		FIX = "",
+		HACK = "",
+		NOTE = "",
+		PERF = "",
+		TEST = "✎",
+		TODO = "",
+		WARN = "",
+	},
+	---@type table<string, integer> map of TODO keywords and their counts
+	stats = {},
+}
+local function statusline_todo_list()
+	if not require("todo-comments.config").loaded then
+		return ""
+	end
+	-- count number of keyword occurences
+	local out = {}
+	local test
+	require("todo-comments.search").search(function(entries)
+		for _, entry in ipairs(entries) do
+			todo.stats[entry.tag] = (todo.stats[entry.tag] or 0) + 1
+		end
+		for keyword, count in vim.spairs(todo.stats) do
+			table.insert(out, { hl = "TodoSign" .. keyword, string = { todo.render[keyword], count } })
+		end
+		-- print(vim.inspect(out))
+	end, { disable_not_found_warnings = true })
+
+	return test
+end
 -- local function remove_empty_tables(t)
 -- 	local i = 1
 -- 	while i <= #t do
@@ -143,6 +186,10 @@ local function create_line()
 	-- 		{ hl = "MiniStatuslineFileinfo", strings = { filename } },
 	-- 	}
 	-- else
+	local err, macro = pcall(require, "NeoComposer.ui")
+	if err then
+		macro = macro.status_recording()
+	end
 	local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = 9999 })
 	local mode_hl_inv = alt_mode_hl()
 	local git = MiniStatusline.section_git({ trunc_width = 75 })
@@ -154,7 +201,7 @@ local function create_line()
 	local codeium_status, codeium_hl = codeium()
 	line = {
 		-- "%<", -- Mark general truncate point
-		{ hl = "DiagnosticSignError", strings = { pinned_bufer(), graple_tag() } },
+		{ hl = "DiagnosticSignError", strings = { pinned_bufer(), graple_tag(), macro } },
 		{ hl = "SignColor", strings = { git } },
 		"%<", -- Mark general truncate point
 		{ hl = mode_hl_inv, strings = { filename } },

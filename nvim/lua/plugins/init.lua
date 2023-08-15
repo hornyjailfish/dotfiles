@@ -14,18 +14,14 @@ return {
 		lazy = true,
 		opts = {
 			colors = {
-				bg = "SignColumn",
+				bg = "DiagnosticSignError",
 			},
 		},
 		config = function(_, opts)
 			require("NeoComposer").setup(opts)
-			local err, macro = pcall(require, "NeoComposer.ui")
-			if err then
-				macro = macro.status_recording()
-			end
-			local line = require("mini.statusline").active()
-			print(line)
-			vim.cmd.redrawstatus()
+			-- local line = require("mini.statusline").active()
+			-- print(line)
+			-- vim.cmd.redrawstatus()
 			-- local bg = vim.api.nvim_get_hl(0,{})["SignColumn"].bg
 			-- bg = string.format("#%x",bg)
 			-- -- print(bg)
