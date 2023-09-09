@@ -32,6 +32,7 @@ return {
 			---@type lspconfig.options
 			servers = {
 				jsonls = {},
+				denols = {},
 				pylsp = {},
 				lua_ls = {
 					settings = {
@@ -159,12 +160,13 @@ return {
 		opts = function()
 			local nls = require("null-ls")
 			return {
+				root_dir = require("null-ls.utils").root_pattern(".null-ls-root", ".neoconf.json", "Makefile", ".git"),
 				sources = {
-					nls.builtins.formatting.prettierd,
-					nls.builtins.code_actions.gitsigns,
+					-- nls.builtins.formatting.prettierd,
 					nls.builtins.formatting.stylua,
 					-- nls.builtins.diagnostics.flake8,
 					nls.builtins.diagnostics.tidy,
+					nls.builtins.code_actions.gitsigns,
 					nls.builtins.hover.printenv,
 				},
 			}
