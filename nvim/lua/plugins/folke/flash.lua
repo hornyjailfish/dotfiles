@@ -1,11 +1,6 @@
 return {
 	"folke/flash.nvim",
 	event = "VeryLazy",
-	---@type Flash.Config
-	opts = {
-		labels = "arstgmneioqwfpbjluyzxcdvkh",
-	},
-	-- config = true,
 	keys = {
 		{
 			"s",
@@ -46,6 +41,17 @@ return {
 				require("flash").toggle()
 			end,
 			desc = "Toggle Flash Search",
+		},
+	},
+	---@type Flash.Config
+	opts = {
+		labels = "arstgmneioqwfpbjluyzxcdvkh",
+		modes = {
+			char = {
+				highlight = {
+					backdrop = false,
+				},
+			},
 		},
 	},
 }

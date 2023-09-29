@@ -32,7 +32,7 @@ require("lazy").setup({
 				"zipPlugin",
 				"rplugin",
 				-- thanks treesitter
-				"syntax",
+				-- "syntax",
 				-- thanks matchup
 				"matchit",
 				"matchparen",
@@ -43,6 +43,6 @@ require("lazy").setup({
 
 -- dont lazyload colorschemes they say
 vim.o.background = "dark"
-vim.g.transparent_enabled = false
+vim.g.transparent_enabled = true
 -- vim.cmd.colo("tokyonight")
 -- vim.cmd.redrawstatus()

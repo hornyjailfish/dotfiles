@@ -8,6 +8,7 @@ return {
 			"<leader>b<space>",
 			function()
 				require("hbac").toggle_pin()
+				require("grapple").tag()
 				require("neo-tree.sources.manager").refresh("filesystem")
 				require("neo-tree.sources.manager").refresh("buffers")
 			end,

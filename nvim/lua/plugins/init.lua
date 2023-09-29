@@ -1,82 +1,10 @@
 require("config")
 return {
 	{
-		"rktjmp/shipwright.nvim",
+		"MunifTanjim/nui.nvim",
 	},
 	{
-		"roobert/tabtree.nvim",
-		dependencies = {
-			"nvim-treesitter/nvim-treesitter",
-		},
-		keys = {
-			{
-				"<Tab>",
-				function()
-					require("tabtree").next()
-				end,
-				"Next delimiter",
-			},
-			{
-				"<S-Tab>",
-				function()
-					require("tabtree").previous()
-				end,
-				"Previous delimiter",
-			},
-		},
-		-- (parameters) @parameters
-		-- (argument) @arguments
-		-- (identifier) @field
-		-- (punctuation) @punctuation
-		opts = {
-			debug = true,
-			-- use :InspectTree to discover the (capture group)
-			-- @capture_name can be anything
-			language_configs = {
-				python = {
-					target_query = [[
-              (string) @string_capture
-              (interpolation) @interpolation_capture
-              (parameters) @parameters_capture
-              (argument_list) @argument_list_capture
-            ]],
-					-- experimental feature, to move the cursor in certain situations like when handling python f-strings
-					offsets = {
-						string_start_capture = 1,
-					},
-				},
-				lua = {
-					target_query = [[
-              (string) @string
-		          (arguments) @arguments
-		          (field) @value 
-          ]],
-					offsets = {
-						string_start_capture = 1,
-					},
-				},
-				html = {
-					target_query = [[
-              (tag_name) @tag.element
-              (attribute) @property
-              (attribute_value) @string
-              (text) @text.html
-            ]],
-					-- experimental feature, to move the cursor in certain situations like when handling python f-strings
-					offsets = {
-						string_start_capture = 1,
-					},
-				},
-			},
-			default_config = {
-				target_query = [[
-			        ]],
-				offsets = {},
-			},
-		},
-		config = function(_, opts)
-			require("tabtree").setup(opts)
-		end,
+		"rktjmp/shipwright.nvim",
 	},
 	{
 		"ecthelionvi/NeoComposer.nvim",
@@ -88,11 +16,12 @@ return {
 		},
 		lazy = true,
 		opts = {
-			colors = {
-				bg = "DiagnosticSignError",
-			},
-		},
+      colors = {
+        bg = vim.api.nvim_get_hl_by_name('Normal', true).background }
+    },
+
 		config = function(_, opts)
+      vim.g.transparent_groups = vim.list_extend(vim.g.transparent_groups or {}, { "PlayingSymbol","RecordingSymbol", "DelaySymbol", "ComposerNormal" })
 			require("NeoComposer").setup(opts)
 			-- local line = require("mini.statusline").active()
 			-- print(line)

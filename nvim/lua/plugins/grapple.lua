@@ -38,14 +38,14 @@ return {
 			desc = "Create Grapple tag for buffer",
 		},
 		{
-			"<leader>bn",
+			"<leader>n",
 			function()
 				require("grapple").cycle_forward()
 			end,
 			desc = "next Grapple tag",
 		},
 		{
-			"<leader>be",
+			"<leader>e",
 			function()
 				require("grapple").cycle_backward()
 			end,

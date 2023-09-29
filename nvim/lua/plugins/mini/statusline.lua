@@ -1,4 +1,4 @@
----@diagnostic disable: unused-local
+---@diagnostic disable: unused-local, undefined-global
 --
 ---------Utilities
 local isnt_normal_buffer = function()
@@ -10,6 +10,7 @@ local blocked_filetypes = {
 	["neo-tree"] = true,
 	["starter"] = true,
 	["undotree"] = true,
+	["diff"] = true,
 	["Trouble"] = true,
 }
 ---show todos and stuff in statusline
@@ -71,15 +72,16 @@ local codeium_loaded = function()
 		return false
 	end
 end
+
 local codeium = function()
 	if codeium_loaded() then
 		local text = vim.trim(vim.fn["codeium#GetStatusString"]())
 		if text == "ON" then
-			return "", "MoreMsg"
+			return "", "MiniStatuslineDevInfo"
 		elseif text == "OFF" then
 			return "", "Comment"
 		end
-		return text .. " ", "@keyword.return"
+		return " " .. text, "@keyword.return"
 	else
 		return "", "Comment"
 	end
@@ -143,6 +145,7 @@ local alt_mode_hl = function()
 end
 
 local lsp_loading_status = function()
+	-- local dev_bg = vim.api.nvim_get_hl(0, { name = "MiniStatuslineDevInfo" })
 	local names = {}
 	local icon, color = require("nvim-web-devicons").get_icon_color_by_filetype(vim.bo.filetype)
 	-- if vim.lsp.buf.server_ready() then
@@ -151,6 +154,7 @@ local lsp_loading_status = function()
 			table.insert(names, server.name)
 		end
 		vim.api.nvim_set_hl(0, "MiniStatuslineFileinfo", { fg = color })
+		-- vim.api.nvim_set_hl(0, "MiniStatuslineDevInfo", { fg = color, bg = dev_bg.bg })
 		return icon, "MiniStatuslineFileinfo"
 		-- return "[" .. table.concat(names, " ") .. "]", "MoreMsg"
 	else
@@ -178,7 +182,7 @@ local function create_line()
 	if blocked_filetypes[vim.bo.filetype] then
 		return ""
 	end
-	vim.cmd("redrawstatus")
+	-- vim.cmd("redrawstatus")
 	local line = {}
 	-- if isnt_normal_buffer() then
 	-- 	local filename = section_filename({ trunc_width = 100 })
@@ -201,21 +205,21 @@ local function create_line()
 	local codeium_status, codeium_hl = codeium()
 	line = {
 		-- "%<", -- Mark general truncate point
-		{ hl = "DiagnosticSignError", strings = { pinned_bufer(), graple_tag(), macro } },
-		{ hl = "SignColor", strings = { git } },
+		{ hl = "DiagnosticSignError", strings = { macro, pinned_bufer() } },
+		{ hl = "MiniStatuslineDevInfo", strings = { git } },
 		"%<", -- Mark general truncate point
 		{ hl = mode_hl_inv, strings = { filename } },
 		-- { hl = "@field", strings = { filename } },
 		"%=", -- End left alignment
 
-		{ hl = "DiagnosticSignError", strings = { require("lsp-status").status_errors() } },
+		{ hl = "DiagnosticSignError", strings = { graple_tag(), require("lsp-status").status_errors() } },
 		{ hl = "DiagnosticWarn", strings = { require("lsp-status").status_warnings() } },
 		{ hl = "DiagnosticInfo", strings = { require("lsp-status").status_info() } },
 		{ hl = "DiagnosticHint", strings = { require("lsp-status").status_hints() } },
 		{ hl = lsp_status, strings = { lsp } },
 		-- { hl = "MiniStatuslineFileinfo", strings = { icon } },
-		{ hl = mode_hl, strings = { codeium_status } },
-		{ hl = mode_hl, strings = { location } },
+		{ hl = codeium_hl, strings = { codeium_status } },
+		{ hl = "MiniStatuslineDevInfo", strings = { location } },
 	}
 	vim.api.nvim_set_hl(0, "MiniStatuslineModeNormal", { fg = color, reverse = true })
 	vim.api.nvim_set_hl(0, "MiniStatuslineModeNormalAlt", { fg = color, reverse = false })
@@ -230,7 +234,7 @@ end
 
 -- inactive line creation
 local function inactive_line()
-	vim.cmd("redrawstatus")
+	-- vim.cmd("redrawstatus")
 	local filename = MiniStatusline.section_filename({ trunc_width = 2000 })
 	return MiniStatusline.combine_groups({
 		{ hl = "Comment", strings = { filename } },

@@ -21,7 +21,7 @@ vim.api.nvim_create_autocmd({ "ColorScheme" }, {
 })
 
 vim.api.nvim_create_autocmd({ "FileType" }, {
-	pattern = { "qf", "help", "man", "lspinfo", "neo-tree", "spectre_panel", "obsidianbacklinks" },
+	pattern = { "qf", "help", "man", "lspinfo", "neo-tree", "diff", "spectre_panel", "obsidianbacklinks" },
 	callback = function()
 		vim.cmd([[
       nnoremap <silent> <buffer> q :close<CR> 
@@ -58,11 +58,11 @@ vim.api.nvim_create_autocmd({ "VimResized" }, {
 -- 	end,
 -- })
 
-vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
-	callback = function()
-		vim.cmd("set formatoptions-=cro")
-	end,
-})
+-- vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
+-- 	callback = function()
+-- 		vim.cmd("set formatoptions-=cro")
+-- 	end,
+-- })
 
 vim.api.nvim_create_autocmd({ "TextYankPost" }, {
 	callback = function()
@@ -76,6 +76,14 @@ vim.api.nvim_create_autocmd({ "BufWritePost" }, {
 		vim.lsp.codelens.refresh()
 	end,
 })
+
+-- BUG: tsx files set typescriptreact filetype and tabtree brokes (could be fixed later)
+-- vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+-- 	pattern = { "*.tsx" },
+-- 	callback = function()
+-- 		vim.o.filetype = "tsx"
+-- 	end,
+-- })
 
 --- now i use native kbd layouts
 -- local kbd = require("config.socket")
