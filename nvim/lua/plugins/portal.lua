@@ -7,7 +7,19 @@ return {
 	keys = {
 		{ "<leader>q", "<cmd>Portal quickfix backward<cr>", desc = "Portal through quickfix" },
 		{ "<leader>g", "<cmd>Portal grapple backward<cr>", desc = "Jump back in Portal" },
-		{ "<leader>m", "<cmd>Portal jumplist forward<cr>", desc = "Jump forward in Portal" },
+		{
+			"<leader>m",
+			function()
+				require("portal.builtin").jumplist.tunnel({
+					slots = {
+						function(value)
+							return value.buffer == vim.fn.bufnr()
+						end,
+					},
+				})
+			end,
+			desc = "Jumplist portal",
+		},
 		{
 			"gi",
 			function()
