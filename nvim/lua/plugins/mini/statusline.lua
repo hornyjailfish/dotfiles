@@ -205,7 +205,6 @@ local function create_line()
 	local codeium_status, codeium_hl = codeium()
 	line = {
 		-- "%<", -- Mark general truncate point
-		{ hl = "StatusLine", strings = { macro } }, -- INFO: make hl same as plugin options because symbol and text use different hls
 		{ hl = "DiagnosticSignError", strings = { pinned_bufer() } },
 		{ hl = "MiniStatuslineDevInfo", strings = { git } },
 		"%<", -- Mark general truncate point
@@ -221,6 +220,7 @@ local function create_line()
 		-- { hl = "MiniStatuslineFileinfo", strings = { icon } },
 		{ hl = codeium_hl, strings = { codeium_status } },
 		{ hl = "MiniStatuslineDevInfo", strings = { location } },
+		{ hl = "StatusLine", strings = { macro } }, -- INFO: make hl same as plugin options because symbol and text use different hls
 	}
 	vim.api.nvim_set_hl(0, "MiniStatuslineModeNormal", { fg = color, reverse = true })
 	vim.api.nvim_set_hl(0, "MiniStatuslineModeNormalAlt", { fg = color, reverse = false })
