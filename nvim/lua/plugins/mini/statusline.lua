@@ -205,8 +205,8 @@ local function create_line()
 	local codeium_status, codeium_hl = codeium()
 	line = {
 		-- "%<", -- Mark general truncate point
-		{ hl = "DiagnosticSignError", strings = { pinned_bufer() } },
 		{ hl = "StatusLine", strings = { macro } }, -- INFO: make hl same as plugin options because symbol and text use different hls
+		{ hl = "DiagnosticSignError", strings = { pinned_bufer() } },
 		{ hl = "MiniStatuslineDevInfo", strings = { git } },
 		"%<", -- Mark general truncate point
 		{ hl = mode_hl_inv, strings = { filename } },

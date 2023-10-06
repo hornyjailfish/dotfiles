@@ -1,6 +1,9 @@
 vim.api.nvim_create_autocmd({ "ColorScheme" }, {
 	pattern = { "*" },
 	callback = function(e)
+		if package.loaded["NeoComposer"] ~= nil then
+			vim.cmd("Lazy reload NeoComposer.nvim")
+		end
 		local path = "config.custom_colors."
 		path = path .. vim.g.colors_name
 		local palette = {}

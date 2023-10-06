@@ -23,16 +23,8 @@ return {
 				hl.background = string.format("#%06x", hl.background)
 			end
 			return {
-				window = {
-					border = "rounded",
-					winhl = {
-						Normal = "ComposerNormal",
-					},
-				},
-
 				colors = {
-					-- bg = hl.background,
-					bg = "none",
+					bg = hl.background,
 				},
 			}
 		end,
