@@ -25,14 +25,14 @@ require("lazy").setup({
 		rtp = {
 			disabled_plugins = {
 				"gzip",
-				"netrwPlugin",
+				-- "netrwPlugin",
 				"tarPlugin",
 				"tohtml",
 				"tutor",
 				"zipPlugin",
 				"rplugin",
 				-- thanks treesitter
-				-- "syntax",
+				"syntax",
 				-- thanks matchup
 				"matchit",
 				"matchparen",
@@ -43,6 +43,6 @@ require("lazy").setup({
 
 -- dont lazyload colorschemes they say
 vim.o.background = "dark"
-vim.g.transparent_enabled = true
--- vim.cmd.colo("tokyonight")
+vim.g.transparent_enabled = false
+vim.cmd.colo("zenbones")
 -- vim.cmd.redrawstatus()

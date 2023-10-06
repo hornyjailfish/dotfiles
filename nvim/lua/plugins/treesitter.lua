@@ -46,38 +46,44 @@ return {
 	},
 	-- comments
 	{ "JoosepAlviste/nvim-ts-context-commentstring", lazy = true },
-	-- {
-	-- 	"nvim-treesitter/nvim-treesitter-textobjects",
-	-- 	dependencies = { "nvim-treesitter" },
-	-- 	event = "BufReadPost",
-	-- 	config = function()
-	-- 		require("nvim-treesitter.configs").setup({
-	-- 			textobjects = {
-	-- 				select = {
-	-- 					enable = false,
-	-- 					lookahead = true,
-	-- 					keymaps = {
-	-- 						["af"] = "@function.outer",
-	-- 						["if"] = "@function.inner",
-	-- 						["ac"] = "@class.outer",
-	-- 						["ic"] = "@class.inner",
-	-- 						["ia"] = "@parameter.inner",
-	-- 					},
-	-- 				},
-	-- 				move = {
-	-- 					enable = true,
-	-- 					set_jumps = true,
-	-- 					goto_next = {
-	-- 						["]a"] = "@block.outer",
-	-- 					},
-	-- 					goto_previous = {
-	-- 						["[a"] = "@block.inner",
-	-- 					},
-	-- 				},
-	-- 			},
-	-- 		})
-	-- 	end,
-	-- },
+	{
+		"nvim-treesitter/nvim-treesitter-textobjects",
+		dependencies = { "nvim-treesitter" },
+		event = "BufReadPost",
+		config = function()
+			require("nvim-treesitter.configs").setup({
+				textobjects = {
+					select = {
+						enable = false,
+						lookahead = true,
+						keymaps = {
+							["af"] = "@function.outer",
+							["if"] = "@function.inner",
+							["ac"] = "@class.outer",
+							["ic"] = "@class.inner",
+							["ia"] = "@parameter.inner",
+						},
+					},
+					move = {
+						enable = true,
+						set_jumps = true,
+						goto_next = {
+							["]a"] = "@block.outer",
+						},
+						goto_previous = {
+							["[a"] = "@block.inner",
+						},
+					},
+				},
+			})
+		end,
+	},
+	{
+		"chrisgrieser/nvim-various-textobjs",
+		lazy = false,
+		opts = { useDefaultKeymaps = true },
+	},
+
 	-- {
 	-- 	"nvim-treesitter/playground",
 	-- 	dependencies = { "nvim-treesitter" },

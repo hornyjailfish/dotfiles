@@ -52,7 +52,7 @@ return {
 	{
 		---TOOOOKKKKIIIIOOOO
 		"folke/tokyonight.nvim",
-		lazy = false,
+		lazy = true,
 		priority = 99999,
 		opts = {
 			transparent = vim.g.transparent_enabled,
@@ -61,7 +61,7 @@ return {
 			sidebars = { "qf", "vista_kind", "terminal", "lazy", "undotree", "diff", "neo-tree", "telescope" },
 		},
 		config = function(_, opts)
-			vim.g.transparent_enabled = true
+			-- vim.g.transparent_enabled = true
 			require("tokyonight").setup(opts)
 			vim.cmd.colo("tokyonight")
 		end,

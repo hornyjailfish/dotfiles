@@ -15,21 +15,38 @@ return {
 			end,
 		},
 		lazy = true,
-		opts = {
-      colors = {
-        bg = vim.api.nvim_get_hl_by_name('Normal', true).background }
-    },
+		opts = function()
+			local hl = vim.api.nvim_get_hl_by_name("StatusLine", true)
+			if hl.background == nil then
+				hl.background = "none"
+			else
+				hl.background = string.format("#%06x", hl.background)
+			end
+			return {
+				window = {
+					border = "rounded",
+					winhl = {
+						Normal = "ComposerNormal",
+					},
+				},
+
+				colors = {
+					-- bg = hl.background,
+					bg = "none",
+				},
+			}
+		end,
 
 		config = function(_, opts)
-      vim.g.transparent_groups = vim.list_extend(vim.g.transparent_groups or {}, { "PlayingSymbol","RecordingSymbol", "DelaySymbol", "ComposerNormal" })
+			vim.g.transparent_groups = vim.list_extend(vim.g.transparent_groups or {}, {
+				"PlayingSymbol",
+				"RecordingSymbol",
+				"DelaySymbol",
+				"ComposerNormal",
+				"ComposerTitle",
+				"ComposerBoarder",
+			})
 			require("NeoComposer").setup(opts)
-			-- local line = require("mini.statusline").active()
-			-- print(line)
-			-- vim.cmd.redrawstatus()
-			-- local bg = vim.api.nvim_get_hl(0,{})["SignColumn"].bg
-			-- bg = string.format("#%x",bg)
-			-- -- print(bg)
-			-- vim.api.nvim_set_hl(0, "RecordingSymbol", {bg = bg })
 		end,
 	},
 	{

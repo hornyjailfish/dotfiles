@@ -77,21 +77,40 @@ return {
 					["<CR>"] = cmp.mapping.confirm({ select = false }),
 					-- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
 				}),
+				view = {
+					entries = { name = "custom", selection_order = "near_cursor" },
+				},
 				sources = cmp.config.sources({
 					{ name = "nvim_lsp" },
 					{ name = "buffer" },
 					{ name = "path" },
 					{ name = "luasnip" },
+					{ name = "cody" },
+					{ name = "codeium" },
+
 					-- TODO: add sources from plugins in dat plug initialization?
 					{ name = "obsidian_new" },
 					{ name = "obsidian" },
 				}),
 				formatting = {
-					format = function(_, item)
+					format = function(entry, item)
 						local icons = require("config.icons").kinds
+
 						if icons[item.kind] then
-							item.kind = icons[item.kind] .. item.kind
+							item.kind = icons[item.kind]
 						end
+						-- Source
+						item.menu = ({
+							nvim_lsp = "[LSP]",
+							buffer = "[Buffer]",
+							cody = "[Cody]",
+							codeium = "[Codeium]",
+							obsidian = "[Obsidian]",
+							nvim_lua = "[Lua]",
+							luasnip = "[snip]",
+							path = "[path]",
+							latex_symbols = "[LaTeX]",
+						})[entry.source.name]
 						return item
 					end,
 				},

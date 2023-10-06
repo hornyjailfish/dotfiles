@@ -21,7 +21,7 @@ return {
 			desc = "Jumplist portal",
 		},
 		{
-			"gi",
+			"<leader>i",
 			function()
 				require("portal.builtin").changelist.tunnel({})
 			end,
