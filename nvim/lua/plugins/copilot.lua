@@ -2,6 +2,7 @@ return {
 
 	{
 		"sourcegraph/sg.nvim",
+		event = "BufRead",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"nvim-telescope/telescope.nvim",

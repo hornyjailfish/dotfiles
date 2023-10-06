@@ -4,6 +4,11 @@ return {
 		dependencies = "nvim-lua/plenary.nvim",
 		cmd = "Neogit",
 		-- event = "VeryLazy",
+		keys = {
+			{ "<leader>gg", "<cmd>Neogit<cr>", desc = "Neogit" },
+			{ "<leader>gb", "<cmd>Neogit branch<cr>", desc = "Neogit branch" },
+			{ "<leader>gc", "<cmd>Neogit commit<cr>", desc = "Neogit commit" },
+		},
 		opts = {
 			disable_builtin_notifications = true,
 			integration = {
