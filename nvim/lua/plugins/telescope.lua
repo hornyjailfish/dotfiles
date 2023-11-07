@@ -22,7 +22,6 @@ return {
 			desc = "Switch Buffer",
 		},
 		{ "<leader>/", Util.telescope("live_grep"), desc = "Find in Files (Grep)" },
-		{ "<leader>:", "<cmd>Telescope command_history theme=ivy<cr>", desc = "Command History" },
 		{ "<leader><space>", Util.telescope("files", { cwd = false, previewer = false }), desc = "Find Files (cwd)" }, -- find
 		{ "<leader>ff", Util.telescope("files"), desc = "Find Files (root dir)" },
 		{ "<leader>fF", Util.telescope("files", { cwd = false }), desc = "Find Files (cwd)" },
@@ -39,6 +38,7 @@ return {
 		{ "<leader>tC", "<cmd>Telescope commands theme=ivy<cr>", desc = "Commands" },
 		{ "<leader>tC", Util.telescope("colorscheme", { enable_preview = true }), desc = "Colorscheme with preview" },
 		{ "<leader>tm", "<cmd>Telescope marks<cr>", desc = "Jump to Mark" },
+		{ "<leader>t:", "<cmd>Telescope command_history theme=ivy<cr>", desc = "Command History" },
 		-- { "<leader>tg", Util.telescope("live_grep"), desc = "Grep (root dir)" },
 		-- { "<leader>tG", Util.telescope("live_grep", { cwd = false }), desc = "Grep (cwd)" },
 		{ "<leader>tH", "<cmd>Telescope highlights<cr>", desc = "Search Highlight Groups" },

@@ -47,6 +47,15 @@ return {
 	-- comments
 	{ "JoosepAlviste/nvim-ts-context-commentstring", lazy = true },
 	{
+		"dariuscorvus/tree-sitter-surrealdb.nvim",
+		dependencies = { "nvim-treesitter/nvim-treesitter" },
+		event = "BufReadPost",
+		config = function()
+			-- setup step
+			require("tree-sitter-surrealdb").setup()
+		end,
+	},
+	{
 		"nvim-treesitter/nvim-treesitter-textobjects",
 		dependencies = { "nvim-treesitter" },
 		event = "BufReadPost",
@@ -82,7 +91,10 @@ return {
 		"chrisgrieser/nvim-various-textobjs",
 		-- lazy = false,
 		event = "BufReadPost",
-		opts = { useDefaultKeymaps = true },
+		opts = {
+			useDefaultKeymaps = true,
+			disabledKeymaps = { "gc" },
+		},
 	},
 
 	-- {
@@ -187,7 +199,7 @@ return {
 		-- (identifier) @field
 		-- (punctuation) @punctuation
 		opts = {
-			debug = false,
+			debug = true,
 			-- use :InspectTree to discover the (capture group)
 			-- @capture_name can be anything
 			language_configs = {
@@ -212,13 +224,21 @@ return {
 						string_start_capture = 1,
 					},
 				},
+				surealdb = {
+					target_query = [[
+		          (token) @token
+	         ]],
+					offsets = {
+						string_start_capture = 1,
+					},
+				},
 				html = {
 					target_query = [[
-	             (tag_name) @tag.element
-	             (attribute) @property
-	             (attribute_value) @string
-	             (text) @text.html
-	           ]],
+					         (tag_name) @tag.element
+					         (attribute) @property
+					         (attribute_value) @string
+					         (text) @text.html
+					       ]],
 					-- experimental feature, to move the cursor in certain situations like when handling python f-strings
 					offsets = {
 						string_start_capture = 1,
@@ -226,11 +246,11 @@ return {
 				},
 				tsx = {
 					target_query = [[
-          (template_string) @template
-          (statement_block) @block
-          (parenthesized_expression) @condition
-          (pair) @values
-	         ]],
+                      (template_string) @template
+                      (statement_block) @block
+                      (parenthesized_expression) @condition
+                      (pair) @values
+                     ]],
 					-- (else_clause) @alternative
 					-- (string_fragment) @string
 					-- (argument) @identifier

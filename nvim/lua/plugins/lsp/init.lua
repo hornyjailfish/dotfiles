@@ -33,7 +33,7 @@ return {
 			servers = {
 				jsonls = {},
 				denols = {
-					filetypes = { "tsx", "typescript" },
+					filetypes = { "tsx", "typescript", "typescriptreact", "javascript", "javascriptreact" },
 				},
 				pylsp = {},
 				lua_ls = {
@@ -146,11 +146,11 @@ return {
 				function(server)
 					local server_opts = servers[server] or {}
 					-- print(vim.inspect(server_opts))
-					if server_opts.filetypes ~= {} then
-						local default = require("lspconfig")[server].document_config.default_config.filetypes
-						local filetypes = server_opts.filetypes
-						server_opts.filetypes = vim.tbl_extend("force", default, { filetypes })
-					end
+					-- if server_opts.filetypes ~= {} then
+					-- 	local default = require("lspconfig")[server].document_config.default_config.filetypes
+					-- 	local filetypes = server_opts.filetypes
+					-- 	server_opts.filetypes = vim.tbl_extend("force", default, { filetypes })
+					-- end
 					server_opts.capabilities = capabilities
 					if opts.setup[server] then
 						if opts.setup[server](server, server_opts) then
@@ -199,6 +199,8 @@ return {
 				"shellcheck",
 				"shfmt",
 				"flake8",
+				"deno",
+				"rust-analyzer",
 			},
 		},
 		---@param opts MasonSettings | {ensure_installed: string[]}

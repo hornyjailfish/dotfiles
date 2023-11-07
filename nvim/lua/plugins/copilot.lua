@@ -19,7 +19,7 @@ return {
 	{
 		name = "Codeium",
 		"Exafunction/codeium.vim",
-		event = "InsertEnter",
+		event = "BufEnter",
 		config = function()
 			vim.g.codeium_filetypes = {
 				markdown = false,

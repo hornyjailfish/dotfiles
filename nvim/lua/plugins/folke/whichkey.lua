@@ -16,7 +16,7 @@ return {
 		local wk = require("which-key")
 		wk.setup(opts)
 		wk.register({
-			mode = { "n", "v" },
+			mode = { "n", "v", "x" },
 			["g"] = { name = "+goto" },
 			["gs"] = { name = "+surround" },
 			["]"] = { name = "+next" },
@@ -24,10 +24,11 @@ return {
 			-- ["<leader><tab>"] = { name = "+tabs" },
 			["<leader>b"] = { name = "+buffer" },
 			["<leader>c"] = { name = "+code" },
+			["<leader>C"] = { name = "+comment" },
 			["<leader>f"] = { name = "+file/find" },
 
 			-- setup git in nvim (code more MF)
-			-- ["<leader>g"] = { name = "+git" },
+			["<leader>g"] = { name = "+git" },
 			-- ["<leader>gh"] = { name = "+hunks" },
 
 			-- TODO: setup mini.session hotkey to save change session
