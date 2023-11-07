@@ -1,5 +1,7 @@
 return {
 	"echasnovski/mini.pick",
+	event = "VeryLazy",
+	cmd = "Pick",
 	lazy = true,
 	main = "mini.pick",
 	config = function()
