@@ -15,6 +15,7 @@ return {
 			groups = {
 				"Normal",
 				"NormalNC",
+				"NormalFloat",
 				"Comment",
 				"Constant",
 				"Special",

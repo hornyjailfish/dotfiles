@@ -4,6 +4,44 @@ return {
 	cmd = "Pick",
 	lazy = true,
 	main = "mini.pick",
+	keys = {
+		{
+			"<leader>,",
+			function()
+				MiniPick.builtin.buffers()
+			end,
+			desc = "Switch Buffer",
+		},
+		{
+			"<leader>/",
+			function()
+				MiniPick.builtin.grep_live()
+			end,
+			desc = "Find in Files (Grep)",
+		},
+		{
+			"<leader><space>",
+			function()
+				MiniPick.builtin.files()
+			end,
+			desc = "Find Files (cwd)",
+		}, -- find
+		{
+			"<leader>fr",
+			function()
+				MiniPick.registry.oldfiles()
+			end,
+			desc = "Recent",
+		},
+		-- { "<leader>ta", "<cmd>Telescope autocommands<cr>", desc = "Auto Commands" },
+		{ "<leader>tb", "<cmd>Pick lines<cr>", desc = "Buffer" },
+		--do i realy need it?
+		{ "<leader>t:", "<cmd>Pick history<cr>", desc = "Command History" },
+		{ "<leader>th", "<cmd>Pick help<cr>", desc = "Help Pages" },
+		{ "<leader>tm", "<cmd>Pick marks<cr>", desc = "Jump to Mark" },
+		{ "<leader>tk", "<cmd>Pick keymaps<cr>", desc = "Key Maps" },
+		{ "<leader>to", "<cmd>Pick options<cr>", desc = "Options" },
+	},
 	config = function()
 		require("mini.pick").setup({
 			mappings = {
