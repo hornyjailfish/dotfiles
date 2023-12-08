@@ -16,9 +16,9 @@ vim.api.nvim_create_autocmd({ "ColorScheme" }, {
 		end
 
 		-- try build theme for wezterm
-		require("util.shipwright_utils").create_palette(palette)
-		local shipfile = vim.fs.normalize(vim.fn.stdpath("config") .. "/shipwright_build.lua")
-		require("shipwright").build(shipfile)
+		-- require("util.shipwright_utils").create_palette(palette)
+		-- local shipfile = vim.fs.normalize(vim.fn.stdpath("config") .. "/shipwright_build.lua")
+		-- require("shipwright").build(shipfile)
 	end,
 })
 
