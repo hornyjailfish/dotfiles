@@ -11,7 +11,9 @@ return {
 		dependencies = {
 			"kkharji/sqlite.lua",
 			config = function()
-				vim.g.sqlite_clib_path = vim.fs.normalize("~/scoop/apps/sqlite/sqlite3.dll")
+				if vim.fn.has("win32") == 1 then
+					vim.g.sqlite_clib_path = vim.fs.normalize("~/scoop/apps/sqlite/sqlite3.dll")
+				end
 			end,
 		},
 		lazy = true,
