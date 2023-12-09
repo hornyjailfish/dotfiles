@@ -39,6 +39,7 @@ return {
 			},
 			extra_groups = {
 				"StatusLine",
+				"NormalFloat",
 				"StatusLineNC",
 				"RecordingSymbol",
 				-- sometimes i like it sometimes not

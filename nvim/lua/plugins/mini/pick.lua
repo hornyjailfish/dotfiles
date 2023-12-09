@@ -43,6 +43,13 @@ return {
 		{ "<leader>to", "<cmd>Pick options<cr>", desc = "Options" },
 	},
 	config = function()
+		--use this to add extra hi groups to transparent list
+		vim.g.transparent_groups = vim.list_extend(
+			vim.g.transparent_groups or {},
+			vim.tbl_map(function(v)
+				return v.hl_group
+			end, vim.tbl_values({ "MiniPickNormal" }))
+		)
 		require("mini.pick").setup({
 			mappings = {
 				-- caret_left = "<Left>",

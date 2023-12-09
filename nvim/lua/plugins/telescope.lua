@@ -9,18 +9,18 @@ return {
 		"nvim-lua/plenary.nvim",
 	},
 	keys = {
-		{
-			"<leader>,",
-			-- "<cmd>Telescope buffers show_all_buffers=true theme=ivy previewer=false<cr>",
-			function()
-				require("hbac.telescope").pin_picker({
-					layout_strategy = "horizontal",
-					previewer = false,
-					defaults = { theme = ivy },
-				})
-			end,
-			desc = "Switch Buffer",
-		},
+		-- {
+		-- 	"<leader>,",
+		-- 	-- "<cmd>Telescope buffers show_all_buffers=true theme=ivy previewer=false<cr>",
+		-- 	function()
+		-- 		require("hbac.telescope").pin_picker({
+		-- 			layout_strategy = "horizontal",
+		-- 			previewer = false,
+		-- 			defaults = { theme = ivy },
+		-- 		})
+		-- 	end,
+		-- 	desc = "Switch Buffer",
+		-- },
 		-- { "<leader>/", Util.telescope("live_grep"), desc = "Find in Files (Grep)" },
 		-- { "<leader><space>", Util.telescope("files", { cwd = false, previewer = false }), desc = "Find Files (cwd)" }, -- find
 		{ "<leader>ff", Util.telescope("files"), desc = "Find Files (root dir)" },
