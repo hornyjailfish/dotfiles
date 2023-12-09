@@ -164,8 +164,7 @@ local function create_line()
 	line = {
 		-- "%<", -- Mark general truncate point
 		{ hl = mode_hl, strings = { mode } },
-		{ hl = "StatusLine", strings = { macro } }, -- INFO: make hl same as plugin options because symbol and text use different hls
-		{ hl = "MiniStatuslineDevInfo", strings = { git } },
+		{ hl = "MiniStatuslineDevInfo", strings = { macro, git } },
 		"%<", -- Mark general truncate point
 		{ hl = "MiniStatuslineFileinfo", strings = { filename } },
 		-- { hl = "@field", strings = { filename } },

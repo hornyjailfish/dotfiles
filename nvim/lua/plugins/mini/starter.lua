@@ -42,8 +42,8 @@ return {
 
 		require("mini.starter").setup({
 			items = {
-				require("mini.starter").sections.sessions(5, true),
-				require("mini.starter").sections.recent_files(10, true, false),
+				require("mini.starter").sections.sessions(15, true),
+				require("mini.starter").sections.recent_files(5, true, false),
 				my_items,
 				require("mini.starter").sections.builtin_actions(),
 			},

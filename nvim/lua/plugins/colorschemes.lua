@@ -41,7 +41,6 @@ return {
 				"StatusLine",
 				"NormalFloat",
 				"StatusLineNC",
-				"RecordingSymbol",
 				-- sometimes i like it sometimes not
 				-- "DiagnosticSignError",
 				-- "DiagnosticSignWarn",

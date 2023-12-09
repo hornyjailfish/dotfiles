@@ -7,15 +7,6 @@ return {
 		"rktjmp/shipwright.nvim", -- disabled rn
 	},
 	{
-		"gsuuon/tshjkl.nvim",
-		config = true,
-		opts = {
-			keymaps = {
-				toggle = "<leader>v",
-			},
-		},
-	},
-	{
 		"ecthelionvi/NeoComposer.nvim",
 		dependencies = {
 			"kkharji/sqlite.lua",
@@ -28,11 +19,11 @@ return {
 		lazy = true,
 		opts = function()
 			local hl = vim.api.nvim_get_hl_by_name("StatusLine", true)
-			if hl.background == nil then
-				hl.background = "none"
-			else
-				hl.background = string.format("#%06x", hl.background)
-			end
+			-- if hl.background == nil then
+			-- 	hl.background = "none"
+			-- else
+			hl.background = string.format("#%06x", hl.reverse and hl.foreground or hl.background)
+			-- end
 			return {
 				colors = {
 					bg = hl.background,
@@ -41,6 +32,7 @@ return {
 		end,
 
 		config = function(_, opts)
+			require("NeoComposer").setup(opts)
 			vim.g.transparent_groups = vim.list_extend(vim.g.transparent_groups or {}, {
 				"PlayingSymbol",
 				"RecordingSymbol",
@@ -49,7 +41,7 @@ return {
 				"ComposerTitle",
 				"ComposerBoarder",
 			})
-			require("NeoComposer").setup(opts)
+			vim.api.nvim_set_hl(0, "ComposerNormal", { bg = "none" })
 		end,
 	},
 	{
