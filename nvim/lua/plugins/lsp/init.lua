@@ -169,7 +169,7 @@ return {
 
 	-- formatters
 	{
-		"jose-elias-alvarez/null-ls.nvim",
+		"nvimtools/none-ls.nvim",
 		event = "BufReadPre",
 		dependencies = { "mason.nvim" },
 		opts = function()
@@ -185,7 +185,7 @@ return {
 				sources = {
 					-- nls.builtins.formatting.prettierd,
 					nls.builtins.formatting.stylua,
-					-- nls.builtins.diagnostics.flake8,
+					nls.builtins.diagnostics.flake8,
 					nls.builtins.diagnostics.tidy,
 					nls.builtins.code_actions.gitsigns,
 					nls.builtins.hover.printenv,

@@ -40,6 +40,7 @@ return {
 			extra_groups = {
 				"StatusLine",
 				"StatusLineNC",
+				"RecordingSymbol",
 				-- sometimes i like it sometimes not
 				-- "DiagnosticSignError",
 				-- "DiagnosticSignWarn",

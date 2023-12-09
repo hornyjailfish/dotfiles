@@ -4,7 +4,16 @@ return {
 		"MunifTanjim/nui.nvim",
 	},
 	{
-		"rktjmp/shipwright.nvim",
+		"rktjmp/shipwright.nvim", -- disabled rn
+	},
+	{
+		"gsuuon/tshjkl.nvim",
+		config = true,
+		opts = {
+			keymaps = {
+				toggle = "<leader>v",
+			},
+		},
 	},
 	{
 		"ecthelionvi/NeoComposer.nvim",

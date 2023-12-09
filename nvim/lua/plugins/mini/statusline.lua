@@ -9,47 +9,10 @@ end
 local blocked_filetypes = {
 	["neo-tree"] = true,
 	["starter"] = true,
-	["undotree"] = true,
+	["undotree"] = false,
 	["diff"] = true,
-	["Trouble"] = true,
+	["Trouble"] = false,
 }
----show todos and stuff in statusline
----returns a highlight-supported string of TODO comment statistics
--- PERF: expensive function, proper throttling required
--- [ Check https://github.com/folke/todo-comments.nvim/issues/172#issuecomment-1382691260 ]
-local todo = {
-	---@type table<string,string> map of TODO keywords and their icons
-	render = {
-		FIX = "",
-		HACK = "",
-		NOTE = "",
-		PERF = "",
-		TEST = "✎",
-		TODO = "",
-		WARN = "",
-	},
-	---@type table<string, integer> map of TODO keywords and their counts
-	stats = {},
-}
-local function statusline_todo_list()
-	if not require("todo-comments.config").loaded then
-		return ""
-	end
-	-- count number of keyword occurences
-	local out = {}
-	local test
-	require("todo-comments.search").search(function(entries)
-		for _, entry in ipairs(entries) do
-			todo.stats[entry.tag] = (todo.stats[entry.tag] or 0) + 1
-		end
-		for keyword, count in vim.spairs(todo.stats) do
-			table.insert(out, { hl = "TodoSign" .. keyword, string = { todo.render[keyword], count } })
-		end
-		-- print(vim.inspect(out))
-	end, { disable_not_found_warnings = true })
-
-	return test
-end
 -- local function remove_empty_tables(t)
 -- 	local i = 1
 -- 	while i <= #t do
@@ -77,22 +40,15 @@ local codeium = function()
 	if codeium_loaded() then
 		local text = vim.trim(vim.fn["codeium#GetStatusString"]())
 		if text == "ON" then
-			return "", "MiniStatuslineDevInfo"
+			return "", "MiniStatuslineFileinfo"
 		elseif text == "OFF" then
-			return "", "Comment"
+			return "", "StatusLine"
 		end
 		return " " .. text, "@keyword.return"
 	else
 		return "", "Comment"
 	end
 end
--- local diff = {
--- 	"diff",
--- 	colored = true,
--- 	symbols = { added = "+ ", modified = "• ", removed = "- " }, -- changes diff symbols
--- 	cond = hide_in_width,
--- }
---
 -- local kbd = require("config.socket")
 -- kbd:connect()
 -- print(vim.ispect(kbd.result))
@@ -162,6 +118,7 @@ local lsp_loading_status = function()
 		-- return "", "Comment"
 	end
 end
+
 local pinned_bufer = function()
 	if package.loaded["hbac"] ~= nil then
 		local cur_buf = vim.api.nvim_get_current_buf()
@@ -169,10 +126,11 @@ local pinned_bufer = function()
 	end
 	return ""
 end
+
 local graple_tag = function()
 	if require("grapple").exists() then
 		local key = require("grapple").key()
-		return " [" .. key .. "]"
+		return key .. " "
 		-- return " [" .. key .. "]"
 	end
 	return ""
@@ -205,22 +163,22 @@ local function create_line()
 	local codeium_status, codeium_hl = codeium()
 	line = {
 		-- "%<", -- Mark general truncate point
-		{ hl = "DiagnosticSignError", strings = { pinned_bufer() } },
+		{ hl = mode_hl, strings = { mode } },
+		{ hl = "StatusLine", strings = { macro } }, -- INFO: make hl same as plugin options because symbol and text use different hls
 		{ hl = "MiniStatuslineDevInfo", strings = { git } },
 		"%<", -- Mark general truncate point
-		{ hl = mode_hl_inv, strings = { filename } },
+		{ hl = "MiniStatuslineFileinfo", strings = { filename } },
 		-- { hl = "@field", strings = { filename } },
 		"%=", -- End left alignment
 
-		{ hl = "DiagnosticSignError", strings = { graple_tag(), require("lsp-status").status_errors() } },
+		{ hl = "DiagnosticSignError", strings = { require("lsp-status").status_errors() } },
 		{ hl = "DiagnosticWarn", strings = { require("lsp-status").status_warnings() } },
 		{ hl = "DiagnosticInfo", strings = { require("lsp-status").status_info() } },
 		{ hl = "DiagnosticHint", strings = { require("lsp-status").status_hints() } },
 		{ hl = lsp_status, strings = { lsp } },
 		-- { hl = "MiniStatuslineFileinfo", strings = { icon } },
 		{ hl = codeium_hl, strings = { codeium_status } },
-		{ hl = "MiniStatuslineDevInfo", strings = { location } },
-		{ hl = "StatusLine", strings = { macro } }, -- INFO: make hl same as plugin options because symbol and text use different hls
+		{ hl = mode_hl, strings = { graple_tag(), location } },
 	}
 	vim.api.nvim_set_hl(0, "MiniStatuslineModeNormal", { fg = color, reverse = true })
 	vim.api.nvim_set_hl(0, "MiniStatuslineModeNormalAlt", { fg = color, reverse = false })
