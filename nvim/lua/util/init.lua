@@ -7,6 +7,89 @@ local M = {}
 
 M.root_patterns = { ".git", "lua", "pyproject.toml", "Cargo.toml", "package.json", "tsconfig.json", "Makefile" }
 
+-- I hate c-p c-n keymap so i create this to use it with colemak/qwerty
+---@param name string
+function M.layout(name)
+	local function add_surround(str)
+		return "<" .. str .. ">"
+	end
+	local function modifier(mod, str)
+		local mod_map = {
+			mod.ctrl and "C-" or "",
+			mod.shift and "S-" or "",
+			mod.alt and "A-" or "",
+			str,
+		}
+		return table.concat(mod_map, "")
+	end
+	---@param str string
+	---@param mod {shift:boolean,ctrl:boolean,alt:boolean}
+	---@param sur boolean
+	local function create_mapstr(str, mod, sur)
+		local str = str
+		local mod = mod or {}
+		if next(mod) == nil then
+			return sur and add_surround(str) or str
+		end
+		str = modifier(mod, str)
+		return sur and add_surround(str) or str
+	end
+
+	if name == "qwerty" then
+		return {
+			keymap = {
+				---@param mod {shift:boolean,ctrl:boolean,alt:boolean} modifiers
+				---@param sur boolean surround with < >
+				down = function(mod, sur)
+					return create_mapstr("j", mod, sur)
+				end,
+				---@param mod {shift:boolean,ctrl:boolean,alt:boolean}
+				---@param sur boolean
+				up = function(mod, sur)
+					return create_mapstr("k", mod, sur)
+				end,
+				---@param mod {shift:boolean,ctrl:boolean,alt:boolean}
+				---@param sur boolean
+				left = function(mod, sur)
+					return create_mapstr("h", mod, sur)
+				end,
+				---@param mod {shift:boolean,ctrl:boolean,alt:boolean}
+				---@param sur boolean
+				right = function(mod, sur)
+					return create_mapstr("l", mod, sur)
+				end,
+			},
+		}
+	elseif name == "colemak" then
+		return {
+			keymap = {
+				---@param mod {shift:boolean,ctrl:boolean,alt:boolean}
+				---@param sur boolean
+				down = function(mod, sur)
+					return create_mapstr("n", mod, sur)
+				end,
+				---@param mod {shift:boolean,ctrl:boolean,alt:boolean}
+				---@param sur boolean
+				up = function(mod, sur)
+					return create_mapstr("e", mod, sur)
+				end,
+				---@param mod {shift:boolean,ctrl:boolean,alt:boolean}
+				---@param sur boolean
+				left = function(mod, sur)
+					return create_mapstr("m", mod, sur)
+				end,
+				---@param mod {shift:boolean,ctrl:boolean,alt:boolean}
+				---@param sur boolean
+				right = function(mod, sur)
+					return create_mapstr("i", mod, sur)
+				end,
+			},
+		}
+	end
+end
+-- shorthand for using global var
+M.keymap = M.layout(vim.g.layout or "qwerty").keymap
+
 ---@param on_attach fun(client, buffer)
 function M.on_attach(on_attach)
 	vim.api.nvim_create_autocmd("LspAttach", {

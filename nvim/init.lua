@@ -11,6 +11,10 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+-- create global var for keymaps depends on it
+-- @see util.layout().keymaps
+vim.g.layout = "qwerty"
+
 require("lazy").setup({
 	spec = {
 		{ import = "plugins.folke" },
@@ -43,6 +47,6 @@ require("lazy").setup({
 
 -- dont lazyload colorschemes they say
 vim.o.background = "dark"
-vim.g.transparent_enabled = false
+vim.g.transparent_enabled = true
 vim.cmd.colo("gruvbox")
 -- vim.cmd.redrawstatus()

@@ -61,10 +61,9 @@ return {
 				--
 				-- mark = "<C-x>",
 				-- mark_all = "<C-a>",
-				move_down = "<C-n>",
+				move_down = require("util").keymap.down({ ctrl = true }, true),
 				move_start = "<C-g>",
-				move_up = "<C-e>",
-
+				move_up = require("util").keymap.up({ ctrl = true }, true),
 				paste = "<C-r>",
 
 				refine = "<C-Space>",
