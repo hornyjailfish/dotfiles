@@ -28,7 +28,7 @@ keymap("n", "<S-h>", ":bprevious<CR>", opts)
 
 -- leader y/p to yank/paste from "+
 keymap("v", "<leader>y", [["+y]], opts)
-keymap("n", "<leader>p", [["+p]], opts)
+keymap({ "n", "v" }, "<leader>p", [["+p]], opts)
 
 -- INSERT --
 --

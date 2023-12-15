@@ -74,10 +74,10 @@ return {
 				mappings = {
 					i = {
 						--mappings works at least idk why c-n not worked like c-e but it works with default setting
-						["<c-n>"] = function()
+						[require("util").keymap.down({ ctrl = true }, true)] = function()
 							return require("telescope.actions").move_selection_next(vim.api.nvim_get_current_buf())
 						end,
-						["<c-e>"] = function()
+						[require("util").keymap.up({ ctrl = true }, true)] = function()
 							return require("telescope.actions").move_selection_previous(vim.api.nvim_get_current_buf())
 						end,
 						["<C-i>"] = function()
