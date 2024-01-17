@@ -13,7 +13,7 @@ vim.opt.rtp:prepend(lazypath)
 
 -- create global var for keymaps depends on it
 -- @see util.layout().keymaps
-vim.g.layout = "qwerty"
+vim.g.layout = "colemak"
 
 require("lazy").setup({
 	spec = {

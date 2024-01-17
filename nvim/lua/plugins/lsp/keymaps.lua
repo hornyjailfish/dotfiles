@@ -3,11 +3,23 @@ local M = {}
 function M.on_attach(client, buffer)
 	local self = M.new(client, buffer)
 
-	self:map("gd", "Telescope lsp_definitions", { desc = "Goto Definition" })
-	self:map("gr", "Telescope lsp_references", { desc = "References" })
+	self:map("gd", require("util").telescope("lsp_definitions", { theme = get_cursor }), { desc = "Goto Definition" })
+	self:map(
+		"gr",
+		require("util").telescope("lsp_references", { theme = get_cursor, root = require("util").get_root() }),
+		{ desc = "References" }
+	)
 	self:map("gD", vim.lsp.buf.declaration, { desc = "Goto Declaration" })
-	self:map("gI", "Telescope lsp_implementations", { desc = "Goto Implementation" })
-	self:map("gt", "Telescope lsp_type_definitions", { desc = "Goto Type Definition" })
+	self:map(
+		"gI",
+		require("util").telescope("lsp_implementations", { theme = get_cursor }),
+		{ desc = "Goto Implementation" }
+	)
+	self:map(
+		"gt",
+		require("util").telescope("lsp_type_definitions", { theme = get_cursor }),
+		{ desc = "Goto Type Definition" }
+	)
 	self:map("K", vim.lsp.buf.hover, { desc = "Hover" })
 	self:map("gK", vim.lsp.buf.signature_help, { desc = "Signature Help", has = "signatureHelp" })
 	self:map("<c-k>", vim.lsp.buf.signature_help, { mode = "i", desc = "Signature Help", has = "signatureHelp" })

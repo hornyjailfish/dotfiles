@@ -34,7 +34,7 @@ return {
 			desc = "Recent",
 		},
 		-- { "<leader>ta", "<cmd>Telescope autocommands<cr>", desc = "Auto Commands" },
-		{ "<leader>tb", "<cmd>Pick lines<cr>", desc = "Buffer" },
+		{ "<leader>tb", "<cmd>Pick buf_lines<cr>", desc = "Buffer" },
 		--do i realy need it?
 		{ "<leader>t:", "<cmd>Pick history<cr>", desc = "Command History" },
 		{ "<leader>th", "<cmd>Pick help<cr>", desc = "Help Pages" },
@@ -80,7 +80,7 @@ return {
 				toggle_preview = "<Tab>",
 			},
 		})
-		vim.cmd.hi({ args = { "link  MiniPickNormal Normal" }, bang = true })
+		-- vim.cmd.hi({ args = { "link  MiniPickNormal Normal" }, bang = true })
 		--use this to add extra hi groups to transparent list
 		vim.g.transparent_groups = vim.list_extend(
 			vim.g.transparent_groups or {},

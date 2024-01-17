@@ -13,6 +13,10 @@ vim.g.mapleader = " "
 
 -- NORMAL --
 --
+-- IHATETHISTHING
+keymap("n", "J", "<Nop>", opts)
+
+--
 -- Resize with arrows
 keymap("n", "<C-Up>", ":resize -2<CR>", opts)
 keymap("n", "<C-Down>", ":resize +2<CR>", opts)
@@ -36,8 +40,8 @@ keymap({ "n", "v" }, "<leader>p", [["+p]], opts)
 -- VISUAL --
 --
 -- Stay in indent mode
--- keymap("v", "<", "<gv", opts)
--- keymap("v", ">", ">gv", opts)
+keymap("v", "<", "<gv", opts)
+keymap("v", ">", ">gv", opts)
 
 -- Move selected line with c-j/k  FIXME: this method sucks because populate undo too much
 keymap("v", "J", ":m '>+1<CR>gv=gv", opts)

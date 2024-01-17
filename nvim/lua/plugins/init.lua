@@ -4,8 +4,11 @@ return {
 		"MunifTanjim/nui.nvim",
 	},
 	{
-		"rktjmp/shipwright.nvim", -- disabled rn
+		"nvim-lua/plenary.nvim",
 	},
+	-- {
+	-- 	"rktjmp/shipwright.nvim", -- disabled rn
+	-- },
 	{
 		"ecthelionvi/NeoComposer.nvim",
 		dependencies = {

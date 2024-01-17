@@ -162,7 +162,7 @@ return {
 			if package.loaded["nvim-treesitter"] then
 				require("nvim-treesitter.configs").setup({
 					matchup = {
-						disable = {}, -- mandatory, false will disable the whole extension
+						-- disable = {}, -- mandatory, false will disable the whole extension
 						enable = true, -- optional, list of language that will be disabled
 						-- [options]
 					},

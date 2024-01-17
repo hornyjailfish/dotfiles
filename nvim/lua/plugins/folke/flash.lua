@@ -47,9 +47,12 @@ return {
 	opts = {
 		labels = "arstgmneioqwfpbjluyzxcdvkh",
 		modes = {
+			search = {
+				enable = false,
+			},
 			char = {
 				highlight = {
-					backdrop = false,
+					backdrop = true,
 				},
 			},
 		},
