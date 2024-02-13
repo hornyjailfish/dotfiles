@@ -203,7 +203,10 @@ return {
 	{
 		"echasnovski/mini.statusline",
 		version = false,
-		-- event = "VeryLazy",
+		lazy = false,
+		dependencies = {
+			"nvim-web-devicons",
+		},
 		config = function()
 			create_copy_hl()
 			require("mini.statusline").setup({

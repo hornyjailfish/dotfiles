@@ -1,5 +1,5 @@
 vim.opt.backup = false -- creates a backup file
-vim.opt.cmdheight = 1 -- more space in the neovim command line for displaying messages
+vim.opt.cmdheight = 2 -- more space in the neovim command line for displaying messages
 vim.opt.completeopt = { "menu", "menuone", "noselect" } -- mostly just for cmp
 vim.opt.conceallevel = 0 -- so that `` is visible in markdown files
 vim.opt.fileencoding = "utf-8" -- the encoding written to a file
@@ -28,10 +28,10 @@ vim.opt.relativenumber = true -- set numbered lines
 vim.opt.laststatus = 1 -- only the last window will always have a status line
 vim.opt.showcmd = true -- hide (partial) command in the last line of the screen (for performance)
 vim.opt.ruler = false -- hide the line and column number of the cursor position
-vim.opt.numberwidth = 3 -- minimal number of columns to use for the line number {default 4}
+vim.opt.numberwidth = 5 -- minimal number of columns to use for the line number {default 4}
 vim.opt.signcolumn = "yes" -- always show the sign column, otherwise it would shift the text each time
 vim.opt.wrap = false -- display lines as one long line
-vim.opt.scrolloff = 8 -- minimal number of screen lines to keep above and below the cursor
+vim.opt.scrolloff = 10 -- minimal number of screen lines to keep above and below the cursor
 vim.opt.sidescrolloff = 8 -- minimal number of screen columns to keep to the left and right of the cursor if wrap is `false`
 vim.opt.fillchars.eob = " " -- show empty lines at the end of a buffer as ` ` {default `~`}
 vim.opt.fillchars = "eob: "
@@ -40,6 +40,6 @@ vim.opt.whichwrap:append("<,>,[,],h,l") -- keys allowed to move to the previous/
 vim.opt.iskeyword:append("-") -- treats words with `-` as single words
 
 -- i disabled netrw LUL
--- vim.g.netrw_browse_split = 0
--- vim.g.netrw_banner = 0
--- vim.g.netrw_winsize = 25
+vim.g.netrw_browse_split = 0
+vim.g.netrw_banner = 0
+vim.g.netrw_winsize = 25

@@ -1,9 +1,6 @@
 vim.api.nvim_create_autocmd({ "ColorScheme" }, {
 	pattern = { "*" },
 	callback = function(e)
-		if package.loaded["NeoComposer"] ~= nil then
-			vim.cmd("Lazy reload NeoComposer.nvim")
-		end
 		local path = "config.custom_colors."
 		path = path .. vim.g.colors_name
 		local palette = {}
@@ -15,6 +12,9 @@ vim.api.nvim_create_autocmd({ "ColorScheme" }, {
 			vim.notify("cant load user-defined highlights for " .. e.match, 3)
 		end
 
+		if pcall(require, "NeoComposer.nvim") then
+			vim.cmd("Lazy reload NeoComposer.nvim")
+		end
 		-- try build theme for wezterm
 		-- require("util.shipwright_utils").create_palette(palette)
 		-- local shipfile = vim.fs.normalize(vim.fn.stdpath("config") .. "/shipwright_build.lua")

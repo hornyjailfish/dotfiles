@@ -95,7 +95,7 @@ return {
 	},
 	{
 		"ellisonleao/gruvbox.nvim",
-		priority = 99999,
+		-- priority = 99999,
 		lazy = true,
 		config = function()
 			require("gruvbox").setup({

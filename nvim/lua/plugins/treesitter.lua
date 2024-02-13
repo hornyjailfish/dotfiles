@@ -9,11 +9,10 @@ return {
 		opts = {
 			highlight = {
 				enable = true,
-
 				additional_vim_regex_highlighting = false,
 			},
 			indent = { enable = true },
-			context_commentstring = { enable = true, enable_autocmd = false },
+			-- context_commentstring = { enable = true, enable_autocmd = false },
 			ensure_installed = {
 				"bash",
 				"html",
@@ -42,10 +41,15 @@ return {
 			end
 			require("nvim-treesitter.install").compilers = { "clang" }
 			require("nvim-treesitter.configs").setup(opts)
+			require("ts_context_commentstring").setup()
 		end,
 	},
 	-- comments
-	{ "JoosepAlviste/nvim-ts-context-commentstring", lazy = true },
+	{
+		"JoosepAlviste/nvim-ts-context-commentstring",
+		dependencies = { "nvim-treesitter/nvim-treesitter" },
+		lazy = true,
+	},
 	{
 		"dariuscorvus/tree-sitter-surrealdb.nvim",
 		dependencies = { "nvim-treesitter/nvim-treesitter" },

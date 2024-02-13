@@ -70,9 +70,9 @@ return {
 					-- ["<C-f>"] = cmp.mapping.scroll_docs(4),
 					["<Up>"] = cmp.mapping.select_prev_item(select_opts),
 					["<Down>"] = cmp.mapping.select_next_item(select_opts),
-					["<C-e>"] = cmp.mapping.select_prev_item(select_opts),
-					["<C-n>"] = cmp.mapping.select_next_item(select_opts),
-					-- ["<C-spc>"] = cmp.mapping.complete(select_opts),
+					[require("util").keymap.up({ ctrl = true }, true)] = cmp.mapping.select_prev_item(select_opts),
+					[require("util").keymap.down({ ctrl = true }, true)] = cmp.mapping.select_next_item(select_opts),
+					["<C-spc>"] = cmp.mapping.complete(select_opts),
 					["<C-x>"] = cmp.mapping.abort(),
 					["<CR>"] = cmp.mapping.confirm({ select = false }),
 					-- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.

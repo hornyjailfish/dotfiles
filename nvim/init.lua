@@ -18,8 +18,8 @@ vim.g.layout = "colemak"
 require("lazy").setup({
 	spec = {
 		{ import = "plugins.folke" },
-		{ import = "plugins" },
 		{ import = "plugins.mini" },
+		{ import = "plugins" },
 	},
 	checker = {
 		enabled = false,
@@ -36,9 +36,9 @@ require("lazy").setup({
 				"zipPlugin",
 				"rplugin",
 				-- thanks treesitter
-				"syntax",
+				-- "syntax",
 				-- thanks matchup
-				"matchit",
+				-- "matchit",
 				"matchparen",
 			},
 		},

@@ -12,39 +12,44 @@ return {
 	{
 		"ecthelionvi/NeoComposer.nvim",
 		dependencies = {
-			"kkharji/sqlite.lua",
-			config = function()
-				if vim.fn.has("win32") == 1 then
-					vim.g.sqlite_clib_path = vim.fs.normalize("~/scoop/apps/sqlite/sqlite3.dll")
-				end
-			end,
+			{
+				"kkharji/sqlite.lua",
+				config = function()
+					if vim.fn.has("win32") == 1 then
+						vim.g.sqlite_clib_path = vim.fs.normalize("./sqlite3.dll")
+					end
+				end,
+			},
+			{ "echasnovski/mini.statusline" },
 		},
-		lazy = true,
+		event = "VeryLazy",
 		opts = function()
-			local hl = vim.api.nvim_get_hl_by_name("StatusLine", true)
+			local hl = require("util").get_hl("MiniStatuslineDevInfo", "StatusLine")
 			-- if hl.background == nil then
 			-- 	hl.background = "none"
+			-- print(vim.inspect(hl.reverse and hl.fg or hl.bg))
 			-- else
-			hl.background = string.format("#%06x", hl.reverse and hl.foreground or hl.background)
+			-- hl.bg = string.format("#%06x", hl.reverse and hl.fg or hl.bg)
 			-- end
 			return {
 				colors = {
-					bg = hl.background,
+					text_rec = "none",
+					text_bg = hl.reverse and hl.fg or hl.bg,
+					bg = hl.reverse and hl.fg or hl.bg,
 				},
 			}
 		end,
-
 		config = function(_, opts)
-			require("NeoComposer").setup(opts)
 			vim.g.transparent_groups = vim.list_extend(vim.g.transparent_groups or {}, {
-				"PlayingSymbol",
-				"RecordingSymbol",
-				"DelaySymbol",
+				-- "PlayingSymbol",
+				-- "RecordingSymbol",
+				-- "DelaySymbol",
 				"ComposerNormal",
-				"ComposerTitle",
-				"ComposerBoarder",
+				-- "ComposerTitle",
+				-- "ComposerBoarder",
 			})
-			vim.api.nvim_set_hl(0, "ComposerNormal", { bg = "none" })
+			-- vim.api.nvim_set_hl(0, "ComposerNormal", { bg = "none" })
+			require("NeoComposer").setup(opts)
 		end,
 	},
 	{

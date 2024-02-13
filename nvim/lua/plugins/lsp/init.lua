@@ -191,8 +191,10 @@ return {
 		dependencies = { "mason.nvim" },
 		opts = function()
 			local nls = require("null-ls")
+			local util = require("util").get_root()
 			return {
 				root_dir = require("null-ls.utils").root_pattern(
+					util,
 					".null-ls-root",
 					".neoconf.json",
 					"pyproject.toml",
@@ -202,7 +204,7 @@ return {
 				sources = {
 					-- nls.builtins.formatting.prettierd,
 					nls.builtins.formatting.stylua,
-					nls.builtins.diagnostics.flake8,
+					-- nls.builtins.diagnostics.flake8,
 					nls.builtins.diagnostics.tidy,
 					nls.builtins.code_actions.gitsigns,
 					nls.builtins.hover.printenv,

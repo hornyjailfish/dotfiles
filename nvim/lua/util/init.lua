@@ -139,7 +139,7 @@ function M.get_root()
 				or client.config.root_dir and { client.config.root_dir }
 				or {}
 			for _, p in ipairs(paths) do
-				local r = vim.loop.fs_realpath(p)
+				local r = vim.loop.fs_realpath(p) or ""
 				if path:find(r, 1, true) then
 					roots[#roots + 1] = r
 				end
@@ -254,6 +254,31 @@ end
 
 function M.deprecate(old, new)
 	Util.warn(("`%s` is deprecated. Please use `%s` instead"):format(old, new), { title = "LazyVim" })
+end
+
+---used 0'th hl ns by default
+---@param n string
+---@param fallback string | nil
+M.get_hl = function(n, fallback)
+	fallback = fallback or "Normal"
+	local hl = vim.api.nvim_get_hl(0, { name = n })
+
+	if hl == nil then
+		hl = vim.api.nvim_get_hl(0, { name = fallback })
+		if hl == nil then
+			error("no such hl group " .. n .. " or " .. fallback)
+		end
+	end
+	if hl.link ~= nil then
+		return M.get_hl(hl.link, fallback)
+	end
+	if hl.fg then
+		hl.fg = string.format("#%06x", hl.fg)
+	end
+	if hl.bg then
+		hl.bg = string.format("#%06x", hl.bg)
+	end
+	return hl
 end
 
 return M
