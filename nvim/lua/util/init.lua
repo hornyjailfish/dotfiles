@@ -262,7 +262,7 @@ end
 M.get_hl = function(n, fallback)
 	fallback = fallback or "Normal"
 	local hl = vim.api.nvim_get_hl(0, { name = n })
-
+	-- print(vim.inspect(hl))
 	if hl == nil then
 		hl = vim.api.nvim_get_hl(0, { name = fallback })
 		if hl == nil then

@@ -38,7 +38,7 @@ return {
 				"EndOfBuffer",
 			},
 			extra_groups = {
-				"StatusLine",
+				-- "StatusLine",
 				"NormalFloat",
 				"StatusLineNC",
 				-- sometimes i like it sometimes not

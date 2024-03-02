@@ -39,18 +39,19 @@ return {
 			},
 			{ "echasnovski/mini.statusline" },
 		},
-		lazy = false,
+		lazy = true,
 		opts = function()
-			local hl = require("util").get_hl("MiniStatuslineDevInfo", "StatusLine")
+			local hl = require("util").get_hl("MiniStatuslineDevinfo")
 			-- if hl.background == nil then
 			-- 	hl.background = "none"
 			-- print(vim.inspect(hl.reverse and hl.fg or hl.bg))
+			print(vim.inspect(hl))
 			-- else
 			-- hl.bg = string.format("#%06x", hl.reverse and hl.fg or hl.bg)
 			-- end
 			return {
 				colors = {
-					-- text_rec = "none",
+					text_rec = "none",
 					text_bg = hl.reverse and hl.fg or hl.bg,
 					bg = hl.reverse and hl.fg or hl.bg,
 				},
@@ -99,22 +100,21 @@ return {
 			},
 		},
 	},
-	-- {
-	-- 	"Dhanus3133/LeetBuddy.nvim",
-	-- 	dependencies = {
-	-- 		"nvim-lua/plenary.nvim",
-	-- 		"nvim-telescope/telescope.nvim",
-	-- 	},
-	-- 	opts = {
-	-- 		language = "rs",
-	-- 	},
-	-- 	config = true,
-	-- 	keys = {
-	-- 		{ "<leader>lq", "<cmd>LBQuestions<cr>", desc = "List Questions" },
-	-- 		{ "<leader>ll", "<cmd>LBQuestion<cr>", desc = "View Question" },
-	-- 		{ "<leader>lr", "<cmd>LBReset<cr>", desc = "Reset Code" },
-	-- 		{ "<leader>lt", "<cmd>LBTest<cr>", desc = "Run Code" },
-	-- 		{ "<leader>ls", "<cmd>LBSubmit<cr>", desc = "Submit Code" },
-	-- 	},
-	-- },
+	{
+		"kawre/leetcode.nvim",
+		build = ":TSUpdate html",
+		dependencies = {
+			"nvim-telescope/telescope.nvim",
+			"nvim-lua/plenary.nvim", -- required by telescope
+			"MunifTanjim/nui.nvim",
+
+			-- optional
+			"nvim-treesitter/nvim-treesitter",
+			-- "rcarriga/nvim-notify",
+			"nvim-tree/nvim-web-devicons",
+		},
+		opts = {
+			lang = "rust",
+		},
+	},
 }
