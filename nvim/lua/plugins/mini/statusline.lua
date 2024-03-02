@@ -11,6 +11,7 @@ local blocked_filetypes = {
 	["starter"] = true,
 	["undotree"] = false,
 	["diff"] = true,
+	["OverseerList"] = true,
 	["Trouble"] = false,
 }
 -- local function remove_empty_tables(t)
@@ -129,8 +130,9 @@ end
 
 local graple_tag = function()
 	if require("grapple").exists() then
-		local key = require("grapple").key()
-		return key .. " "
+		local key = require("grapple").statusline()
+		return key
+		-- return key .. " "
 		-- return " [" .. key .. "]"
 	end
 	return ""

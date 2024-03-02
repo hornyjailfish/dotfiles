@@ -21,6 +21,17 @@ return {
 		name = "Codeium",
 		"Exafunction/codeium.vim",
 		event = "BufEnter",
+		keys = {
+			{
+				"<tab>",
+				function()
+					vim.fn["codeium#Accept"]()
+				end,
+				expr = true,
+				silent = true,
+				mode = "i",
+			},
+		},
 		config = function()
 			vim.g.codeium_filetypes = {
 				markdown = false,

@@ -9,6 +9,7 @@ return {
 			"mason.nvim",
 			"williamboman/mason-lspconfig.nvim",
 			"hrsh7th/cmp-nvim-lsp",
+			{ "b0o/schemastore.nvim", lazy = false },
 			"nvim-lua/lsp-status.nvim",
 		},
 		---@class PluginLspOpts
@@ -31,7 +32,25 @@ return {
 			},
 			---@type lspconfig.options
 			servers = {
-				jsonls = {},
+				jsonls = {
+					settings = {
+						json = {
+							schemas = function()
+								require("schemastore").json.schemas({
+									extra = {
+										{
+											description = "Meilisearch schema",
+											fileMatch = "*.json",
+											name = "*",
+											url = "https://bump.sh/meilisearch/doc/meilisearch.json",
+										},
+									},
+								})
+							end,
+							validate = { enable = true },
+						},
+					},
+				},
 				denols = {
 					filetypes = { "tsx", "typescript", "typescriptreact", "javascript", "javascriptreact" },
 				},
@@ -54,25 +73,31 @@ return {
 				rust_analyzer = {
 					settings = {
 						["rust_analyzer"] = {
-							imports = {
-								granularity = {
-									group = "module",
-								},
-								prefix = "self",
-							},
-							assist = {
-								importgranularity = "module",
-								importprefix = "by_self",
-							},
+							-- imports = {
+							-- 	granularity = {
+							-- 		group = "module",
+							-- 	},
+							-- 	prefix = "self",
+							-- },
+							-- assist = {
+							-- 	importgranularity = "module",
+							-- 	importprefix = "by_self",
+							-- },
 							cargo = {
 								loadoutdirsfromcheck = false,
+								buildScripts = {
+									enable = true,
+								},
 							},
-							procmacro = {
-								enable = true,
-							},
-							checkOnSave = {
-								command = "clippy",
-							},
+							-- cargo = {
+							-- 	loadoutdirsfromcheck = true,
+							-- },
+							-- procmacro = {
+							-- 	enable = true,
+							-- },
+							-- checkOnSave = {
+							-- 	command = "clippy",
+							-- },
 						},
 					},
 				},
@@ -158,7 +183,7 @@ return {
 			local capabilities =
 				require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 			capabilities = vim.tbl_extend("keep", capabilities or {}, require("lsp-status").capabilities)
-			require("mason-lspconfig").setup({ ensure_installed = vim.tbl_keys(servers) })
+			-- require("mason-lspconfig").setup({ ensure_installed = vim.tbl_keys(servers) })
 			require("mason-lspconfig").setup_handlers({
 				function(server)
 					local server_opts = servers[server] or {}
@@ -175,42 +200,65 @@ return {
 						end
 					elseif opts.setup["*"] then
 						if opts.setup["*"](server, server_opts) then
+							require("lspconfig")[server].setup(server_opts)
 							return
 						end
 					end
 					require("lspconfig")[server].setup(server_opts)
 				end,
 			})
+			for name, opt in pairs(opts.servers) do
+				require("lspconfig")[name].setup(opt)
+			end
 		end,
 	},
 
 	-- formatters
+	-- {
+	-- 	"nvimtools/none-ls.nvim",
+	-- 	event = "BufReadPre",
+	-- 	dependencies = { "mason.nvim" },
+	-- 	opts = function()
+	-- 		local nls = require("null-ls")
+	-- 		local util = require("util").get_root()
+	-- 		return {
+	-- 			root_dir = require("null-ls.utils").root_pattern(
+	-- 				util,
+	-- 				".null-ls-root",
+	-- 				".neoconf.json",
+	-- 				"pyproject.toml",
+	-- 				"Makefile",
+	-- 				".git"
+	-- 			),
+	-- 			sources = {
+	-- 				-- nls.builtins.formatting.prettierd,
+	-- 				nls.builtins.formatting.stylua,
+	-- 				-- nls.builtins.diagnostics.flake8,
+	-- 				nls.builtins.diagnostics.tidy,
+	-- 				nls.builtins.code_actions.gitsigns,
+	-- 				nls.builtins.hover.printenv,
+	-- 			},
+	-- 		}
+	-- 	end,
+	-- },
 	{
-		"nvimtools/none-ls.nvim",
-		event = "BufReadPre",
-		dependencies = { "mason.nvim" },
-		opts = function()
-			local nls = require("null-ls")
-			local util = require("util").get_root()
-			return {
-				root_dir = require("null-ls.utils").root_pattern(
-					util,
-					".null-ls-root",
-					".neoconf.json",
-					"pyproject.toml",
-					"Makefile",
-					".git"
-				),
-				sources = {
-					-- nls.builtins.formatting.prettierd,
-					nls.builtins.formatting.stylua,
-					-- nls.builtins.diagnostics.flake8,
-					nls.builtins.diagnostics.tidy,
-					nls.builtins.code_actions.gitsigns,
-					nls.builtins.hover.printenv,
-				},
-			}
-		end,
+		"stevearc/conform.nvim",
+		opts = {
+			notify_on_error = false,
+			format_on_save = {
+				timeout_ms = 500,
+				lsp_fallback = true,
+			},
+			formatters_by_ft = {
+				lua = { "stylua" },
+				-- Conform can also run multiple formatters sequentially
+				-- python = { "isort", "black" },
+				--
+				-- You can use a sub-list to tell conform to run *until* a formatter
+				-- is found.
+				javascript = { { "deno_fmt", "prettierd" } },
+			},
+		},
 	},
 
 	-- cmdline tools and lsp servers
@@ -225,7 +273,7 @@ return {
 				"shfmt",
 				"flake8",
 				"deno",
-				"rust-analyzer",
+				-- "rust-analyzer",
 			},
 		},
 		---@param opts MasonSettings | {ensure_installed: string[]}

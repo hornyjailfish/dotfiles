@@ -5,22 +5,22 @@ local function create_tag()
 		require("neo-tree.sources.manager").refresh("buffers")
 		return
 	end
-	local prompt = "Input name for tag "
-	local tag = ""
-	tag = vim.fn.input({ prompt = prompt .. "->", cancelreturn = "\b" })
-	if tag == "\b" then
-		require("neo-tree.sources.manager").refresh("filesystem")
-		require("neo-tree.sources.manager").refresh("buffers")
-		return
-	end
-	if tag ~= "" then
-		local opts = {
-			key = tag,
-		}
-		require("grapple").tag(opts)
-	else
-		require("grapple").toggle()
-	end
+	-- local prompt = "Input name for tag "
+	-- local tag = ""
+	-- tag = vim.fn.input({ prompt = prompt .. "->", cancelreturn = "\b" })
+	-- if tag == "\b" then
+	-- 	require("neo-tree.sources.manager").refresh("filesystem")
+	-- 	require("neo-tree.sources.manager").refresh("buffers")
+	-- 	return
+	-- end
+	-- if tag ~= "" then
+	-- 	local opts = {
+	-- 		name_or_index = tag,
+	-- 	}
+	-- 	require("grapple").tag(opts)
+	-- else
+	require("grapple").toggle()
+	-- end
 	require("neo-tree.sources.manager").refresh("filesystem")
 	require("neo-tree.sources.manager").refresh("buffers")
 	-- require("neo-tree.events").fire_event("grapple_event")
@@ -54,7 +54,7 @@ return {
 		{
 			"<leader>bT",
 			function()
-				require("grapple").popup_tags()
+				require("grapple").toggle_tags()
 			end,
 			desc = "Grapple tags popup",
 		},

@@ -39,7 +39,7 @@ require("lazy").setup({
 				-- "syntax",
 				-- thanks matchup
 				-- "matchit",
-				"matchparen",
+				-- "matchparen",
 			},
 		},
 	},

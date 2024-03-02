@@ -60,6 +60,16 @@ vim.api.nvim_create_autocmd({ "TextYankPost" }, {
 	end,
 })
 
+-- trim whitespaces preWrite
+vim.api.nvim_create_autocmd("BufWritePre", {
+	group = vim.api.nvim_create_augroup("TrimWhitespace", { clear = true }),
+	pattern = "*",
+	callback = function()
+		MiniTrailspace.trim()
+		MiniTrailspace.trim_last_lines()
+	end,
+})
+
 vim.api.nvim_create_autocmd({ "BufWritePost" }, {
 	pattern = { "*.java" },
 	callback = function()

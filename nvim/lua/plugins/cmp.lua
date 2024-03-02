@@ -1,16 +1,16 @@
 return {
-	-- snippets
+	-- snippets FU
 	{
 		"L3MON4D3/LuaSnip",
 		event = "InsertEnter",
 		dependencies = {
-			"rafamadriz/friendly-snippets",
-			config = function()
-				require("luasnip.loaders.from_vscode").lazy_load()
-			end,
+			-- "rafamadriz/friendly-snippets",
+			-- config = function()
+			-- 	require("luasnip.loaders.from_vscode").lazy_load()
+			-- end,
 		},
 		opts = {
-			history = true,
+			history = false,
 			-- sometimes this not helps...still jumpable
 			region_check_events = "InsertEnter",
 			delete_check_events = "TextChanged",
@@ -51,7 +51,7 @@ return {
 			"hrsh7th/cmp-nvim-lsp",
 			"hrsh7th/cmp-buffer",
 			"hrsh7th/cmp-path",
-			"saadparwaiz1/cmp_luasnip",
+			-- "saadparwaiz1/cmp_luasnip",
 		},
 		opts = function()
 			local cmp = require("cmp")
@@ -66,13 +66,13 @@ return {
 					end,
 				},
 				mapping = cmp.mapping.preset.insert({
-					-- ["<C-b>"] = cmp.mapping.scroll_docs(-4),
-					-- ["<C-f>"] = cmp.mapping.scroll_docs(4),
+					["<C-b>"] = cmp.mapping.scroll_docs(-4),
+					["<C-f>"] = cmp.mapping.scroll_docs(4),
 					["<Up>"] = cmp.mapping.select_prev_item(select_opts),
 					["<Down>"] = cmp.mapping.select_next_item(select_opts),
 					[require("util").keymap.up({ ctrl = true }, true)] = cmp.mapping.select_prev_item(select_opts),
 					[require("util").keymap.down({ ctrl = true }, true)] = cmp.mapping.select_next_item(select_opts),
-					["<C-spc>"] = cmp.mapping.complete(select_opts),
+					["<C-Space>"] = cmp.mapping.complete(select_opts),
 					["<C-x>"] = cmp.mapping.abort(),
 					["<CR>"] = cmp.mapping.confirm({ select = false }),
 					-- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.

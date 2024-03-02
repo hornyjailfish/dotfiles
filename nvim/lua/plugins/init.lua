@@ -1,7 +1,12 @@
 require("config")
 return {
+	{ "tpope/vim-sleuth" },
 	{
 		"MunifTanjim/nui.nvim",
+	},
+	{
+		"stevearc/dressing.nvim",
+		opts = {},
 	},
 	{
 		"nvim-lua/plenary.nvim",
@@ -9,6 +14,18 @@ return {
 	-- {
 	-- 	"rktjmp/shipwright.nvim", -- disabled rn
 	-- },
+	{
+		"stevearc/overseer.nvim",
+		keys = {
+			{ "<leader>cg", "<cmd>OverseerRun<cr>", desc = "Overseer Run" },
+			{ "<leader>ce", "<cmd>OverseerToggle<cr>", desc = "Toggle Overseer window" },
+		},
+		opts = {
+			task_list = {
+				direction = "bottom",
+			},
+		},
+	},
 	{
 		"ecthelionvi/NeoComposer.nvim",
 		dependencies = {
@@ -22,7 +39,7 @@ return {
 			},
 			{ "echasnovski/mini.statusline" },
 		},
-		event = "VeryLazy",
+		lazy = false,
 		opts = function()
 			local hl = require("util").get_hl("MiniStatuslineDevInfo", "StatusLine")
 			-- if hl.background == nil then
@@ -33,7 +50,7 @@ return {
 			-- end
 			return {
 				colors = {
-					text_rec = "none",
+					-- text_rec = "none",
 					text_bg = hl.reverse and hl.fg or hl.bg,
 					bg = hl.reverse and hl.fg or hl.bg,
 				},
