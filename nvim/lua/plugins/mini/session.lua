@@ -21,6 +21,9 @@ return {
 	-- event = "VeryLazy",
 	config = function()
 		require("mini.sessions").setup({
+			autoread = false,
+			autowrite = true,
+			file = ".session.vim",
 			hooks = {
 				pre = {
 					write = function()
@@ -29,6 +32,19 @@ return {
 				},
 			},
 			verbose = { read = false, write = true, delete = true },
+		})
+		vim.api.nvim_create_autocmd({ "User" }, {
+			-- pattern = { vim.fs.normalize(vim.env.PWD) },
+			once = true,
+			nested = true,
+			callback = function()
+				local sessions = require("mini.sessions").detected
+				for _, session in pairs(sessions) do
+					if session.type == "local" then
+						require("mini.sessions").read(session.name)
+					end
+				end
+			end,
 		})
 	end,
 }

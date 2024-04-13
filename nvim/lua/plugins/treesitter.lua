@@ -28,6 +28,7 @@ return {
 				"typescript",
 				"tsx",
 				"vim",
+				"vimdoc",
 				"yaml",
 			},
 			textobjects = {

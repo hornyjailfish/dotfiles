@@ -45,7 +45,6 @@ return {
 			-- if hl.background == nil then
 			-- 	hl.background = "none"
 			-- print(vim.inspect(hl.reverse and hl.fg or hl.bg))
-			print(vim.inspect(hl))
 			-- else
 			-- hl.bg = string.format("#%06x", hl.reverse and hl.fg or hl.bg)
 			-- end

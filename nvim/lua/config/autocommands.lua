@@ -26,8 +26,8 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 	pattern = { "qf", "help", "man", "lspinfo", "neo-tree", "diff", "spectre_panel", "obsidianbacklinks" },
 	callback = function()
 		vim.cmd([[
-      nnoremap <silent> <buffer> q :close<CR> 
-      set nobuflisted 
+      nnoremap <silent> <buffer> q :close<CR>
+      set nobuflisted
     ]])
 	end,
 })
@@ -72,6 +72,34 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 
 vim.api.nvim_create_autocmd({ "BufWritePost" }, {
 	pattern = { "*.java" },
+	callback = function()
+		vim.lsp.codelens.refresh()
+	end,
+})
+
+vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+	pattern = { "*.js" },
+	callback = function()
+		vim.lsp.codelens.refresh()
+	end,
+})
+
+vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+	pattern = { "*.ts" },
+	callback = function()
+		vim.lsp.codelens.refresh()
+	end,
+})
+
+vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+	pattern = { "*.py" },
+	callback = function()
+		vim.lsp.codelens.refresh()
+	end,
+})
+
+vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+	pattern = { "*.lua" },
 	callback = function()
 		vim.lsp.codelens.refresh()
 	end,

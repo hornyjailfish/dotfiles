@@ -33,12 +33,10 @@ function M.on_attach(client, buffer)
 	self:map("<leader>ca", vim.lsp.buf.code_action, { desc = "Code Action", mode = { "n", "v" }, has = "codeAction" })
 	self:map("<leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
 	self:map("<leader>cl", "LspInfo", { desc = "Lsp Info" })
-	-- local format = require("plugins.lsp.format").format
-	-- self:map("<leader>cf", format, { desc = "Format Document", has = "documentFormatting" })
-	self:map("<leader>cf", function()
-		vim.lsp.buf.format()
-	end, { desc = "Format Document" })
-	-- self:map("<leader>cf", format, { desc = "Format Range", mode = "v", has = "documentRangeFormatting" })
+	local format = require("plugins.lsp.format").format
+	self:map("<leader>cf", format, { desc = "Format Document", has = "documentFormatting" })
+	-- self:map("<leader>cf", vim.lsp.buf.format(), { desc = "Format Document" })
+	self:map("<leader>cf", format, { desc = "Format Range", mode = "v", has = "documentRangeFormatting" })
 	self:map("<leader>cr", M.rename, { expr = true, desc = "Rename", has = "rename" })
 end
 

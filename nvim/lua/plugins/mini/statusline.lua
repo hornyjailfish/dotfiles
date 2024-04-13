@@ -130,9 +130,9 @@ end
 
 local graple_tag = function()
 	if require("grapple").exists() then
-		local key = require("grapple").statusline()
-		return key
-		-- return key .. " "
+		local key = require("grapple").name_or_index()
+		-- return key
+		return key .. " "
 		-- return " [" .. key .. "]"
 	end
 	return ""
@@ -165,7 +165,7 @@ local function create_line()
 	local codeium_status, codeium_hl = codeium()
 	line = {
 		-- "%<", -- Mark general truncate point
-		{ hl = mode_hl, strings = { mode } },
+		{ hl = mode_hl, strings = { graple_tag() } },
 		{ hl = "MiniStatuslineDevInfo", strings = { macro, git } },
 		"%<", -- Mark general truncate point
 		{ hl = "MiniStatuslineFileinfo", strings = { filename } },
@@ -179,7 +179,7 @@ local function create_line()
 		{ hl = lsp_status, strings = { lsp } },
 		-- { hl = "MiniStatuslineFileinfo", strings = { icon } },
 		{ hl = codeium_hl, strings = { codeium_status } },
-		{ hl = mode_hl, strings = { graple_tag(), location } },
+		{ hl = mode_hl, strings = { location } },
 	}
 	vim.api.nvim_set_hl(0, "MiniStatuslineModeNormal", { fg = color, reverse = true })
 	vim.api.nvim_set_hl(0, "MiniStatuslineModeNormalAlt", { fg = color, reverse = false })

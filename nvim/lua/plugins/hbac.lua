@@ -8,9 +8,10 @@ return {
 			"<leader>b<space>",
 			function()
 				require("hbac").toggle_pin()
-				require("grapple").tag()
+				require("grapple").toggle()
 				require("neo-tree.sources.manager").refresh("filesystem")
 				require("neo-tree.sources.manager").refresh("buffers")
+				vim.cmd.redrawstatus()
 			end,
 			desc = "Pin or unpin current buffer",
 		},
