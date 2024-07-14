@@ -34,6 +34,7 @@ function M.on_attach(client, buffer)
 	self:map("<leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
 	self:map("<leader>cl", "LspInfo", { desc = "Lsp Info" })
 	local format = require("plugins.lsp.format").format
+
 	self:map("<leader>cf", format, { desc = "Format Document", has = "documentFormatting" })
 	-- self:map("<leader>cf", vim.lsp.buf.format(), { desc = "Format Document" })
 	self:map("<leader>cf", format, { desc = "Format Range", mode = "v", has = "documentRangeFormatting" })

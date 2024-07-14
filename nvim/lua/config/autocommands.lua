@@ -73,35 +73,45 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 vim.api.nvim_create_autocmd({ "BufWritePost" }, {
 	pattern = { "*.java" },
 	callback = function()
-		vim.lsp.codelens.refresh()
+		-- if require("plugins.lsp.keymaps").has("codeLens") then
+		-- vim.lsp.codelens.refresh()
+		-- end
 	end,
 })
 
 vim.api.nvim_create_autocmd({ "BufWritePost" }, {
 	pattern = { "*.js" },
 	callback = function()
-		vim.lsp.codelens.refresh()
+		-- if require("plugins.lsp.keymaps").has("codeLens") then
+		-- vim.lsp.codelens.refresh()
+		-- end
 	end,
 })
 
 vim.api.nvim_create_autocmd({ "BufWritePost" }, {
 	pattern = { "*.ts" },
 	callback = function()
-		vim.lsp.codelens.refresh()
+		-- if require("plugins.lsp.keymaps").has("codeLens") then
+		-- vim.lsp.codelens.refresh()
+		-- end
 	end,
 })
 
 vim.api.nvim_create_autocmd({ "BufWritePost" }, {
 	pattern = { "*.py" },
 	callback = function()
+		-- if require("plugins.lsp.keymaps").has("codeLens") then
 		vim.lsp.codelens.refresh()
+		-- end
 	end,
 })
 
 vim.api.nvim_create_autocmd({ "BufWritePost" }, {
 	pattern = { "*.lua" },
 	callback = function()
+		-- if require("plugins.lsp.keymaps").has("codeLens") then
 		vim.lsp.codelens.refresh()
+		-- end
 	end,
 })
 

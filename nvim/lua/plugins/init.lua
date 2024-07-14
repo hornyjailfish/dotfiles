@@ -6,6 +6,7 @@ return {
 	},
 	{
 		"stevearc/dressing.nvim",
+		lazy = false,
 		opts = {},
 	},
 	{
@@ -101,6 +102,7 @@ return {
 	},
 	{
 		"kawre/leetcode.nvim",
+		lazy = true,
 		build = ":TSUpdate html",
 		dependencies = {
 			"nvim-telescope/telescope.nvim",

@@ -178,12 +178,13 @@ return {
 			require("window-picker").setup({
 				autoselect_one = true,
 				include_current = false,
+				-- TODO: use different tags for different layouts
 				selection_chars = "TNSERIAOCHPLFUWYQ;",
 				filter_rules = {
 					-- filter using buffer options
 					bo = {
 						-- if the file type is one of following, the window will be ignored
-						filetype = { "neo-tree", "neo-tree-popup", "undotree", "diff", "notify" },
+						filetype = { "neo-tree", "neo-tree-popup", "undotree", "diff", "notify", "nofile", "" },
 
 						-- if the buffer type is one of following, the window will be ignored
 						buftype = { "terminal", "quickfix", "telescope" },

@@ -1,7 +1,7 @@
 return {
 	{
 		"neogitorg/neogit",
-		dependencies = "nvim-lua/plenary.nvim",
+		dependencies = { "nvim-lua/plenary.nvim", "sindrets/diffview.nvim" },
 		cmd = "Neogit",
 		-- event = "VeryLazy",
 		keys = {

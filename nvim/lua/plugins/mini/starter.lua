@@ -1,21 +1,3 @@
--- local footer_update = function()
--- 	local logpath = vim.fn.stdpath("log")
--- 	local fname = logpath .. "/startup"
--- 	local file = vim.fn.glob(fname)
--- 	-- local f, err = io.open(file, "w")
--- 	-- if f == nil then
--- 	-- 	return ""
--- 	-- end
--- 	return require("nvim-startup").setup({
--- 		startup_file = file, -- sets startup log path (string)
--- 		-- message = 'Whoa! those {} are pretty fast' -- sets a custom message (string | function)
--- 		-- message = function(time) -- function-based custom message
--- 		-- 	return time < 100 and "Just {}? really good!" or "Those {} can get faster"
--- 		-- end,
--- 		message = {},
--- 	})
--- end
-
 local update_startuptime = function()
 	local startuptime = require("lazy").stats().startuptime
 	local loaded = require("lazy").stats().loaded
@@ -42,14 +24,16 @@ return {
 
 		require("mini.starter").setup({
 			items = {
-				require("mini.starter").sections.sessions(15, true),
+				require("mini.starter").sections.sessions(10, true),
 				require("mini.starter").sections.recent_files(5, true, false),
 				my_items,
 				require("mini.starter").sections.builtin_actions(),
 			},
+			header = "",
 			footer = function()
-				vim.cmd.autocmd("User LazyVimStarted lua MiniStarter.refresh()")
-				return display_startuptime()
+				-- vim.cmd.autocmd("User LazyVimStarted lua MiniStarter.refresh()")
+				-- return display_startuptime()
+				return ""
 			end,
 		})
 	end,

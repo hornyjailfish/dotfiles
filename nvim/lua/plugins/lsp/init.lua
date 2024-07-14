@@ -5,7 +5,6 @@ return {
 		event = "BufReadPre",
 		dependencies = {
 			{ "folke/neoconf.nvim", cmd = "Neoconf", config = true },
-			{ "folke/neodev.nvim", opts = {} },
 			"mason.nvim",
 			"williamboman/mason-lspconfig.nvim",
 			"hrsh7th/cmp-nvim-lsp",
@@ -22,39 +21,57 @@ return {
 				severity_sort = true,
 			},
 			-- Automatically format on save
-			autoformat = true,
+			autoformat = require("plugins.lsp.format").autoformat,
 			-- options for vim.lsp.buf.format
 			-- `bufnr` and `filter` is handled by the LazyVim formatter,
 			-- but can be also overriden when specified
-			format = {
-				formatting_options = nil,
-				timeout_ms = nil,
-			},
+			-- format = {
+			-- 	formatting_options = nil,
+			-- 	timeout_ms = nil,
+			-- },
 			---@type lspconfig.options
 			servers = {
-				jsonls = {
-					settings = {
-						json = {
-							schemas = function()
-								require("schemastore").json.schemas({
-									extra = {
-										{
-											description = "Meilisearch schema",
-											fileMatch = "*.json",
-											name = "*",
-											url = "https://bump.sh/meilisearch/doc/meilisearch.json",
-										},
-									},
-								})
-							end,
-							validate = { enable = true },
-						},
-					},
-				},
+				templ = {},
+				-- jsonls = {
+				-- 	settings = {
+				-- 		json = {
+				-- 			schemas = function()
+				-- 				return require("schemastore").json.schemas({
+				-- 					extra = {
+				-- 						{
+				-- 							description = "Meilisearch schema",
+				-- 							fileMatch = "*.json",
+				-- 							name = "*",
+				-- 							url = "https://bump.sh/meilisearch/doc/meilisearch.json",
+				-- 						},
+				-- 					},
+				-- 				})
+				-- 			end,
+				-- 			validate = { enable = false },
+				-- 		},
+				-- 	},
+				-- },
 				denols = {
 					filetypes = { "tsx", "typescript", "typescriptreact", "javascript", "javascriptreact" },
 				},
-				pylsp = {},
+				pylsp = {
+					plugins = {
+						-- ruff = { enabled = true },
+						pyflakes = { enabled = true },
+						-- yapf = {
+						-- 	enabled = true,
+						-- 	based_on_style = "pep8",
+						-- 	column_limit = 120,
+						-- },
+						mypy = {
+							enabled = true,
+							live_mode = true,
+							strict = true,
+						},
+						isort = { enabled = true },
+						rope = { enabled = true },
+					},
+				},
 				lua_ls = {
 					settings = {
 						Lua = {
@@ -70,37 +87,37 @@ return {
 						},
 					},
 				},
-				rust_analyzer = {
-					settings = {
-						["rust_analyzer"] = {
-							-- imports = {
-							-- 	granularity = {
-							-- 		group = "module",
-							-- 	},
-							-- 	prefix = "self",
-							-- },
-							-- assist = {
-							-- 	importgranularity = "module",
-							-- 	importprefix = "by_self",
-							-- },
-							cargo = {
-								loadoutdirsfromcheck = false,
-								buildScripts = {
-									enable = true,
-								},
-							},
-							-- cargo = {
-							-- 	loadoutdirsfromcheck = true,
-							-- },
-							-- procmacro = {
-							-- 	enable = true,
-							-- },
-							-- checkOnSave = {
-							-- 	command = "clippy",
-							-- },
-						},
-					},
-				},
+				-- rust_analyzer = {
+				-- settings = {
+				-- ["rust_analyzer"] = {
+				-- imports = {
+				-- 	granularity = {
+				-- 		group = "module",
+				-- 	},
+				-- 	prefix = "self",
+				-- },
+				-- assist = {
+				-- 	importgranularity = "module",
+				-- 	importprefix = "by_self",
+				-- },
+				-- cargo = {
+				-- loadoutdirsfromcheck = false,
+				-- buildScripts = {
+				-- enable = true,
+				-- },
+				-- },
+				-- cargo = {
+				-- 	loadoutdirsfromcheck = true,
+				-- },
+				-- procmacro = {
+				-- 	enable = true,
+				-- },
+				-- checkOnSave = {
+				-- 	command = "clippy",
+				-- },
+				-- },
+				-- },
+				-- },
 			},
 			-- you can do any additional lsp server setup here
 			-- return true if you don't want this server to be setup with lspconfig
@@ -118,20 +135,20 @@ return {
 		---@param opts PluginLspOpts
 		config = function(plugin, opts)
 			-- border override globally
-			local border = {
-				{ "🭽", "FloatBorder" },
-				{ "▔", "FloatBorder" },
-				{ "🭾", "FloatBorder" },
-				{ "▕", "FloatBorder" },
-				{ "🭿", "FloatBorder" },
-				{ "▁", "FloatBorder" },
-				{ "🭼", "FloatBorder" },
-				{ "▏", "FloatBorder" },
-			}
+			-- local border = {
+			-- 	{ "🭽", "FloatBorder" },
+			-- 	{ "▔", "FloatBorder" },
+			-- 	{ "🭾", "FloatBorder" },
+			-- 	{ "▕", "FloatBorder" },
+			-- 	{ "🭿", "FloatBorder" },
+			-- 	{ "▁", "FloatBorder" },
+			-- 	{ "🭼", "FloatBorder" },
+			-- 	{ "▏", "FloatBorder" },
+			-- }
 			local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
 			function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
 				opts = opts or {}
-				opts.border = opts.border or border
+				opts.border = opts.border or border or "rounded"
 				return orig_util_open_floating_preview(contents, syntax, opts, ...)
 			end
 			if plugin.servers then
@@ -208,11 +225,16 @@ return {
 				end,
 			})
 			for name, opt in pairs(opts.servers) do
+				-- opt.root_dir = require("lspconfig").util.root_pattern(require("util").get_root())
 				require("lspconfig")[name].setup(opt)
 			end
 		end,
 	},
-
+	{
+		"mrcjkb/rustaceanvim",
+		version = "^4", -- Recommended
+		lazy = false, -- This plugin is already lazy
+	},
 	-- formatters
 	-- {
 	-- 	"nvimtools/none-ls.nvim",
@@ -243,16 +265,17 @@ return {
 	-- },
 	{
 		"stevearc/conform.nvim",
+		event = "BufReadPre",
 		opts = {
-			notify_on_error = false,
-			format_on_save = {
-				timeout_ms = 500,
-				lsp_fallback = true,
-			},
+			notify_on_error = true,
+			-- format_on_save = {
+			-- 	timeout_ms = 500,
+			-- 	lsp_fallback = "prefer",
+			-- },
 			formatters_by_ft = {
 				lua = { "stylua" },
 				-- Conform can also run multiple formatters sequentially
-				-- python = { "isort", "black" },
+				python = { "pyflake8" },
 				--
 				-- You can use a sub-list to tell conform to run *until* a formatter
 				-- is found.

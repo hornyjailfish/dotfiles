@@ -26,14 +26,20 @@ return {
 			file = ".session.vim",
 			hooks = {
 				pre = {
+					read = function(info)
+						return
+					end,
 					write = function()
 						close_bad_buffers()
 					end,
 				},
+				post = {
+					read = function(info) end,
+				},
 			},
 			verbose = { read = false, write = true, delete = true },
 		})
-		vim.api.nvim_create_autocmd({ "User" }, {
+		vim.api.nvim_create_autocmd({ "VimEnter" }, {
 			-- pattern = { vim.fs.normalize(vim.env.PWD) },
 			once = true,
 			nested = true,

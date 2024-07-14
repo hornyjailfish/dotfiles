@@ -1,1 +1,1 @@
-return { "echasnovski/mini.trailspace", version = false, config = true }
+return { "echasnovski/mini.trailspace", version = false, event = "BufEnter", config = true }

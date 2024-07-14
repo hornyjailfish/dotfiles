@@ -34,12 +34,19 @@ return {
 			desc = "Recent",
 		},
 		-- { "<leader>ta", "<cmd>Telescope autocommands<cr>", desc = "Auto Commands" },
-		{ "<leader>tb", "<cmd>Pick buf_lines<cr>", desc = "Buffer" },
+		-- { "<leader>tb", "<cmd>Pick buf_lines<cr>", desc = "Buffer" },
 		--do i realy need it?
 		{ "<leader>t:", "<cmd>Pick history<cr>", desc = "Command History" },
 		{ "<leader>th", "<cmd>Pick help<cr>", desc = "Help Pages" },
 		{ "<leader>tm", "<cmd>Pick marks<cr>", desc = "Jump to Mark" },
-		{ "<leader>tk", "<cmd>Pick keymaps<cr>", desc = "Key Maps" },
+		{ "<leader>tr", "<cmd>Pick resume<cr>", desc = "Resume previous picker" },
+		{
+			"<leader>tk",
+			function()
+				require("mini.extra").pickers.keymaps()
+			end,
+			desc = "Key Maps",
+		},
 		{ "<leader>to", "<cmd>Pick options<cr>", desc = "Options" },
 	},
 	config = function()

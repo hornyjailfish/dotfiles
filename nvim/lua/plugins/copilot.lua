@@ -1,8 +1,7 @@
 return {
-
 	{
 		"sourcegraph/sg.nvim",
-		event = "BufRead",
+		event = "InsertEnter",
 		-- commit = "0a3c7f76a5e81452b5d4bd78a7bb8cd2603445b5",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
@@ -17,22 +16,55 @@ return {
 			end,
 		},
 	},
+	-- {
+	-- 	"Exafunction/codeium.nvim",
+	-- 	main = "codeium",
+	-- 	dependencies = {
+	-- 		"nvim-lua/plenary.nvim",
+	-- 	},
+	-- 	event = "InsertEnter",
+	--
+	-- 	opts = {
+	-- 		config_path = vim.fs.normalize("~/.codeium/config.json"),
+	-- 		bin_path = vim.fs.normalize("~/.codeium/bin/"),
+	-- 		api = {
+	-- 			host = "server.codeium.com",
+	-- 			port = "443",
+	-- 			path = "/",
+	-- 			portal_url = "codeium.com",
+	-- 		},
+	-- 		enable_chat = false,
+	-- 		enable_local_search = false,
+	-- 	},
+	-- 	config = true,
+	-- },
 	{
 		name = "Codeium",
 		"Exafunction/codeium.vim",
-		event = "BufEnter",
-		keys = {
-			{
-				"<tab>",
-				function()
-					vim.fn["codeium#Accept"]()
-				end,
-				expr = true,
-				silent = true,
-				mode = "i",
-			},
-		},
+		-- event = "InsertEnter",
+		-- keys = {
+		-- 	{
+		-- 		"<tab>",
+		-- 		function()
+		-- 			vim.fn["codeium#Accept"]()
+		-- 		end,
+		-- 		expr = true,
+		-- 		silent = true,
+		-- 		mode = "i",
+		-- 	},
+		-- 	{
+		-- 		"<M-]>",
+		-- 		function()
+		-- 			vim.fn["codeium#CycleOrComplete"]()
+		-- 		end,
+		-- 		expr = true,
+		-- 		silent = true,
+		-- 		mode = "i",
+		-- 	},
+		-- },
 		config = function()
+			vim.g.codeium_bin = vim.fs.normalize("~/.codeium/bin/")
+			vim.g.codeium_tab_fallback = "<tab>"
 			vim.g.codeium_filetypes = {
 				markdown = false,
 			}

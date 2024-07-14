@@ -9,7 +9,7 @@ return {
 		use_diagnostic_signs = true,
 	},
 	keys = {
-		{ "<leader>xx", "<cmd>TroubleToggle document_diagnostics<cr>", desc = "Document Diagnostics (Trouble)" },
-		{ "<leader>xX", "<cmd>TroubleToggle workspace_diagnostics<cr>", desc = "Workspace Diagnostics (Trouble)" },
+		{ "<leader>xx", "<cmd>Trouble diagnostics<cr>", desc = "Document Diagnostics (Trouble)" },
+		-- { "<leader>xX", "<cmd>Trouble workspace_diagnostics<cr>", desc = "Workspace Diagnostics (Trouble)" },
 	},
 }

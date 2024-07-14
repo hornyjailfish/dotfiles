@@ -38,8 +38,8 @@ require("lazy").setup({
 				-- thanks treesitter
 				-- "syntax",
 				-- thanks matchup
-				-- "matchit",
-				-- "matchparen",
+				"matchit",
+				"matchparen",
 			},
 		},
 	},
