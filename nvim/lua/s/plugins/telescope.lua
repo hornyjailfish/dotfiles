@@ -1,6 +1,6 @@
 -- util have function that calls telescope with
 -- cwd default to lazyvim.util.get_root
-local Util = require("util")
+local Util = require("s.util")
 return {
 	"nvim-telescope/telescope.nvim",
 	cmd = "Telescope",
@@ -74,10 +74,10 @@ return {
 				mappings = {
 					i = {
 						--mappings works at least idk why c-n not worked like c-e but it works with default setting
-						[require("util").keymap.down({ ctrl = true }, true)] = function()
+						[require("s.util").keymap.down({ ctrl = true }, true)] = function()
 							return require("telescope.actions").move_selection_next(vim.api.nvim_get_current_buf())
 						end,
-						[require("util").keymap.up({ ctrl = true }, true)] = function()
+						[require("s.util").keymap.up({ ctrl = true }, true)] = function()
 							return require("telescope.actions").move_selection_previous(vim.api.nvim_get_current_buf())
 						end,
 						["<C-i>"] = function()

@@ -33,9 +33,9 @@ return {
 				"Structure",
 				"LineNr",
 				"NonText",
-				"SignColumn",
-				"CursorLineNr",
-				"EndOfBuffer",
+				-- "SignColumn",
+				-- "CursorLineNr",
+				-- "EndOfBuffer",
 			},
 			extra_groups = {
 				-- "StatusLine",
@@ -99,11 +99,11 @@ return {
 		lazy = true,
 		config = function()
 			require("gruvbox").setup({
-				-- contrast = "soft",
+				contrast = "soft",
 				-- transparent_mode = true,
 				transparent_mode = vim.g.transparent_enabled,
 			})
-			vim.cmd.colo("gruvbox")
+			-- vim.cmd.colo("gruvbox")
 		end,
 	},
 

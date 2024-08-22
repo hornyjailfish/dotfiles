@@ -1,7 +1,7 @@
 vim.api.nvim_create_autocmd({ "ColorScheme" }, {
 	pattern = { "*" },
 	callback = function(e)
-		local path = "config.custom_colors."
+		local path = "s.config.custom_colors."
 		path = path .. vim.g.colors_name
 		local palette = {}
 		local ok, highlights = pcall(require, path)

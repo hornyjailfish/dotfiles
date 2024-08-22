@@ -6,7 +6,7 @@ return {
 	"cbochs/portal.nvim",
 	keys = {
 		{ "<leader>q", "<cmd>Portal quickfix backward<cr>", desc = "Portal through quickfix" },
-		{ "<leader>g", "<cmd>Portal grapple backward<cr>", desc = "Jump back in Portal" },
+		{ "<leader>l", "<cmd>Portal grapple backward<cr>", desc = "Jump back in Portal" },
 		{
 			"<leader>m",
 			function()
@@ -34,7 +34,7 @@ return {
 		select_first = true,
 		---The raw window options used for the portal window
 		window_options = {
-			relative = "cursor",
+			relative = "win",
 			width = 100,
 			height = 4,
 			col = 4,

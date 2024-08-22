@@ -1,8 +1,9 @@
+---@diagnostic disable: undefined-global
 -- This is file for generationg werterm colorscheme from colo palette use <cmd>Shipwrighit to generate extra/wezterm.toml
 local path = vim.fs.normalize(vim.fn.stdpath("config") .. "/extra/wezterm.toml")
 
 --- FIXME: palette colornames different one to another so it need name tweaks for every palette. Run it in AU?
-local util = require("util.shipwright_utils").palette
+local util = require("s.util.shipwright_utils").palette
 
 run(
 	util,

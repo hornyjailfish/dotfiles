@@ -12,7 +12,7 @@ return {
 			download_binaries = true,
 			enable_cody = true,
 			on_attach = function(client, buffer)
-				require("util").on_attach(function(client, buffer) end)
+				require("s.util").on_attach(function(client, buffer) end)
 			end,
 		},
 	},

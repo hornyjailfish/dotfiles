@@ -17,7 +17,7 @@ function M.format()
 	local buf = vim.api.nvim_get_current_buf()
 	local ft = vim.bo[buf].filetype
 	local have_nls = false
-	if require("util").has("null-ls") then
+	if require("s.util").has("null-ls") then
 		have_nls = #require("null-ls.sources").get_available(ft, "NULL_LS_FORMATTING") > 0
 	end
 	vim.lsp.buf.format(vim.tbl_deep_extend("force", {
@@ -28,7 +28,7 @@ function M.format()
 			end
 			return client.name ~= "null-ls"
 		end,
-	}, require("util").opts("nvim-lspconfig").format or {}))
+	}, require("s.util").opts("nvim-lspconfig").format or {}))
 end
 
 function M.on_attach(client, buf)

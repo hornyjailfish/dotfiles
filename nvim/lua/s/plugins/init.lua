@@ -1,4 +1,4 @@
-require("config")
+require("s.config")
 return {
 	{ "tpope/vim-sleuth" },
 	{
@@ -42,7 +42,7 @@ return {
 		},
 		lazy = true,
 		opts = function()
-			local hl = require("util").get_hl("MiniStatuslineDevinfo")
+			local hl = require("s.util").get_hl("MiniStatuslineDevinfo")
 			-- if hl.background == nil then
 			-- 	hl.background = "none"
 			-- print(vim.inspect(hl.reverse and hl.fg or hl.bg))

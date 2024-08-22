@@ -1,4 +1,4 @@
-local icons = require("config.icons").kinds
+local icons = require("s.config.icons").kinds
 return {
 	{
 		"nvim-neo-tree/neo-tree.nvim",
@@ -13,7 +13,7 @@ return {
 			{
 				"<leader>fe",
 				function()
-					require("neo-tree.command").execute({ toggle = true, dir = require("util").get_root() })
+					require("neo-tree.command").execute({ toggle = true, dir = require("s.util").get_root() })
 				end,
 				desc = "Explorer NeoTree (root dir)",
 			},

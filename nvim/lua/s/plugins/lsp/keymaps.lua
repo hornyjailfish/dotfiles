@@ -1,23 +1,23 @@
 local M = {}
-
+local util = require("s.util")
 function M.on_attach(client, buffer)
 	local self = M.new(client, buffer)
 
-	self:map("gd", require("util").telescope("lsp_definitions", { theme = get_cursor }), { desc = "Goto Definition" })
+	self:map("gd", util.telescope("lsp_definitions", { theme = get_cursor }), { desc = "Goto Definition" })
 	self:map(
 		"gr",
-		require("util").telescope("lsp_references", { theme = get_cursor, root = require("util").get_root() }),
+		util.telescope("lsp_references", { theme = get_cursor, root = util.get_root() }),
 		{ desc = "References" }
 	)
 	self:map("gD", vim.lsp.buf.declaration, { desc = "Goto Declaration" })
 	self:map(
 		"gI",
-		require("util").telescope("lsp_implementations", { theme = get_cursor }),
+		util.telescope("lsp_implementations", { theme = get_cursor }),
 		{ desc = "Goto Implementation" }
 	)
 	self:map(
 		"gt",
-		require("util").telescope("lsp_type_definitions", { theme = get_cursor }),
+		util.telescope("lsp_type_definitions", { theme = get_cursor }),
 		{ desc = "Goto Type Definition" }
 	)
 	self:map("K", vim.lsp.buf.hover, { desc = "Hover" })
@@ -33,7 +33,7 @@ function M.on_attach(client, buffer)
 	self:map("<leader>ca", vim.lsp.buf.code_action, { desc = "Code Action", mode = { "n", "v" }, has = "codeAction" })
 	self:map("<leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
 	self:map("<leader>cl", "LspInfo", { desc = "Lsp Info" })
-	local format = require("plugins.lsp.format").format
+	local format = require("s.plugins.lsp.format").format
 
 	self:map("<leader>cf", format, { desc = "Format Document", has = "documentFormatting" })
 	-- self:map("<leader>cf", vim.lsp.buf.format(), { desc = "Format Document" })

@@ -89,8 +89,8 @@ return {
 					["<C-f>"] = cmp.mapping.scroll_docs(4),
 					["<Up>"] = cmp.mapping.select_prev_item(select_opts),
 					["<Down>"] = cmp.mapping.select_next_item(select_opts),
-					[require("util").keymap.up({ ctrl = true }, true)] = cmp.mapping.select_prev_item(select_opts),
-					[require("util").keymap.down({ ctrl = true }, true)] = cmp.mapping.select_next_item(select_opts),
+					[require("s.util").keymap.up({ ctrl = true }, true)] = cmp.mapping.select_prev_item(select_opts),
+					[require("s.util").keymap.down({ ctrl = true }, true)] = cmp.mapping.select_next_item(select_opts),
 					["<C-y>"] = cmp.mapping.complete(select_opts),
 					["<C-z>"] = cmp.mapping.abort(),
 					["<CR>"] = cmp.mapping.confirm({ select = false }),
@@ -115,7 +115,7 @@ return {
 				}),
 				formatting = {
 					format = function(entry, item)
-						local icons = require("config.icons").kinds
+						local icons = require("s.config.icons").kinds
 
 						if icons[item.kind] then
 							item.kind = icons[item.kind]
@@ -137,9 +137,9 @@ return {
 					end,
 				},
 				experimental = {
-					ghost_text = {
-						hl_group = "LspCodeLens",
-					},
+					-- ghost_text = {
+					-- 	hl_group = "LspCodeLens",
+					-- },
 				},
 			}
 		end,

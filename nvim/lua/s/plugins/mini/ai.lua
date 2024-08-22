@@ -17,13 +17,28 @@ return {
 	opts = function()
 		local ai = require("mini.ai")
 		return {
-			n_lines = 100,
+			n_lines = 300,
 			custom_textobjects = {
 				o = ai.gen_spec.treesitter({
 					a = { "@block.outer", "@conditional.outer", "@loop.outer" },
 					i = { "@block.inner", "@conditional.inner", "@loop.inner" },
 				}, {}),
 				f = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }, {}),
+			},
+			mappings = {
+				-- Main textobject prefixes
+				around = 'a',
+				inside = 'i',
+
+				-- Next/last variants
+				around_next = 'an',
+				inside_next = 'in',
+				around_last = 'al',
+				inside_last = 'il',
+
+				-- Move cursor to corresponding edge of `a` textobject
+				goto_left = 'g[',
+				goto_right = 'g]',
 			},
 		}
 	end,
