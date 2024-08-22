@@ -55,7 +55,6 @@ return {
 		---TOOOOKKKKIIIIOOOO
 		"folke/tokyonight.nvim",
 		lazy = true,
-		priority = 99999,
 		opts = {
 			transparent = vim.g.transparent_enabled,
 			-- night, storm, moon, day

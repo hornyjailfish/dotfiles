@@ -16,7 +16,6 @@ local Kanata = {
 
 function Kanata:connect(err)
 	if self.socket then
-		---@diagnostic disable-next-line: param-type-mismatch
 		self.socket:connect("127.0.0.1", port, self:callback(err))
 		assert(not err, "cant connect")
 		if self.result == "" then
@@ -39,7 +38,6 @@ end
 function Kanata:callback(err)
 	assert(not err, err)
 	if vim.loop.is_readable(self.socket) then
-		---@diagnostic disable-next-line: redefined-local
 		self.socket:read_start(function(err, chunk)
 			if err then
 				-- handle read error

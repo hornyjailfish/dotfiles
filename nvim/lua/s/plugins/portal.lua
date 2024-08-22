@@ -34,12 +34,12 @@ return {
 		select_first = true,
 		---The raw window options used for the portal window
 		window_options = {
-			relative = "win",
+			relative = "cursor",
 			width = 100,
 			height = 4,
-			col = 4,
+			col = 8,
 			focusable = false,
-			border = "single",
+			border = "rounded",
 			noautocmd = true,
 		},
 	},
