@@ -1,1 +1,11 @@
-return { 'echasnovski/mini.icons', version = false, config = true }
+return {
+	'echasnovski/mini.icons',
+	lazy=false,
+	priority=999,
+	version = false,
+
+	dependencies = {
+		"echasnovski/mini.statusline",
+	},
+	config = true
+}

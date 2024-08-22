@@ -1,5 +1,5 @@
----@diagnostic disable: unused-local, undefined-global
---
+local icons = require("mini.icons")
+icons.setup()
 ---------Utilities
 local isnt_normal_buffer = function()
 	-- For more information see ":h buftype"
@@ -104,13 +104,14 @@ end
 local lsp_loading_status = function()
 	-- local dev_bg = vim.api.nvim_get_hl(0, { name = "MiniStatuslineDevInfo" })
 	local names = {}
-	local icon, color = require("nvim-web-devicons").get_icon_color_by_filetype(vim.bo.filetype)
+	local icon, color = icons.get("filetype",vim.bo.filetype)
+	color = require("s.util").get_hl(color)
 	-- if vim.lsp.buf.server_ready() then
 	if #require("lsp-status").status_progress() == 0 then
 		for i, server in pairs(vim.lsp.get_active_clients({ bufnr = 0 })) do
 			table.insert(names, server.name)
 		end
-		vim.api.nvim_set_hl(0, "MiniStatuslineFileinfo", { fg = color })
+		vim.api.nvim_set_hl(0, "MiniStatuslineFileinfo", { fg = color.fg })
 		-- vim.api.nvim_set_hl(0, "MiniStatuslineDevInfo", { fg = color, bg = dev_bg.bg })
 		return icon, "MiniStatuslineFileinfo"
 		-- return "[" .. table.concat(names, " ") .. "]", "MoreMsg"
@@ -160,7 +161,8 @@ local function create_line()
 	-- local diagnostics = MiniStatusline.section_diagnostics({ use_icons = false, trunc_width = 75 })
 	local filename = MiniStatusline.section_filename({ trunc_width = 2000 })
 	local location = MiniStatusline.section_location({ trunc_width = 99999 })
-	local icon, color = require("nvim-web-devicons").get_icon_color_by_filetype(vim.bo.filetype)
+	local icon, color = icons.get("filetype",vim.bo.filetype)
+	color = require("s.util").get_hl(color)
 	local lsp, lsp_status = lsp_loading_status()
 	local codeium_status, codeium_hl = codeium()
 	line = {
@@ -181,8 +183,8 @@ local function create_line()
 		{ hl = codeium_hl, strings = { codeium_status } },
 		{ hl = mode_hl, strings = { location } },
 	}
-	vim.api.nvim_set_hl(0, "MiniStatuslineModeNormal", { fg = color, reverse = true })
-	vim.api.nvim_set_hl(0, "MiniStatuslineModeNormalAlt", { fg = color, reverse = false })
+	vim.api.nvim_set_hl(0, "MiniStatuslineModeNormal", { fg = color.fg, reverse = true })
+	vim.api.nvim_set_hl(0, "MiniStatuslineModeNormalAlt", { fg = color.fg, reverse = false })
 	-- end
 	-- vim.api.nvim_set_hl(0, "MiniStatuslineFileinfo", { bg = mode_hl.bg, fg = color })
 	-- vim.api.nvim_set_hl(0, "MiniStatuslineFilenameInverted", { fg = color, reverse = true })
@@ -206,8 +208,10 @@ return {
 		"echasnovski/mini.statusline",
 		version = false,
 		lazy = false,
+		priority=8888,
 		dependencies = {
-			"nvim-web-devicons",
+			"echasnovski/mini.icons",
+			-- "nvim-web-devicons",
 		},
 		config = function()
 			create_copy_hl()
