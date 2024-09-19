@@ -1,3 +1,4 @@
+local utils = require("s.util")
 return {
 	{
 		"folke/lazydev.nvim",
@@ -18,7 +19,7 @@ return {
 	--
 	{
 		"L3MON4D3/LuaSnip",
-		event = "InsertEnter",
+		event = "LspAttach",
 		dependencies = {
 			-- "rafamadriz/friendly-snippets",
 			-- config = function()
@@ -35,9 +36,17 @@ return {
 			{
 				"<tab>",
 				function()
-					return require("luasnip").jumpable(1) and "<Plug>luasnip-jump-next"
-						or vim.fn["codeium#Accept"]()
-						or "/t"
+					local snip = false
+					local ai = false
+					if utils.has("LuaSnip") then
+						snip = (require("luasnip").expand_or_locally_jumpable(1))
+					end
+					if utils.has("Codeium") then
+						ai = vim.fn["codeium#Accept"]()
+					end
+					return snip
+							or ai
+							or "/t"
 				end,
 				expr = true,
 				silent = true,
@@ -46,14 +55,18 @@ return {
 			{
 				"<tab>",
 				function()
-					require("luasnip").jump(1)
+					if utils.has("LuaSnip") then
+						require("luasnip").jump(1)
+					end
 				end,
 				mode = "s",
 			},
 			{
 				"<s-tab>",
 				function()
-					require("luasnip").jump(-1)
+					if utils.has("LuaSnip") then
+						require("luasnip").jump(-1)
+					end
 				end,
 				mode = { "i", "s" },
 			},
@@ -64,10 +77,10 @@ return {
 	{
 		"hrsh7th/nvim-cmp",
 		version = false, -- last release is way too old
-		event = "InsertEnter",
+		event = "InsertCharPre",
 		dependencies = {
 			"hrsh7th/cmp-nvim-lsp",
-			"hrsh7th/cmp-buffer",
+			-- {"hrsh7th/cmp-buffer", event = "VeryLazy"},
 			"hrsh7th/cmp-path",
 			-- "saadparwaiz1/cmp_luasnip",
 		},
@@ -89,8 +102,8 @@ return {
 					["<C-f>"] = cmp.mapping.scroll_docs(4),
 					["<Up>"] = cmp.mapping.select_prev_item(select_opts),
 					["<Down>"] = cmp.mapping.select_next_item(select_opts),
-					[require("s.util").keymap.up({ ctrl = true }, true)] = cmp.mapping.select_prev_item(select_opts),
-					[require("s.util").keymap.down({ ctrl = true }, true)] = cmp.mapping.select_next_item(select_opts),
+					[utils.keymap.up({ ctrl = true }, true)] = cmp.mapping.select_prev_item(select_opts),
+					[utils.keymap.down({ ctrl = true }, true)] = cmp.mapping.select_next_item(select_opts),
 					["<C-y>"] = cmp.mapping.complete(select_opts),
 					["<C-z>"] = cmp.mapping.abort(),
 					["<CR>"] = cmp.mapping.confirm({ select = false }),
@@ -104,10 +117,10 @@ return {
 					{ name = "buffer" },
 					{ name = "path" },
 					{ name = "luasnip" },
-					-- { name = "codeium" },
+					{ name = "codeium" },
 
 					{ name = "cody" },
-					{ name = "lazydev", group_index = 0 },
+					{ name = "lazydev",     group_index = 0 },
 
 					-- TODO: add sources from plugins in dat plug initialization?
 					{ name = "obsidian_new" },
@@ -115,6 +128,7 @@ return {
 				}),
 				formatting = {
 					format = function(entry, item)
+						local icons = require("mini.icons").list("lsp")
 						local icons = require("s.config.icons").kinds
 
 						if icons[item.kind] then

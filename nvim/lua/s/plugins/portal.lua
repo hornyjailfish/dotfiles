@@ -35,9 +35,9 @@ return {
 		---The raw window options used for the portal window
 		window_options = {
 			relative = "cursor",
-			width = 100,
-			height = 4,
-			col = 8,
+			width = 80,
+			height = 10,
+			col = 4,
 			focusable = false,
 			border = "rounded",
 			noautocmd = true,

@@ -1,7 +1,9 @@
 return {
 	--plugin for easy transparent bg groups
-	--
 	--use this to add extra hi groups to transparent list
+	--
+	-- vim.g.transparent_groups = vim.list_extend(vim.g.transparent_groups or {}, { "ExtraGroup" })
+	--
 	-- vim.g.transparent_groups = vim.list_extend(
 	--   vim.g.transparent_groups or {},
 	--   vim.tbl_map(function(v)
@@ -33,14 +35,14 @@ return {
 				"Structure",
 				"LineNr",
 				"NonText",
-				-- "SignColumn",
+				"SignColumn",
 				-- "CursorLineNr",
-				-- "EndOfBuffer",
+				"EndOfBuffer",
 			},
 			extra_groups = {
 				-- "StatusLine",
-				"NormalFloat",
-				"StatusLineNC",
+				-- "NormalFloat",
+				-- "StatusLineNC",
 				-- sometimes i like it sometimes not
 				-- "DiagnosticSignError",
 				-- "DiagnosticSignWarn",
@@ -98,7 +100,7 @@ return {
 		lazy = true,
 		config = function()
 			require("gruvbox").setup({
-				contrast = "soft",
+				-- contrast = "hard",
 				-- transparent_mode = true,
 				transparent_mode = vim.g.transparent_enabled,
 			})

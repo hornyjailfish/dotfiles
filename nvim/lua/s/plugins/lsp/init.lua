@@ -2,7 +2,7 @@ return {
 	-- lspconfig
 	{
 		"neovim/nvim-lspconfig",
-		event = "BufReadPre",
+		event = "BufReadPost",
 		dependencies = {
 			{ "folke/neoconf.nvim", cmd = "Neoconf", config = true },
 			"mason.nvim",
@@ -46,7 +46,7 @@ return {
 			---@type lspconfig.options
 			servers = {
 				templ = {},
-				tsserver = {},
+				ts_ls = {},
 				-- jsonls = {
 				-- 	settings = {
 				-- 		json = {
@@ -181,16 +181,16 @@ return {
 				require("s.plugins.lsp.format").on_attach(client, buffer)
 				require("s.plugins.lsp.keymaps").on_attach(client, buffer)
 
-				if package.loaded["illuminate"] then
+				if require("s.util").has("illuminate") then
 					require("illuminate").on_attach(client)
 				end
 
-				if package.loaded["sg"] ~= nil then
+				if require("s.util").has("sg.nvim") then
 					require("sg").setup({
 						on_attach = function(client, buffer) end,
 					})
 				end
-				if package.loaded["lsp-status"] ~= nil then
+				if require("s.util").has("lsp-status.nvim") then
 					require("lsp-status").register_progress()
 					require("lsp-status").config({
 						kind_labels = require("s.config.icons").kinds,
@@ -294,7 +294,7 @@ return {
 				--
 				-- You can use a sub-list to tell conform to run *until* a formatter
 				-- is found.
-				javascript = { { "deno_fmt", "prettierd" } },
+				javascript = { {  "prettierd","deno_fmt", } },
 			},
 		},
 	},
@@ -310,7 +310,7 @@ return {
 				"shellcheck",
 				"shfmt",
 				"flake8",
-				"deno",
+				-- "deno",
 				-- "rust-analyzer",
 			},
 		},

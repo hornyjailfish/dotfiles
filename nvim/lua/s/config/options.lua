@@ -39,6 +39,14 @@ vim.opt.shortmess:append("cW") -- hide all the completion messages, e.g. "-- XXX
 vim.opt.whichwrap:append("<,>,[,],h,l") -- keys allowed to move to the previous/next line when the beginning/end of line is reached
 vim.opt.iskeyword:append("-") -- treats words with `-` as single words
 
+-- for ts_context_commentstring
+local get_option = vim.filetype.get_option
+vim.filetype.get_option = function(filetype, option)
+  return option == "commentstring"
+    and require("ts_context_commentstring.internal").calculate_commentstring()
+    or get_option(filetype, option)
+end
+
 -- i disabled netrw LUL
 vim.g.netrw_browse_split = 0
 vim.g.netrw_banner = 0

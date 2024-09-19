@@ -54,10 +54,15 @@ if wezterm.target_triple == "x86_64-pc-windows-msvc" then
 	-- end
 end
 
+-- table.insert(launch_menu, {
+-- 	label = "Open WEZTERM config",
+-- 	args = { "nvim", "wezterm.lua" },
+-- 	cwd = "~/.config/wezterm/",
+-- })
 table.insert(launch_menu, {
-	label = "Open WEZTERM config",
-	args = { "nvim", ".wezterm.lua" },
-	cwd = "~",
+	label = "Open WEZTERM CONFIG",
+	args = { "nvim", wezterm.config_file },
+	cwd = wezterm.config_dir,
 })
 
 local palette = {
@@ -78,8 +83,10 @@ local palette = {
 -- 	list = wezterm.json_parse(stdout)
 -- end
 
-local colorscheme = "GruvboxDark"
+-- local colorscheme = "Gruvbox Material (Gogh)"
 -- local colorscheme = "zenbones_dark"
+local colorscheme = "neobones_light"
+-- local colorscheme = "neobones_dark"
 -- local colorscheme = "seoulbones_light"
 local colors = wezterm.color.get_builtin_schemes()[colorscheme]
 -- color_scheme_dirs = { "~/.dotfiles/nvim/extra/wezterm.toml"},

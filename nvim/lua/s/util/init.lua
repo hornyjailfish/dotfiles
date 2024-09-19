@@ -4,91 +4,13 @@
 local Util = require("lazy.core.util")
 
 local M = {}
+M.hl = require("s.util.hl")
+M.keymaps = require("s.util.keymap")
+-- shorthand for using global var
+M.keymap = M.keymaps.layout(vim.g.layout or "qwerty").keymap
 
 M.root_patterns = { ".git", "lua", "pyproject.toml", "Cargo.toml", "package.json", "tsconfig.json", "Makefile" }
 
--- I hate c-p c-n keymap so i create this to use it with colemak/qwerty
----@param name string
-function M.layout(name)
-	local function add_surround(str)
-		return "<" .. str .. ">"
-	end
-	local function modifier(mod, str)
-		local mod_map = {
-			mod.ctrl and "C-" or "",
-			mod.shift and "S-" or "",
-			mod.alt and "A-" or "",
-			str,
-		}
-		return table.concat(mod_map, "")
-	end
-	---@param str string
-	---@param mod {shift:boolean,ctrl:boolean,alt:boolean}
-	---@param sur boolean
-	local function create_mapstr(str, mod, sur)
-		local str = str
-		local mod = mod or {}
-		if next(mod) == nil then
-			return sur and add_surround(str) or str
-		end
-		str = modifier(mod, str)
-		return sur and add_surround(str) or str
-	end
-
-	if name == "qwerty" then
-		return {
-			keymap = {
-				---@param mod {shift:boolean,ctrl:boolean,alt:boolean} modifiers
-				---@param sur boolean surround with < >
-				down = function(mod, sur)
-					return create_mapstr("j", mod, sur)
-				end,
-				---@param mod {shift:boolean,ctrl:boolean,alt:boolean}
-				---@param sur boolean
-				up = function(mod, sur)
-					return create_mapstr("k", mod, sur)
-				end,
-				---@param mod {shift:boolean,ctrl:boolean,alt:boolean}
-				---@param sur boolean
-				left = function(mod, sur)
-					return create_mapstr("h", mod, sur)
-				end,
-				---@param mod {shift:boolean,ctrl:boolean,alt:boolean}
-				---@param sur boolean
-				right = function(mod, sur)
-					return create_mapstr("l", mod, sur)
-				end,
-			},
-		}
-	elseif name == "colemak" then
-		return {
-			keymap = {
-				---@param mod {shift:boolean,ctrl:boolean,alt:boolean}
-				---@param sur boolean
-				down = function(mod, sur)
-					return create_mapstr("n", mod, sur)
-				end,
-				---@param mod {shift:boolean,ctrl:boolean,alt:boolean}
-				---@param sur boolean
-				up = function(mod, sur)
-					return create_mapstr("e", mod, sur)
-				end,
-				---@param mod {shift:boolean,ctrl:boolean,alt:boolean}
-				---@param sur boolean
-				left = function(mod, sur)
-					return create_mapstr("m", mod, sur)
-				end,
-				---@param mod {shift:boolean,ctrl:boolean,alt:boolean}
-				---@param sur boolean
-				right = function(mod, sur)
-					return create_mapstr("i", mod, sur)
-				end,
-			},
-		}
-	end
-end
--- shorthand for using global var
-M.keymap = M.layout(vim.g.layout or "qwerty").keymap
 
 ---@param on_attach fun(client, buffer)
 function M.on_attach(on_attach)
@@ -182,7 +104,6 @@ function M.telescope(builtin, opts)
 	end
 end
 
--- is it used anywhere?
 ---@param silent boolean?
 ---@param values? {[1]:any, [2]:any}
 function M.toggle(option, silent, values)
@@ -247,7 +168,7 @@ function M.toggle_diagnostics()
 		vim.diagnostic.enable()
 		Util.info("Enabled diagnostics", { title = "Diagnostics" })
 	else
-		vim.diagnostic.disable()
+		vim.diagnostic.enable(false)
 		Util.warn("Disabled diagnostics", { title = "Diagnostics" })
 	end
 end
@@ -256,29 +177,5 @@ function M.deprecate(old, new)
 	Util.warn(("`%s` is deprecated. Please use `%s` instead"):format(old, new), { title = "LazyVim" })
 end
 
----used 0'th hl ns by default
----@param n string
----@param fallback string | nil
-M.get_hl = function(n, fallback)
-	fallback = fallback or "Normal"
-	local hl = vim.api.nvim_get_hl(0, { name = n })
-	-- print(vim.inspect(hl))
-	if hl == nil then
-		hl = vim.api.nvim_get_hl(0, { name = fallback })
-		if hl == nil then
-			error("no such hl group " .. n .. " or " .. fallback)
-		end
-	end
-	if hl.link ~= nil then
-		return M.get_hl(hl.link, fallback)
-	end
-	if hl.fg then
-		hl.fg = string.format("#%06x", hl.fg)
-	end
-	if hl.bg then
-		hl.bg = string.format("#%06x", hl.bg)
-	end
-	return hl
-end
 
 return M

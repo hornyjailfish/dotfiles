@@ -1,10 +1,10 @@
 local function get_node()
 	-- Get the current syntax tree
 	local parser = vim.treesitter.get_parser()
-	local tree = parser:parse()[1]
-
+	local tree = parser:parse()
+	print(vim.inspect(tree[1]))
 	-- Get the root node of the syntax tree
-	local root = tree:root()
+	local root = tree[1]:root()
 
 	-- Get a specific node in the syntax tree (e.g., the first function call)
 	local node = vim.treesitter.get_node()
@@ -88,8 +88,9 @@ function Portal_tree()
 	-- print(vim.inspect(found))
 	portal.tunnel(custom_query)
 end
+
 vim.cmd("command! Portree lua Portal_tree()")
 
-vim.keymap.set("n", "<A-t>", function()
+vim.keymap.set("n", "<A-S-t>", function()
 	Portal_tree()
 end, {})

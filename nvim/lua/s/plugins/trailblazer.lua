@@ -2,7 +2,7 @@
 -- i think i can use it in conjunction with Treesitter and Portal but not sure
 return {
 	"LeonHeidelbach/trailblazer.nvim",
-	event = "BufRead",
+	event = "BufReadPost",
 	-- keys = {},
 	-- there are so much defaults i hate it
 	opts = {

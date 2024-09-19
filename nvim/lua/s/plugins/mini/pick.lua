@@ -1,3 +1,4 @@
+local keymap = require("s.util.keymap")
 return {
 	"echasnovski/mini.pick",
 	event = "VeryLazy",
@@ -68,8 +69,9 @@ return {
 				--
 				-- mark = "<C-x>",
 				-- mark_all = "<C-a>",
-				move_down = require("s.util").keymap.down({ ctrl = true }, true),
 				move_start = "<C-g>",
+				move_down = keymap.map.c("n",true),
+				-- move_down = require("s.util").keymap.down({ ctrl = true }, true),
 				move_up = require("s.util").keymap.up({ ctrl = true }, true),
 				paste = "<C-r>",
 
@@ -89,11 +91,12 @@ return {
 		})
 		-- vim.cmd.hi({ args = { "link  MiniPickNormal Normal" }, bang = true })
 		--use this to add extra hi groups to transparent list
-		vim.g.transparent_groups = vim.list_extend(
-			vim.g.transparent_groups or {},
-			vim.tbl_map(function(v)
-				return v.hl_group
-			end, vim.tbl_values({ "MiniPickNormal" }))
-		)
+		-- if vim.g.transparent_enabled then
+		-- vim.g.transparent_groups = vim.list_extend(
+		-- 	vim.g.transparent_groups or {},
+		-- 	vim.tbl_map(function(v)
+		-- 		return v.hl_group
+		-- 	end, vim.tbl_values({ "MiniPickNormal" }))
+		-- )
 	end,
 }

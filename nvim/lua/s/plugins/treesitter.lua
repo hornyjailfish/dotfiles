@@ -4,7 +4,7 @@ return {
 		version = false, -- last release is way too old and doesn't work on Windows
 		build = ":TSUpdate",
 		-- lazy = false,
-		event = "BufReadPre",
+		event = "VeryLazy",
 		---@type TSConfig
 		opts = {
 			highlight = {
@@ -37,35 +37,16 @@ return {
 		},
 		---@param opts TSConfig
 		config = function(plugin, opts)
-			if plugin.ensure_installed then
-				require("lazyvim.util").deprecate("treesitter.ensure_installed", "treesitter.opts.ensure_installed")
-			end
+			-- if plugin.ensure_installed then
+			-- 	require("lazyvim.util").deprecate("treesitter.ensure_installed", "treesitter.opts.ensure_installed")
+			-- end
 			require("nvim-treesitter.install").compilers = { "gcc" }
 			require("nvim-treesitter.configs").setup(opts)
-			require("ts_context_commentstring").setup()
+			require("ts_context_commentstring").setup({
+				enable_autocmd = false,
+			})
 		end,
 	},
-	-- {
-	-- 	"nvim-treesitter/nvim-treesitter-context",
-	-- 	lazy = true,
-	-- 	event = "BufReadPre",
-	-- 	dependencies = { "nvim-treesitter/nvim-treesitter" },
-	-- 	opts = {
-	-- 		max_lines = 2, -- How many lines the window should span. Values <= 0 mean no limit.
-	-- 		min_window_height = 20, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
-	-- 		line_numbers = true,
-	-- 		multiline_threshold = 1, -- Maximum number of lines to show for a single context
-	-- 		trim_scope = "inner", -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
-	-- 		mode = "cursor", -- Line used to calculate context. Choices: 'cursor', 'topline'
-	-- 		-- Separator between context and content. Should be a single character string, like '-'.
-	-- 		-- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
-	-- 		zindex = 20, -- The Z-index of the context window
-	-- 		separator = "_",
-	-- 		-- separator = "▁",
-	-- 	},
-	-- 	config = true,
-	-- },
-	-- comments
 	{
 		"JoosepAlviste/nvim-ts-context-commentstring",
 		dependencies = { "nvim-treesitter/nvim-treesitter" },
@@ -74,7 +55,7 @@ return {
 	{
 		"dariuscorvus/tree-sitter-surrealdb.nvim",
 		dependencies = { "nvim-treesitter/nvim-treesitter" },
-		event = "BufReadPost",
+		ft = "*.surql",
 		config = function()
 			-- setup step
 			require("tree-sitter-surrealdb").setup()
@@ -85,46 +66,52 @@ return {
 		dependencies = { "nvim-treesitter" },
 		event = "BufReadPost",
 		config = function()
-			require("nvim-treesitter.configs").setup({
-				textobjects = {
-					select = {
-						enable = false,
-						lookahead = true,
-						keymaps = {
-							["af"] = "@function.outer",
-							["if"] = "@function.inner",
-							["ac"] = "@class.outer",
-							["ic"] = "@class.inner",
-							["ia"] = "@parameter.inner",
+			if require("s.util").has("nvim-treesitter") then
+				require("nvim-treesitter.configs").setup({
+					textobjects = {
+						select = {
+							enable = false,
+							lookahead = true,
+							keymaps = {
+								["af"] = "@function.outer",
+								["if"] = "@function.inner",
+								["ac"] = "@class.outer",
+								["ic"] = "@class.inner",
+								["ia"] = "@parameter.inner",
+							},
+						},
+						move = {
+							enable = true,
+							set_jumps = true,
+							goto_next = {
+								["]a"] = "@block.outer",
+							},
+							goto_previous = {
+								["[a"] = "@block.inner",
+							},
 						},
 					},
-					move = {
-						enable = true,
-						set_jumps = true,
-						goto_next = {
-							["]a"] = "@block.outer",
-						},
-						goto_previous = {
-							["[a"] = "@block.inner",
-						},
-					},
-				},
-			})
+				})
+			end
 		end,
 	},
 	{
 		"chrisgrieser/nvim-various-textobjs",
 		-- lazy = false,
-		event = "BufReadPost",
+		event = "UIEnter",
 		keys = {
-			{ "<M-i>",
+			{
+				"<M-i>",
 				-- function () vim.cmd[[norm cilb<c-o>l ]] end, mode = "i",
-				function () vim.cmd[[norm gsflbl]] end, mode = "i",
+				function() vim.cmd [[norm gsflbl]] end,
+				mode = "i",
 				"Change Inside Prev bracket"
 			},
-			{ "<M-a>",
+			{
+				"<M-a>",
 				-- function () vim.cmd[[norm cilb<c-o>l ]] end, mode = "i",
-				function () vim.cmd[[norm gsfnbl]] end, mode = "i",
+				function() vim.cmd [[norm gsfnbl]] end,
+				mode = "i",
 
 				"Change Inside Prev bracket"
 			}
@@ -134,57 +121,30 @@ return {
 			disabledKeymaps = { "gc" },
 		},
 	},
-
-	-- {
-	-- 	"nvim-treesitter/playground",
-	-- 	dependencies = { "nvim-treesitter" },
-	-- 	cmd = "TSPlaygroundToggle",
-	-- 	config = function()
-	-- 		require("nvim-treesitter.configs").setup({
-	-- 			playground = {
-	-- 				enable = false,
-	-- 				disable = {},
-	-- 				updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
-	-- 				persist_queries = false, -- Whether the query persists across vim sessions
-	-- 				keybindings = {
-	-- 					toggle_query_editor = "o",
-	-- 					toggle_hl_groups = "i",
-	-- 					toggle_injected_languages = "t",
-	-- 					toggle_anonymous_nodes = "a",
-	-- 					toggle_language_display = "I",
-	-- 					focus_language = "f",
-	-- 					unfocus_language = "F",
-	-- 					update = "R",
-	-- 					goto_node = "<cr>",
-	-- 					show_help = "?",
-	-- 				},
-	-- 			},
-	-- 		})
-	-- 	end,
-	-- },
-	-- --silver surfer LUL i think its good
 	{
 		"theHamsta/crazy-node-movement",
 		event = "BufReadPost",
 		dependencies = { "nvim-treesitter", "nvim-treesitter-textobjects" },
 		config = function()
-			require("nvim-treesitter.configs").setup({
-				node_movement = {
-					enable = true,
-					keymaps = {
-						move_up = "<a-k>",
-						move_down = "<a-j>",
-						move_left = "<a-e>",
-						move_right = "<a-n>",
-						swap_left = "<s-a-n>", -- will only swap when one of "swappable_textobjects" is selected
-						swap_right = "<s-a-e>",
-						select_current_node = "<a-v>",
+			if require("s.util").has("nvim-treesitter") then
+				require("nvim-treesitter.configs").setup({
+					node_movement = {
+						enable = true,
+						keymaps = {
+							move_up = "<a-k>",
+							move_down = "<a-j>",
+							move_left = "<a-e>",
+							move_right = "<a-n>",
+							swap_left = "<s-a-n>", -- will only swap when one of "swappable_textobjects" is selected
+							swap_right = "<s-a-e>",
+							select_current_node = "<a-v>",
+						},
+						swappable_textobjects = { "@function.outer", "@parameter.inner", "@statement.outer" },
+						allow_switch_parents = true, -- more craziness by switching parents while staying on the same level, false prevents you from accidentally jumping out of a function
+						allow_next_parent = true, -- more craziness by going up one level if next node does not have children
 					},
-					swappable_textobjects = { "@function.outer", "@parameter.inner", "@statement.outer" },
-					allow_switch_parents = true, -- more craziness by switching parents while staying on the same level, false prevents you from accidentally jumping out of a function
-					allow_next_parent = true, -- more craziness by going up one level if next node does not have children
-				},
-			})
+				})
+			end
 			vim.cmd.hi({ args = { "link CrazyNodeMovementCurrent  CursorLineNr" }, bang = true })
 		end,
 	},
@@ -192,7 +152,11 @@ return {
 	-- -- % with treesitter support need some exploration how to use it proper
 	{
 		"andymass/vim-matchup",
-		lazy=false,
+		event = "BufReadPost",
+		dependencies = {
+		"nvim-treesitter/nvim-treesitter",
+		},
+		-- lazy=false,
 		-- keys = {
 		-- 	{
 		-- 		"<M-r>",
@@ -203,10 +167,10 @@ return {
 		-- 	}
 		-- },
 		config = function()
+			if require("s.util").has("nvim-treesitter") then
 			vim.g.loaded_matchit = 0
 			vim.g.matchup_matchparen_enabled = 0
 			vim.g.matchup_matchparen_offscreen = { method = "popup" }
-			if package.loaded["nvim-treesitter"] then
 				require("nvim-treesitter.configs").setup({
 					matchup = {
 						-- disable = {}, -- mandatory, false will disable the whole extension
@@ -219,9 +183,6 @@ return {
 	},
 	{
 		"roobert/tabtree.nvim",
-		-- dev = true,
-		-- dir = vim.fs.normalize("~\\gits\\tabtree.nvim"),
-		-- name = "tabtree",
 		dependencies = {
 			"nvim-treesitter/nvim-treesitter",
 		},
@@ -241,12 +202,8 @@ return {
 				"Previous delimiter",
 			},
 		},
-		-- (parameters) @parameters
-		-- (argument) @arguments
-		-- (identifier) @field
-		-- (punctuation) @punctuation
 		opts = {
-			debug = true,
+			debug = false,
 			-- use :InspectTree to discover the (capture group)
 			-- @capture_name can be anything
 			language_configs = {
@@ -323,14 +280,6 @@ return {
 			},
 		},
 		config = function(_, opts)
-			-- local p = vim.fs.normalize("$LOCALAPPDATA/nvim-data/lazy/nvim-treesitter/parser/tsx.so")
-			-- vim.treesitter.language.register('tsx', 'typescriptreact')
-			-- vim.treesitter.language.add("tsx", {filetype = "typescriptreact", path = "tsx.so"})
-			-- vim.filetype.add({
-			--   extension = {
-			--     tsx = "typescriptreact",
-			--   }
-			-- })
 			require("tabtree").setup(opts)
 		end,
 	},

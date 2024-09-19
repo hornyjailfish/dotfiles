@@ -19,7 +19,7 @@ return {
 			},
 			{ "<leader>fE", "<cmd>Neotree toggle<CR>", desc = "Explorer NeoTree (cwd)" },
 			-- { "<leader>e", "<leader>fe", desc = "Explorer NeoTree (root dir)", remap = true },
-			{ "<leader>E", "<leader>fE", desc = "Explorer NeoTree (cwd)", remap = true },
+			{ "<leader>E",  "<leader>fE",              desc = "Explorer NeoTree (cwd)", remap = true },
 		},
 		opts = {
 			enable_diagnostics = true,
@@ -35,7 +35,7 @@ return {
 			buffers = {
 				components = {
 					pinned_bufer = function(config, node, state)
-						if package.loaded["hbac"] ~= nil then
+						if require("s.util").has("hbac.nvim") then
 							local str = require("hbac.state").is_pinned(node.extra.bufnr) and "" or ""
 							return {
 								text = str,
@@ -48,9 +48,9 @@ return {
 				renderers = {
 					file = {
 						{ "pinned_bufer" },
-						{ "name", use_git_status_colors = true },
+						{ "name",        use_git_status_colors = true },
 						{ "diagnostics" },
-						{ "git_status", highlight = "NeoTreeDimText" },
+						{ "git_status",  highlight = "NeoTreeDimText" },
 					},
 				},
 			},
@@ -76,7 +76,7 @@ return {
 				renderers = {
 					file = {
 						{ "icon" },
-						{ "name", use_git_status_colors = true },
+						{ "name",       use_git_status_colors = true },
 						{ "grapple_tag" },
 						{ "diagnostics" },
 						{ "git_status", highlight = "NeoTreeDimText" },
@@ -162,12 +162,41 @@ return {
 			{
 				"<leader>w",
 				function()
-					local _, color = require("nvim-web-devicons").get_icon_color_by_filetype(vim.bo.filetype)
-					local picked_window_id = require("window-picker").pick_window({ other_win_hl_color = color })
-						or vim.api.nvim_get_current_win()
+					local list = vim.api.nvim_tabpage_list_wins(vim.api.nvim_get_current_tabpage())
+					local picked_window_id = require('window-picker').pick_window({
+						picker_config = {
+							statusline_winbar_picker = {
+								selection_display = function(char, window)
+									local bufnr = vim.api.nvim_win_get_buf(window)
+									local bufname = vim.api.nvim_buf_get_name(bufnr)
+									local filetype, _ = vim.filetype.match({ buf = bufnr })
+									local _, color = require("nvim-web-devicons").get_icon_color_by_filetype(filetype)
+									vim.api.nvim_set_hl(0, 'Picker'..bufnr, {
+											-- fg = '#f54269',
+											bg = color,
+									})
+									if require("s.util").has("mini.statusline") then
+										return require("mini.statusline").combine_groups({
+											{ hl = "Picker"..bufnr, strings = { } },
+											"%=", -- End left alignment
+											{  strings = { char } },
+											"%=", -- End left alignment
+										})
+									else
+										return '%#TODO#' .. bufname .. '%=' .. char .. '%='
+									end
+								end,
+
+								-- use_winbar = 'always',
+							},
+						},
+					}) or vim.api.nvim_get_current_win()
+					-- local picked_window_id = require("window-picker").pick_window({ other_win_hl_color = color })
+					-- or vim.api.nvim_get_current_win()
 					-- local bufnr = 2 -- Replace with the buffer number you want to check
 					-- local buftype = vim.api.nvim_buf_get_option(picked_window_id, 'buftype')
 					vim.api.nvim_set_current_win(picked_window_id)
+					-- end
 				end,
 				desc = "Pick a window",
 			},
@@ -184,10 +213,10 @@ return {
 					-- filter using buffer options
 					bo = {
 						-- if the file type is one of following, the window will be ignored
-						filetype = { "neo-tree", "neo-tree-popup", "undotree", "diff", "notify", "nofile", "" },
+						filetype = { "neo-tree", "neo-tree-popup", "undotree", "diff", "notify", "nofile" },
 
 						-- if the buffer type is one of following, the window will be ignored
-						buftype = { "terminal", "quickfix", "telescope" },
+						buftype = { "terminal", "quickfix", "telescope" , "nofile"},
 					},
 				},
 				current_win_hl_color = color,

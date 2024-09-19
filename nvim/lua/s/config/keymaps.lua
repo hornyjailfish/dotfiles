@@ -51,5 +51,9 @@ keymap("v", "K", ":m '<-2<CR>gv=gv", opts)
 keymap("n", "n", "nzz")
 keymap("n", "N", "Nzz")
 
+keymap("n", "<leader>Lr", function()
+	require("s.util").reload()
+end)
+
 -- Plugins --
 -- nah lazy do it better than separate file

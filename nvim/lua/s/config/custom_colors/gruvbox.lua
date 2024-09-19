@@ -1,29 +1,55 @@
+local Util = require("lazy.core.util")
+local util = require("s.util")
 return function()
 	-- vim.o.background = "dark"
-	vim.cmd.hi({ args = { "link  Operator GruvboxFg0" }, bang = true }) -- +-=etc
-	vim.cmd.hi({ args = { "link  Special GruvboxBlue" }, bang = true }) --(){}[],
-	vim.cmd.hi({ args = { "link  @punctuation.bracket GruvboxBlueBold" }, bang = true }) --()
-	vim.cmd.hi({ args = { "link  @punctuation.delimiter GruvboxFg1" }, bang = true }) -- strings in ""
-	vim.cmd.hi({ args = { "link  String GruvboxFg3" }, bang = true }) -- strings in ""
-	vim.cmd.hi({ args = { "link  Identifier GruvboxAqua" }, bang = true }) -- vars and fields
-	vim.cmd.hi({ args = { "link  @field GruvboxAquaBold" }, bang = true }) -- vars and fields
-	vim.cmd.hi({ args = { "link  Function GruvboxRed" }, bang = true })
-	vim.cmd.hi({ args = { "link  Keyword GruvboxYellow" }, bang = true })
-	vim.cmd.hi({ args = { "link  @keyword GruvboxYellowBold" }, bang = true })
-	vim.cmd.hi({ args = { "link  @keyword.return GruvboxYellowBold" }, bang = true })
-	vim.cmd.hi({ args = { "link  @keyword.function GruvboxAquaBold" }, bang = true })
-	vim.cmd.hi({ args = { "link  @keyword.operator GruvboxRedBold" }, bang = true })
-	vim.cmd.hi({ args = { "link  Exception GruvboxRedBold" }, bang = true })
-	-- vim.cmd.hi({ args = { "link  MsgArea GruvboxGray" }, bang = true })
-	vim.cmd.hi({ args = { "link  Type GruvboxBlue" }, bang = true })
-	vim.cmd.hi({ args = { "link  EndOfBuffer SignColumn" }, bang = true })
-	vim.cmd.hi({ args = { "link GitSignsAdd GruvboxGreenSign" }, bang = true })
-	vim.cmd.hi({ args = { "link GitSignsChange GruvboxOrangeSign" }, bang = true })
-	vim.cmd.hi({ args = { "link GitSignsDelete GruvboxRedSign" }, bang = true })
-	-- vim.cmd.hi({ args = { "link  SignColumn Normal" }, bang = true })
-	vim.cmd.hi({ args = { "link  @lsp.type.typeParameter GruvboxPurple" }, bang = true })
-	-- vim.cmd.hi({ args = { "link  @lsp.mod.declaration GrappleBold" }, bang = true })
+util.hl.link("Operator","GruvboxFg0")
+util.hl.link("Special","GruvboxBlue")
+util.hl.link("@punctuation.bracket","GruvboxBlueBold")
+util.hl.link("@punctuation.delimiter","GruvboxFg1")
+util.hl.link("String","GruvboxFg3")
+util.hl.link("Identifier","GruvboxAqua")
+util.hl.link("@field","GruvboxAquaBold")
+
+util.hl.link("Function","GruvboxRed")
+util.hl.link("Keyword","GruvboxYellow")
+util.hl.link("@keyword","GruvboxYellowBold")
+util.hl.link("@keyword.return","GruvboxYellowBold")
+util.hl.link("@keyword.function","GruvboxAquaBold")
+util.hl.link("@keyword.operator","GruvboxRedBold")
+util.hl.link("Exception","GruvboxRedBold")
+util.hl.link("MsgArea","GruvboxGray")
+util.hl.link("Type","GruvboxBlue")
+util.hl.link("EndOfBuffer","SignColumn")
+util.hl.link("GitSignsAdd","GruvboxGreenSign")
+util.hl.link("GitSignsChange","GruvboxOrangeSign")
+util.hl.link("GitSignsDelete","GruvboxRedSign")
+-- util.hl.link("SignColumn","Normal")
+util.hl.link("@lsp.type.typeParameter","GruvboxPurple")
+util.hl.link("@lsp.mod.declaration","GrappleBold")
+	if vim.g.transparent_enabled then
+		Util.info("transparent enabled")
+		vim.g.transparent_groups = vim.list_extend(vim.g.transparent_groups or {}, {
+			"GruvboxRedSign",
+			"GruvboxAquaSign",
+			"GruvboxBlueSign",
+			"GruvboxGreenSign",
+			"GruvboxOrangeSign",
+			"GruvboxPurpleSign",
+			"GruvboxYellowSign",
+
+			"GitSignsAdd",
+			"GitSignsChange",
+			"GitSignsDelete",
+
+			"MiniPickNormal",
+
+			"ComposerNormal",
+			"ComposerTitle",
+			"ComposerBorder",
+		}
+		)
+	end
 
 	local palette = require("gruvbox").palette
-	return palette
+	-- return palette
 end

@@ -39,8 +39,11 @@ return {
 			},
 			verbose = { read = false, write = true, delete = true },
 		})
-		vim.api.nvim_create_autocmd({ "VimEnter" }, {
+
+		vim.api.nvim_create_autocmd({ "User"}, {
 			-- pattern = { vim.fs.normalize(vim.env.PWD) },
+
+			pattern = {"MiniStarterOpened"},
 			once = true,
 			nested = true,
 			callback = function()

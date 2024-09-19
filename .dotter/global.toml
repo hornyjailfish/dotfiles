@@ -4,8 +4,9 @@ prettierrc = "PRETTIERD_DEFAULT_CONFIG"
 
 [nvim.files]
 nvim = "~/.config/nvim"
+
 [wezterm.files]
-wezterm = "~/"
+wezterm = "~/.config/wezterm"
 
 [prettier]
 depends = ["env"]

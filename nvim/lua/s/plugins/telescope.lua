@@ -4,6 +4,7 @@ local Util = require("s.util")
 return {
 	"nvim-telescope/telescope.nvim",
 	cmd = "Telescope",
+	event = "BufRead",
 	-- version = false, -- telescope did only one release, so use HEAD for now
 	dependencies = {
 		"nvim-lua/plenary.nvim",
@@ -74,10 +75,10 @@ return {
 				mappings = {
 					i = {
 						--mappings works at least idk why c-n not worked like c-e but it works with default setting
-						[require("s.util").keymap.down({ ctrl = true }, true)] = function()
+						[Util.keymap.down({ ctrl = true }, true)] = function()
 							return require("telescope.actions").move_selection_next(vim.api.nvim_get_current_buf())
 						end,
-						[require("s.util").keymap.up({ ctrl = true }, true)] = function()
+						[Util.keymap.up({ ctrl = true }, true)] = function()
 							return require("telescope.actions").move_selection_previous(vim.api.nvim_get_current_buf())
 						end,
 						["<C-i>"] = function()

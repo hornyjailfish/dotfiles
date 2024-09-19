@@ -1,3 +1,5 @@
+local augroup = vim.api.nvim_create_augroup("Custom", { clear = true })
+
 vim.api.nvim_create_autocmd({ "ColorScheme" }, {
 	pattern = { "*" },
 	callback = function(e)
@@ -7,15 +9,12 @@ vim.api.nvim_create_autocmd({ "ColorScheme" }, {
 		local palette = {}
 		local ok, highlights = pcall(require, path)
 		if ok then
-			-- INFO: file in config/custom_colors/%coloname% should return palette table for shipwright
-			palette = highlights()
+			highlights()
 		else
 			vim.notify("cant load user-defined highlights for " .. e.match, 3)
 		end
+		vim.cmd.redraw()
 
-		if pcall(require, "NeoComposer.nvim") then
-			vim.cmd("Lazy reload NeoComposer.nvim")
-		end
 		-- try build theme for wezterm
 		-- require("util.shipwright_utils").create_palette(palette)
 		-- local shipfile = vim.fs.normalize(vim.fn.stdpath("config") .. "/shipwright_build.lua")
@@ -23,8 +22,27 @@ vim.api.nvim_create_autocmd({ "ColorScheme" }, {
 	end,
 })
 
+vim.api.nvim_create_autocmd({ "BufEnter" }, {
+	group = augroup,
+	--filter?
+	callback = function()
+		-- check no init here
+		require("s.plugins.mini.statusline.utils").init()
+		local _, hl = require("s.plugins.mini.statusline.utils").devicons.get_icon_by_filetype(vim.bo.filetype)
+		if hl == nil then
+			_, hl = require("s.plugins.mini.statusline.utils").icons.get("filetype", vim.bo.filetype)
+		end
+		if hl == nil then
+			return
+		end
+		local hl = require("s.util.hl").get(hl, "MiniStatusLineModeNormal")
+		vim.api.nvim_set_hl(0, "MiniStatusLineModeNormal", { bg = hl.fg })
+	end
+})
+
+-- TODO: get patterns into utils.custom_ft table
 vim.api.nvim_create_autocmd({ "FileType" }, {
-	pattern = { "qf", "help", "man", "lspinfo", "neo-tree", "diff", "spectre_panel", "obsidianbacklinks" },
+	pattern = { "qf", "help", "man", "lspinfo", "neo-tree", "diff", "spectre_panel", "obsidianbacklinks", 'nofile' },
 	callback = function()
 		vim.cmd([[
       nnoremap <silent> <buffer> q :close<CR>

@@ -1,5 +1,8 @@
 require("s.config")
 return {
+	{
+		"nvim-lua/plenary.nvim",
+	},
 	{ "tpope/vim-sleuth" },
 	{
 		"MunifTanjim/nui.nvim",
@@ -9,16 +12,17 @@ return {
 		lazy = false,
 		opts = {},
 	},
-	{
-		"nvim-lua/plenary.nvim",
-	},
+	-- {
+	-- 	"uga-rosa/ccc.nvim",
+	-- 	config = true
+	-- },
 	-- {
 	-- 	"rktjmp/shipwright.nvim", -- disabled rn
 	-- },
 	{
 		"stevearc/overseer.nvim",
 		keys = {
-			{ "<leader>cg", "<cmd>OverseerRun<cr>", desc = "Overseer Run" },
+			{ "<leader>cg", "<cmd>OverseerRun<cr>",    desc = "Overseer Run" },
 			{ "<leader>ce", "<cmd>OverseerToggle<cr>", desc = "Toggle Overseer window" },
 		},
 		opts = {
@@ -38,36 +42,20 @@ return {
 					end
 				end,
 			},
-			{ "echasnovski/mini.statusline" },
+			-- { "echasnovski/mini.statusline" },
 		},
 		lazy = true,
 		opts = function()
-			local hl = require("s.util").get_hl("MiniStatuslineDevinfo")
-			-- if hl.background == nil then
-			-- 	hl.background = "none"
-			-- print(vim.inspect(hl.reverse and hl.fg or hl.bg))
-			-- else
-			-- hl.bg = string.format("#%06x", hl.reverse and hl.fg or hl.bg)
-			-- end
-			return {
-				colors = {
-					text_rec = "none",
-					text_bg = hl.reverse and hl.fg or hl.bg,
-					bg = hl.reverse and hl.fg or hl.bg,
-				},
-			}
+			return {}
 		end,
 		config = function(_, opts)
-			vim.g.transparent_groups = vim.list_extend(vim.g.transparent_groups or {}, {
-				-- "PlayingSymbol",
-				-- "RecordingSymbol",
-				-- "DelaySymbol",
-				"ComposerNormal",
-				-- "ComposerTitle",
-				-- "ComposerBoarder",
-			})
-			-- vim.api.nvim_set_hl(0, "ComposerNormal", { bg = "none" })
-			require("NeoComposer").setup(opts)
+			-- vim.g.transparent_groups = vim.list_extend(vim.g.transparent_groups or {}, {
+			--  "ComposerNormal", "ComposerTitle",
+			-- 			"ComposerBoarder",
+			-- 		}
+			-- )
+			-- "NormalFloat"
+			require("NeoComposer").setup(opts or {})
 		end,
 	},
 	{

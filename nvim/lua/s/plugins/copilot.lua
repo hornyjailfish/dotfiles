@@ -1,12 +1,13 @@
 return {
 	{
 		"sourcegraph/sg.nvim",
-		event = "InsertEnter",
+		event = "LspAttach",
 		-- commit = "0a3c7f76a5e81452b5d4bd78a7bb8cd2603445b5",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"nvim-telescope/telescope.nvim",
 			"MunifTanjim/nui.nvim",
+			"hrsh7th/nvim-cmp",
 		},
 		opts = {
 			download_binaries = true,
