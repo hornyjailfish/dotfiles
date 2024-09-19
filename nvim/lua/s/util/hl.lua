@@ -2,6 +2,7 @@
 --- util module for EZ highlighting
 local M = {}
 
+
 --- Get hl group in format { fg = hex, bg = hex, ...styles }
 --- used 0 ns by default
 --- and Normal as falback

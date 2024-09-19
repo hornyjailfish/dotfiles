@@ -4,6 +4,29 @@
 local Util = require("lazy.core.util")
 
 local M = {}
+
+local plugins = function()
+	local lazy = require("lazy")
+	local plugins = {}
+	local list = lazy.plugins()
+	for key, value in pairs(list) do
+		if value.name then
+			table.insert(plugins, value.name)
+		end
+	end
+	return plugins
+end
+
+
+M.reload = function(pkgs)
+	local lazy = require("lazy")
+	pkgs = pkgs or plugins()
+	vim.ui.select(pkgs, { prompt = "Select plugin to reload" }, function(choice)
+		lazy.reload({plugins={choice}})
+	end)
+end
+
+
 M.hl = require("s.util.hl")
 M.keymaps = require("s.util.keymap")
 -- shorthand for using global var
@@ -55,9 +78,9 @@ function M.get_root()
 		for _, client in pairs(vim.lsp.get_active_clients({ bufnr = 0 })) do
 			local workspace = client.config.workspace_folders
 			local paths = workspace
-					and vim.tbl_map(function(ws)
-						return vim.uri_to_fname(ws.uri)
-					end, workspace)
+				and vim.tbl_map(function(ws)
+					return vim.uri_to_fname(ws.uri)
+				end, workspace)
 				or client.config.root_dir and { client.config.root_dir }
 				or {}
 			for _, p in ipairs(paths) do
@@ -124,6 +147,7 @@ function M.toggle(option, silent, values)
 		end
 	end
 end
+
 -- delay notifications till vim.notify was replaced or after 500ms
 function M.lazy_notify()
 	local notifs = {}
@@ -176,6 +200,5 @@ end
 function M.deprecate(old, new)
 	Util.warn(("`%s` is deprecated. Please use `%s` instead"):format(old, new), { title = "LazyVim" })
 end
-
 
 return M

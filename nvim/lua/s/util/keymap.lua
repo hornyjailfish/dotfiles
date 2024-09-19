@@ -63,7 +63,7 @@ function keymap(createfn)
 		end
 	}, {
 		__newindex = function(t, k, v)
-			print("Finalizing string:", t.val, v)
+			-- print("Finalizing string:", t.val, v)
 			if t.is_leader then
 				t.val = "<leader>" .. t.val .. v
 			else
