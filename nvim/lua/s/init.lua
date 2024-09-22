@@ -1,6 +1,7 @@
 -- create global var for keymaps depends on it
 -- @see util.layout().keymaps
 vim.g.layout = "colemak"
+vim.g.enable_nushell_integration = true
 
 vim.g.transparent_enabled = false
 
@@ -34,8 +35,8 @@ require("lazy").setup({
 	},
 })
 
--- vim.o.background = "dark"
+vim.o.background = "dark"
 -- vim.cmd.colo("gruvbox")
 -- sry my eyes hurts on dark mode
-vim.o.background = "light"
+-- vim.o.background = "light"
 vim.cmd.colo("neobones")

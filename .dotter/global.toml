@@ -13,3 +13,6 @@ depends = ["env"]
 
 [prettier.files]
 prettierrc = "~/.prettierrc"
+
+[nu.files]
+nu = "~/"
