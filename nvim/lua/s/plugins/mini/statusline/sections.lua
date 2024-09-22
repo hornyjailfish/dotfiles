@@ -1,10 +1,7 @@
 local M = {}
-
-
 -- local kbd = require("config.socket")
 -- kbd:connect()
 -- print(vim.ispect(kbd.result))
-
 
 --- is buf pined by hbac?
 local pinned_bufer = function()
@@ -26,29 +23,14 @@ local graple_tag = function()
 	return ""
 end
 
-local custom_fn = function()
-	local fn = "%f%r"
-	return
-	{ hl = "MiniStatuslineFileinfo", strings = { fn } }
-end
-local modified_buf = function()
-	local m = ""
-	--
-	if vim.bo.modified then
-		m = "[]"
-	else
-		m = ""
-	end
-	local modified = require("s.util.hl").get("MiniIconsRed", "WarningMsg")
-	local hl, _ = require("s.util.hl").clone("MiniStatuslineFileinfo", "Mod", { fg = modified.fg, reverse=false })
-	return { hl = hl, strings = { m } }
-end
 
 M.active = function()
 	local utils = require("s.plugins.mini.statusline.utils")
+	local filename = require("s.plugins.mini.statusline.filename")
 	local lspstatus = require("s.plugins.mini.statusline.lspstatus")
 	local composer = require("s.plugins.mini.statusline.neocomposer")
 	local codeium = require("s.plugins.mini.statusline.codeium")
+	local overseer = require("s.plugins.mini.statusline.overseer")
 
 	local icon, color = utils.devicons.get_icon("", vim.bo.filetype)
 	if color == nil then
@@ -73,7 +55,7 @@ M.active = function()
 	local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = 9999 })
 	local git = MiniStatusline.section_git({ trunc_width = 75 })
 	local diagnostics = MiniStatusline.section_diagnostics({ use_icons = false, trunc_width = 75 })
-	local filename = MiniStatusline.section_filename({ trunc_width = 2000 })
+	-- local filename = MiniStatusline.section_filename({ trunc_width = 2000 })
 	local location = MiniStatusline.section_location({ trunc_width = 99999 })
 	local icon, color = utils.devicons.get_icon("", vim.bo.filetype)
 	if color == nil then
@@ -88,10 +70,13 @@ M.active = function()
 		composer.icon(),
 		composer.text(),
 		{ hl = "MiniStatuslineDevInfo", strings = { git } },
+		overseer.failure(),
+		overseer.canceled(),
+		overseer.success(),
+		overseer.running(),
 		"%<", -- Mark general truncate point
-		custom_fn(),
-		modified_buf(),
-		"%<", -- Mark general truncate point
+		filename.status(),
+		-- "%<", -- Mark general truncate point
 		"%=", -- End left alignment
 		lspstatus.errors(),
 		lspstatus.warnings(),

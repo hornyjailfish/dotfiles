@@ -4,7 +4,7 @@ return {
 		"neovim/nvim-lspconfig",
 		event = "BufReadPost",
 		dependencies = {
-			{ "folke/neoconf.nvim", cmd = "Neoconf", config = true },
+			{ "folke/neoconf.nvim",   cmd = "Neoconf", config = true },
 			"mason.nvim",
 			"williamboman/mason-lspconfig.nvim",
 			"hrsh7th/cmp-nvim-lsp",
@@ -45,6 +45,7 @@ return {
 			-- },
 			---@type lspconfig.options
 			servers = {
+				nushell = {},
 				templ = {},
 				ts_ls = {},
 				-- jsonls = {
@@ -69,10 +70,13 @@ return {
 				-- denols = {
 				-- 	filetypes = { "tsx", "typescript", "typescriptreact", "javascript", "javascriptreact" },
 				-- },
+				pyright = {},
 				pylsp = {
+					configurationSources = { "flake8" },
 					plugins = {
 						-- ruff = { enabled = true },
-						pyflakes = { enabled = true },
+						-- pyflakes = { enabled = true },
+						flake8 = { enabled = true },
 						-- yapf = {
 						-- 	enabled = true,
 						-- 	based_on_style = "pep8",
@@ -84,7 +88,7 @@ return {
 							strict = true,
 						},
 						isort = { enabled = true },
-						rope = { enabled = true },
+						-- rope = { enabled = true },
 					},
 				},
 				lua_ls = {
@@ -166,6 +170,7 @@ return {
 				opts.border = opts.border or border or "rounded"
 				return orig_util_open_floating_preview(contents, syntax, opts, ...)
 			end
+
 			if plugin.servers then
 				require("s.util").deprecate("lspconfig.servers", "lspconfig.opts.servers")
 			end
@@ -290,11 +295,11 @@ return {
 			formatters_by_ft = {
 				lua = { "stylua" },
 				-- Conform can also run multiple formatters sequentially
-				python = { "pyflake8" },
+				python = { "flake8" },
 				--
 				-- You can use a sub-list to tell conform to run *until* a formatter
 				-- is found.
-				javascript = { {  "prettierd","deno_fmt", } },
+				javascript = { { "prettierd", "deno_fmt", } },
 			},
 		},
 	},

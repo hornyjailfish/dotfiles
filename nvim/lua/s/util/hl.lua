@@ -11,7 +11,6 @@ local M = {}
 M.get = function(n, fallback)
 	fallback = fallback or "Normal"
 	local hl = vim.api.nvim_get_hl(0, { name = n })
-	-- print(vim.inspect(hl))
 	if hl == nil then
 		hl = vim.api.nvim_get_hl(0, { name = fallback })
 		if hl == nil then
@@ -27,11 +26,11 @@ M.get = function(n, fallback)
 	if hl.bg then
 		hl.bg = string.format("#%06x", hl.bg)
 	end
-	if hl.reverse then
-		local tmp = hl.fg
-		hl.fg = hl.bg
-		hl.bg = tmp
-	end
+	-- if hl.reverse then
+	-- 	local tmp = hl.fg
+	-- 	hl.fg = hl.bg
+	-- 	hl.bg = tmp
+	-- end
 	return hl
 end
 
@@ -55,6 +54,12 @@ M.clone = function(name, postfix, hl)
 	return new_name, tbl
 end
 
+M.statusline = function(name)
+	local hi = M.get(name)
+	local status = M.get("MiniStatusLinefileinfo", "StatusLine")
+	local reverse = status.reverse or false
+	return M.clone(name, "Status", { bg = status.bg, fg = hi.fg })
+end
 
 --- util function to link hl groups
 --- @param name string name of the hl group

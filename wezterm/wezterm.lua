@@ -85,8 +85,8 @@ local palette = {
 
 -- local colorscheme = "Gruvbox Material (Gogh)"
 -- local colorscheme = "zenbones_dark"
-local colorscheme = "neobones_light"
--- local colorscheme = "neobones_dark"
+-- local colorscheme = "neobones_light"
+local colorscheme = "neobones_dark"
 -- local colorscheme = "seoulbones_light"
 local colors = wezterm.color.get_builtin_schemes()[colorscheme]
 -- color_scheme_dirs = { "~/.dotfiles/nvim/extra/wezterm.toml"},
