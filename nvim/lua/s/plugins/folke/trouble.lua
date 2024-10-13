@@ -7,6 +7,9 @@ return {
 		auto_close = true,
 		-- auto_open = true,
 		use_diagnostic_signs = true,
+		preview = {
+			scratch = false
+		},
 	},
 	keys = {
 		{ "<leader>xx", "<cmd>Trouble diagnostics<cr>", desc = "Document Diagnostics (Trouble)" },

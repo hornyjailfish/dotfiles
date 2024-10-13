@@ -67,10 +67,7 @@ return {
 				-- 		},
 				-- 	},
 				-- },
-				-- denols = {
-				-- 	filetypes = { "tsx", "typescript", "typescriptreact", "javascript", "javascriptreact" },
-				-- },
-				pyright = {},
+				-- pyright = {},
 				pylsp = {
 					configurationSources = { "flake8" },
 					plugins = {
@@ -299,7 +296,7 @@ return {
 				--
 				-- You can use a sub-list to tell conform to run *until* a formatter
 				-- is found.
-				javascript = { { "prettierd", "deno_fmt", } },
+				javascript = { { "prettierd",  } },
 			},
 		},
 	},
@@ -315,8 +312,6 @@ return {
 				"shellcheck",
 				"shfmt",
 				"flake8",
-				-- "deno",
-				-- "rust-analyzer",
 			},
 		},
 		---@param opts MasonSettings | {ensure_installed: string[]}
