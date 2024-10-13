@@ -36,11 +36,14 @@ return {
 		dependencies = {
 			{
 				"kkharji/sqlite.lua",
-				config = function()
+				init = function()
 					if vim.fn.has("win32") == 1 then
-						vim.g.sqlite_clib_path = vim.fs.normalize("./sqlite3.dll")
+						local dir = vim.fs.dirname(vim.env.MYVIMRC)
+						local path = vim.fs.normalize(dir .. "\\vendor\\" .. "sqlite3.dll", { win = true })
+						vim.g.sqlite_clib_path = path
 					end
 				end,
+				config = false
 			},
 			-- { "echasnovski/mini.statusline" },
 		},
@@ -72,14 +75,23 @@ return {
 	{
 		-- daily notes naming need fixes
 		"epwalsh/obsidian.nvim",
-		event = { "BufReadPre " .. vim.fs.normalize("~/mind/**.md") },
+		event = {
+			"BufReadPre " .. vim.fs.normalize("~/mind/**.md"), "BufReadPre " .. vim.fs.normalize("~/infra/**.md")
+		},
+		init = function()
+			vim.wo.conceallevel = 1
+		end,
 		opts = {
-			dir = "~/mind",
+			workspaces = {
+				{ name = "mind",  path = "~/mind" },
+				{ name = "infra", path = "~/infra" }
+			},
 			daily_notes = {
 				folder = "daily",
 			},
 			completion = {
 				nvim_cmp = true,
+				min_chars = 2
 			},
 			templates = {
 				subdir = "templates",

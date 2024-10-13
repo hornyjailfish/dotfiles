@@ -1,4 +1,5 @@
 local wezterm = require("wezterm")
+
 local act = wezterm.action
 
 -- function for merging tables together
@@ -86,9 +87,14 @@ local palette = {
 -- local colorscheme = "Gruvbox Material (Gogh)"
 -- local colorscheme = "zenbones_dark"
 -- local colorscheme = "neobones_light"
-local colorscheme = "neobones_dark"
+
+
+
+local colorscheme = "neobones_"
+-- should lower in this case
+local appear = wezterm.gui.get_appearance():lower()
 -- local colorscheme = "seoulbones_light"
-local colors = wezterm.color.get_builtin_schemes()[colorscheme]
+local colors = wezterm.color.get_builtin_schemes()[colorscheme..appear]
 -- color_scheme_dirs = { "~/.dotfiles/nvim/extra/wezterm.toml"},
 -- local shipwright_nvim_path = "c:/Users/5q/.dotfiles/nvim/extra/"
 -- local colors, metadata = wezterm.color.load_scheme(shipwright_nvim_path .. "wezterm.toml")

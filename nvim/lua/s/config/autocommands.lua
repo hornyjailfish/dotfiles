@@ -6,8 +6,10 @@ vim.api.nvim_create_autocmd({ "ColorScheme" }, {
 		local path = "s.config.custom_colors."
 		-- local split_table = vim.gsplit(vim.g.colors_name,'-')
 		path = path .. e.match
-		local palette = {}
+		-- local palette = {}
 		local ok, highlights = pcall(require, path)
+		require("s.util.theme").sync()
+		require("s.util.theme")
 		if ok then
 			highlights()
 		else

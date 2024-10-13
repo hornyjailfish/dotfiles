@@ -35,7 +35,8 @@ require("lazy").setup({
 	},
 })
 
-vim.o.background = "dark"
+vim.o.background = require("s.util.theme").config.current_theme
+-- vim.o.background = "dark"
 -- vim.cmd.colo("gruvbox")
 -- sry my eyes hurts on dark mode
 -- vim.o.background = "light"
