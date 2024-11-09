@@ -17,7 +17,8 @@ return {
 			groups = {
 				"Normal",
 				"NormalNC",
-				"NormalFloat",
+				-- "NormalFloat",
+				-- "FloatBorder",
 				"Comment",
 				"Constant",
 				"Special",
@@ -33,11 +34,14 @@ return {
 				"Repeat",
 				"Operator",
 				"Structure",
+				"LineNrAbove",
 				"LineNr",
+				"LineNrBelow",
 				"NonText",
 				"SignColumn",
+				"MsgArea",
 				-- "CursorLineNr",
-				"EndOfBuffer",
+				"EndOfBffer",
 			},
 			extra_groups = {
 				-- "StatusLine",
@@ -79,7 +83,7 @@ return {
 			vim.api.nvim_set_var(name, {
 				-- use vim.g.transparent_enabled with nvim-transparent is prefered way
 				transparent_background = vim.g.transparent_enabled,
-				colorize_diagnostic_underline_text = false,
+				colorize_diagnostic_underline_text = true,
 				-- transparent_background = true,
 
 				-- dark background opts

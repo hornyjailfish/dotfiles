@@ -5,7 +5,7 @@ M.macro_status = function(color)
 		local mode_hl = require("s.util").hl.get(color)
 		local config = require("s.util").opts("NeoComposer.nvim") or {}
 
-		local state = require("NeoComposer.state")
+		local state = require("NeoComposer.state") or {}
 
 		-- local _,c = require("nvim-web-devicons").get_icon_color_by_filetype(vim.bo.filetype)
 		if vim.tbl_isempty(config) then
@@ -23,8 +23,11 @@ M.macro_status = function(color)
 end
 
 local function macro_icon()
-	local state = require("NeoComposer.state")
-	local delay_enabled = state.get_delay()
+	if require("s.util").has("NeoComposer.nvim") == false then
+		return ""
+	end
+	local state = require("NeoComposer.state") or {}
+	local delay_enabled = state.get_delay() or false
 	if state.get_recording() then
 		return { hl = "RecordingSymbol", strings = { "" } }
 	elseif state.get_playing() then
@@ -35,7 +38,10 @@ local function macro_icon()
 end
 
 local function macro_text()
-	local state = require("NeoComposer.state")
+	if require("s.util").has("NeoComposer.nvim") == false then
+		return ""
+	end
+	local state = require("NeoComposer.state") or {}
 	local delay_enabled = state.get_delay()
 	if state.get_recording() then
 		return { hl = "RecordingText", strings = { "REC" } }
@@ -47,10 +53,10 @@ local function macro_text()
 end
 
 M.icon = function()
-	return macro_icon()
+	return macro_icon() or ""
 end
 M.text = function()
-	return macro_text()
+	return macro_text() or ""
 end
 
 return M

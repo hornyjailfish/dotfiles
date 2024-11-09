@@ -66,18 +66,22 @@ M.config = {
 M.toggle_all = function()
 	set_themes(get_themes())
 	M.config.current_theme = get_theme_name()
+	M.sync()
 end
 
 --- togle windows global setting for app theme
 M.toggle = function()
 	set_app_theme(get_app_theme())
 	M.config.current_theme = get_theme_name()
+	M.sync()
 end
 
 --- sync windows theme and vim.g.background
 M.sync = function()
 	M.config.current_theme = get_theme_name()
-	vim.g.background = M.config.current_theme
+	local g = vim.opt
+	g.background = M.config.current_theme
+	vim.opt = g
 end
 
 return M

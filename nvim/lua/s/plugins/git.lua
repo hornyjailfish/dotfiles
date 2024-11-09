@@ -21,14 +21,17 @@ return {
 		"lewis6991/gitsigns.nvim",
 		event = "BufReadPost",
 		config = function()
-			-- if vim.g.transparent_enabled then
-			-- 	vim.g.transparent_groups = vim.list_extend(vim.g.transparent_groups or {}, {
-			-- 		"GitSignsAdd",
-			-- 		"GitSignsChange",
-			-- 		"GitSignsDelete",
-			-- 	}
-			-- 	)
-			-- end
+			if vim.g.transparent_enabled then
+				vim.g.transparent_groups = vim.list_extend(vim.g.transparent_groups or {}, {
+					"GitSignsAdd",
+					"GitSignsChange",
+					"GitSignsDelete",
+					"GitSignsStagedAdd",
+					"GitSignsStagedChange",
+					"GitSignsStagedDelete",
+				}
+				)
+			end
 
 			require("gitsigns").setup({})
 		end

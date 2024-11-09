@@ -87,7 +87,7 @@ M.active = function()
 		{ hl = mode_hl,                 strings = { location } },
 	}
 
-	--- INFO: this needed because some sections (neocomposer) return empty table if currently no macro recordings
+	--- INFO: this needed because some sections could return empty table
 	utils.remove_empty_tables(line)
 	return MiniStatusline.combine_groups(line)
 end

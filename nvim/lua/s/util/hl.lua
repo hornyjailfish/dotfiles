@@ -1,4 +1,3 @@
---- @module hl
 --- util module for EZ highlighting
 local M = {}
 

@@ -19,6 +19,7 @@ return {
 			{
 				mode = { "n", "v", "x" },
 				{ "<leader>C", group = "comment" },
+				{ "<leader>z", group = "sessions" },
 				{ "<leader>b", group = "buffer" },
 				{ "<leader>c", group = "code" },
 				{ "<leader>f", group = "file/find" },
@@ -26,7 +27,7 @@ return {
 				{ "<leader>p", desc = "Paste from system clipboard" },
 				{ "<leader>s", group = "search" },
 				{ "<leader>x", group = "diagnostics/quickfix" },
-				{ "<leader>y", group = "Yank to system clipboard" },
+				-- { "<leader>y", group = "Yank to system clipboard" },
 				{ "[",         group = "prev" },
 				{ "]",         group = "next" },
 				{ "g",         group = "goto" },

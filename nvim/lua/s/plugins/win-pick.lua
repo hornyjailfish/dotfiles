@@ -1,3 +1,5 @@
+local util = require "s.util"
+
 local function get_tags_for_layout(layout)
 	if layout == "qwerty" then
 		return "FJDKSLA;CMRUEIWQP"
@@ -8,13 +10,29 @@ end
 
 return {
 	-- only needed if you want to use the commands with "_with_window_picker" suffix
-	"s1n7ax/nvim-window-picker",
+	-- "s1n7ax/nvim-window-picker",
+	version = "v2.*",
+	dev = true,
+	name = "nvim-window-picker",
+	dir = "~/gits/nvim-window-picker/",
 	keys = {
 		{
 			"<leader>W",
 			function()
+				local filters = util.filter.filters
+				filters.inverse = true
 				local list = vim.api.nvim_tabpage_list_wins(vim.api.nvim_get_current_tabpage())
 				local picked_window_id = require('window-picker').pick_window({
+					-- if you want to manually filter out the windows, pass in a function that
+					-- takes two parameters. You should return window ids that should be
+					-- included in the selection
+					-- EX:-
+					-- function(window_ids, filters)
+					--    -- folder the window_ids
+					--    -- return only the ones you want to include
+					--    return {1000, 1001}
+					-- end
+					filter_rules = filters,
 					picker_config = {
 						statusline_winbar_picker = {
 							selection_display = function(char, window)
@@ -22,6 +40,9 @@ return {
 								local bufname = vim.api.nvim_buf_get_name(bufnr)
 								local filetype, _ = vim.filetype.match({ buf = bufnr })
 								local _, color = require("nvim-web-devicons").get_icon_color_by_filetype(filetype)
+								if color == nil then
+									color = util.hl.get("WindowPickerStatusLineNC").bg
+								end
 								vim.api.nvim_set_hl(0, 'Picker' .. bufnr, {
 									-- fg = '#f54269',
 									bg = color,
@@ -54,18 +75,11 @@ return {
 		{
 			"<leader>w",
 			function()
+				local filters = util.filter.filters
+				filters.inverse = false
 				local list = vim.api.nvim_tabpage_list_wins(vim.api.nvim_get_current_tabpage())
 				local picked_window_id = require('window-picker').pick_window({
-					filter_rules = {
-						-- filter using buffer options
-						bo = {
-							-- if the file type is one of following, the window will be ignored
-							filetype = { "neo-tree", "neo-tree-popup", "undotree", "diff", "notify", "nofile" },
-
-							-- if the buffer type is one of following, the window will be ignored
-							buftype = { "terminal", "quickfix", "telescope", "nofile" },
-						},
-					},
+					filter_rules = filters,
 					picker_config = {
 						statusline_winbar_picker = {
 							selection_display = function(char, window)
@@ -73,8 +87,9 @@ return {
 								local bufname = vim.api.nvim_buf_get_name(bufnr)
 								local filetype, _ = vim.filetype.match({ buf = bufnr })
 								local _, color = require("nvim-web-devicons").get_icon_color_by_filetype(filetype)
+								print(color)
 								if color == nil then
-									color = require("s.util").hl.get("ColorColumn","DiffDelete").bg
+									color = require("s.util").hl.get("WindowPickerStatusLineNC", "DiffDelete").bg
 								end
 								vim.api.nvim_set_hl(0, 'Picker' .. bufnr, {
 									-- fg = '#f54269',
@@ -106,7 +121,6 @@ return {
 			desc = "Pick a window",
 		},
 	},
-	version = "v2.*",
 	config = function()
 		local _, color = require("nvim-web-devicons").get_icon_color_by_filetype(vim.bo.filetype)
 		require("window-picker").setup({

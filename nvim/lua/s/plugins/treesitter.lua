@@ -154,7 +154,7 @@ return {
 		"andymass/vim-matchup",
 		event = "BufReadPost",
 		dependencies = {
-		"nvim-treesitter/nvim-treesitter",
+			"nvim-treesitter/nvim-treesitter",
 		},
 		-- lazy=false,
 		-- keys = {
@@ -167,10 +167,15 @@ return {
 		-- 	}
 		-- },
 		config = function()
+			vim.keymap.set("i", "<M-o>",
+				function()
+					vim.call("matchup#motion#jump_inside_prev", 0)
+				end,
+				{ desc = "goto inside prev pair" })
 			if require("s.util").has("nvim-treesitter") then
-			vim.g.loaded_matchit = 0
-			vim.g.matchup_matchparen_enabled = 0
-			vim.g.matchup_matchparen_offscreen = { method = "popup" }
+				vim.g.loaded_matchit = 0
+				vim.g.matchup_matchparen_enabled = 0
+				vim.g.matchup_matchparen_offscreen = { method = "popup" }
 				require("nvim-treesitter.configs").setup({
 					matchup = {
 						-- disable = {}, -- mandatory, false will disable the whole extension

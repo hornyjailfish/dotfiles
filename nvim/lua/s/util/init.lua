@@ -5,6 +5,88 @@ local Util = require("lazy.core.util")
 
 local M = {}
 
+M.filter = {}
+--- INFO: this filters table from window picker but can use everythere i want to filter stuff
+M.filter.filters = {
+	-- filter using buffer options
+	bo = {
+		-- if the file type is one of following, the window will be ignored
+		filetype = { "neo-tree", "neo-tree-popup", "undotree", "diff", "notify", "nofile" },
+		-- if the buffer type is one of following, the window will be ignored
+		buftype = { "terminal", "quickfix", "telescope", "nofile" },
+	},
+	-- filter using window options
+	wo = {},
+	-- if the file path contains one of following names, the window
+	-- will be ignored
+	file_path_contains = {},
+	-- if the file name contains one of following names, the window will be
+	-- ignored
+	file_name_contains = {},
+}
+
+M.filter.test = {
+	bo = {},
+	wo = {},
+	file_path_contains = {  },
+	file_name_contains = { "init.lua" },
+
+}
+
+local function cmp_bo(bufnr)
+	local res
+	for k, v in pairs(M.filter.filters.bo) do
+		res = vim.list_contains(v, vim.bo[bufnr][k])
+		if res then break end
+	end
+	return res
+end
+
+local function cmp_wo(bufnr)
+	local res
+	for k, v in pairs(M.filter.filters.wo) do
+		res = vim.list_contains(v, vim.wo[bufnr][k])
+		if res then break end
+	end
+	return res
+end
+
+--- NOTE: this modifies input array so no aux list is created
+function filter(array, predicate)
+	local index = 1
+	for i = 1, #array do
+		if predicate(array[i]) then
+			array[index] = array[i]
+			index = index + 1
+		end
+	end
+	-- Clear the rest of the array
+	for i = index, #array do
+		array[i] = nil
+	end
+end
+
+M.filter.bo = function(win)
+	if type(win) == "table" then
+		-- TODO: filter single
+		if vim.tbl_isempty(win) then
+			return
+		end
+		filter(win, function(id)
+			local bufnr = vim.api.nvim_win_get_buf(id)
+			return vim.tbl_isempty(M.filter.filters.bo)
+			    or not cmp_bo(bufnr)
+		end)
+		return win
+	end
+	if type(win) == "number" then
+		local bufnr = vim.api.nvim_win_get_buf(win)
+		return vim.tbl_isempty(M.filter.filters.bo) or vim.tbl_contains(M.filter.filters.bo, vim.bo[bufnr])
+	end
+
+	return false
+end
+
 local plugins = function()
 	local lazy = require("lazy")
 	local plugins = {}
@@ -22,7 +104,7 @@ M.reload = function(pkgs)
 	local lazy = require("lazy")
 	pkgs = pkgs or plugins()
 	vim.ui.select(pkgs, { prompt = "Select plugin to reload" }, function(choice)
-		lazy.reload({plugins={choice}})
+		lazy.reload({ plugins = { choice } })
 	end)
 end
 
@@ -78,11 +160,11 @@ function M.get_root()
 		for _, client in pairs(vim.lsp.get_active_clients({ bufnr = 0 })) do
 			local workspace = client.config.workspace_folders
 			local paths = workspace
-				and vim.tbl_map(function(ws)
-					return vim.uri_to_fname(ws.uri)
-				end, workspace)
-				or client.config.root_dir and { client.config.root_dir }
-				or {}
+			    and vim.tbl_map(function(ws)
+				    return vim.uri_to_fname(ws.uri)
+			    end, workspace)
+			    or client.config.root_dir and { client.config.root_dir }
+			    or {}
 			for _, p in ipairs(paths) do
 				local r = vim.loop.fs_realpath(p) or ""
 				if path:find(r, 1, true) then

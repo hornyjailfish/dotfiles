@@ -15,7 +15,13 @@ vim.api.nvim_create_autocmd({ "ColorScheme" }, {
 		else
 			vim.notify("cant load user-defined highlights for " .. e.match, 3)
 		end
+		local bg = require("s.util.hl").get("Normal")
 		vim.cmd.redraw()
+		if bg.bg == nil then
+			return
+		else
+			vim.g.bg_color = bg.bg
+		end
 
 		-- try build theme for wezterm
 		-- require("util.shipwright_utils").create_palette(palette)
@@ -23,7 +29,7 @@ vim.api.nvim_create_autocmd({ "ColorScheme" }, {
 		-- require("shipwright").build(shipfile)
 	end,
 })
-
+local cg = require("s.util.colorgen")
 vim.api.nvim_create_autocmd({ "BufEnter" }, {
 	group = augroup,
 	--filter?
@@ -37,8 +43,17 @@ vim.api.nvim_create_autocmd({ "BufEnter" }, {
 		if hl == nil then
 			return
 		end
-		local hl = require("s.util.hl").get(hl, "MiniStatusLineModeNormal")
-		vim.api.nvim_set_hl(0, "MiniStatusLineModeNormal", { bg = hl.fg })
+		local ft = require("s.util.hl").get(hl, "MiniStatusLineModeNormal")
+		local ins = require("s.util.hl").get("MiniStatusLineModeNormal")
+		local norm = require("s.util.hl").get("Normal")
+		if ft.fg == nil or ins.bg == nil or norm.fg == nil then
+			return
+		end
+		if cg.ratio(ft.fg, norm.fg) >= cg.ratio(ins.fg, ft.fg) then
+			vim.api.nvim_set_hl(0, "MiniStatusLineModeNormal", { bg = ft.fg, fg = norm.fg })
+		else
+			vim.api.nvim_set_hl(0, "MiniStatusLineModeNormal", { bg = ft.fg, fg = ins.fg })
+		end
 	end
 })
 

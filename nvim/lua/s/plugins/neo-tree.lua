@@ -19,7 +19,7 @@ return {
 			},
 			{ "<leader>fE", "<cmd>Neotree toggle<CR>", desc = "Explorer NeoTree (cwd)" },
 			-- { "<leader>e", "<leader>fe", desc = "Explorer NeoTree (root dir)", remap = true },
-			{ "<leader>E",  "<leader>fE",              desc = "Explorer NeoTree (cwd)", remap = true },
+			-- { "<leader>E",  "<leader>fE",              desc = "Explorer NeoTree (cwd)", remap = true },
 		},
 		opts = {
 			enable_diagnostics = true,

@@ -12,7 +12,7 @@ M.blocked_filetypes = {
 	["DiffviewFiles"] = true,
 }
 
-M.get_icon = function(filetype)
+M.get_icon = function(filetype,fallback)
 	filetype = filetype or vim.bo.filetype
 	local icon, color = M.devicons.get_icon("", vim.bo.filetype)
 	-- print (vim.inspect(M.devicons),icon,color)
@@ -20,7 +20,8 @@ M.get_icon = function(filetype)
 		icon, color = M.icons.get("filetype", vim.bo.filetype)
 	end
 	if color == nil then
-		color = "MiniStatuslineFilename"
+		fallback = fallback or "MiniStatuslineFilename"
+		color = fallback
 	end
 	-- print (icon,color)
 	return icon, color

@@ -20,7 +20,7 @@ function M.on_attach(client, buffer)
 		util.telescope("lsp_type_definitions", { theme = get_cursor }),
 		{ desc = "Goto Type Definition" }
 	)
-	self:map("K", vim.lsp.buf.hover, { desc = "Hover" })
+	self:map("K", vim.lsp.buf.hover, { desc = "Hover", border = "none", has = "hover" })
 	self:map("gK", vim.lsp.buf.signature_help, { desc = "Signature Help", has = "signatureHelp" })
 	self:map("<c-k>", vim.lsp.buf.signature_help, { mode = "i", desc = "Signature Help", has = "signatureHelp" })
 	self:map("]d", M.diagnostic_goto(true), { desc = "Next Diagnostic" })
@@ -36,7 +36,6 @@ function M.on_attach(client, buffer)
 	local format = require("s.plugins.lsp.format").format
 
 	self:map("<leader>cf", format, { desc = "Format Document", has = "documentFormatting" })
-	-- self:map("<leader>cf", vim.lsp.buf.format(), { desc = "Format Document" })
 	self:map("<leader>cf", format, { desc = "Format Range", mode = "v", has = "documentRangeFormatting" })
 	self:map("<leader>cr", M.rename, { expr = true, desc = "Rename", has = "rename" })
 end
@@ -58,7 +57,6 @@ function M:map(lhs, rhs, opts)
 		opts.mode or "n",
 		lhs,
 		type(rhs) == "string" and ("<cmd>%s<cr>"):format(rhs) or rhs,
-		---@diagnostic disable-next-line: no-unknown
 		{ silent = true, buffer = self.buffer, expr = opts.expr, desc = opts.desc }
 	)
 end

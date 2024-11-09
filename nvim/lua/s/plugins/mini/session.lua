@@ -18,6 +18,7 @@ end
 -- TODO: hotkeys to save/load sessions
 return {
 	"echasnovski/mini.sessions",
+	lazy = false,
 	-- event = "VeryLazy",
 	config = function()
 		require("mini.sessions").setup({
@@ -39,11 +40,16 @@ return {
 			},
 			verbose = { read = false, write = true, delete = true },
 		})
-
-		vim.api.nvim_create_autocmd({ "User"}, {
+		vim.keymap.set("n", "<leader>ql", function() MiniSessions.select() end, { desc = "List of sessions" })
+		vim.keymap.set("n", "<leader>qs", function() MiniSessions.write() end, { desc = "Save session" })
+		vim.keymap.set("n", "<leader>qq", function()
+			MiniSessions.write()
+			vim.cmd.qa()
+		end, { desc = "Save local" })
+		vim.api.nvim_create_autocmd({ "User" }, {
 			-- pattern = { vim.fs.normalize(vim.env.PWD) },
 
-			pattern = {"MiniStarterOpened"},
+			pattern = { "MiniStarterOpened" },
 			once = true,
 			nested = true,
 			callback = function()

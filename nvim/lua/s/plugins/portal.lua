@@ -5,7 +5,7 @@
 return {
 	"cbochs/portal.nvim",
 	keys = {
-		{ "<leader>q", "<cmd>Portal quickfix backward<cr>", desc = "Portal through quickfix" },
+		-- { "<leader>q", "<cmd>Portal quickfix backward<cr>", desc = "Portal through quickfix" },
 		{ "<leader>l", "<cmd>Portal grapple backward<cr>", desc = "Jump back in Portal" },
 		{
 			"<leader>m",
@@ -36,11 +36,11 @@ return {
 		window_options = {
 			relative = "cursor",
 			width = 80,
-			height = 10,
+			height = 4,
 			col = 4,
 			focusable = false,
 			border = "rounded",
-			noautocmd = true,
+			noautocmd = false,
 		},
 	},
 	dependencies = {

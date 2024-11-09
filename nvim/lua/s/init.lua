@@ -1,9 +1,16 @@
 -- create global var for keymaps depends on it
 -- @see util.layout().keymaps
 vim.g.layout = "colemak"
-vim.g.enable_nushell_integration = true
+-- vim.g.base_color = "#FFBE98"
+vim.g.bg_color = ""
+-- good colo
+-- vim.g.base_color = "#939597"
+-- vim.g.base_color = "#DECDBE"
+-- vim.g.base_color = "#92A8D1"
+vim.g.base_color = "#d3869b"
 
-vim.g.transparent_enabled = false
+vim.g.enable_nushell_integration = true
+vim.g.transparent_enabled = true
 
 require("lazy").setup({
 	spec = {
