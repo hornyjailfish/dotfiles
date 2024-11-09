@@ -1,0 +1,53 @@
+local M = {}
+
+-- gruvbox = {
+-- #fbf1c7 yellow
+-- #8ec07c green
+-- #d3869b purple
+-- #fb4934 red
+-- }
+-- dracula = {
+-- #f1fa8c yellow
+-- #50fa7b green
+-- #bd93f9 purple
+-- #ff5555 red
+-- }
+-- catppuccin = {
+-- #e64553 red
+-- #ea76cb purple
+-- #40a02b green
+-- #a6d189 green(dark)
+-- #f4b8e4 purple(dark)
+-- #ed8796 red(dark)
+-- }
+-- coty = {
+-- 2000 = #9BB7D4
+-- 2001 = #C74375
+-- 2002 = #BF1932
+-- 2003 = #7BC4C4
+-- 2004 = #E2583E
+-- 2005 = #53B0AE
+-- 2006 = #DECDBE
+-- 2007 = #9B1B30
+-- 2008 = #5A5B9F
+-- 2009 = #F0C05A
+-- 2010 = #45B5AA
+-- 2011 = #D94F70
+-- 2012 = #DD4124
+-- 2013 = #009473
+-- 2014 = #B163A3
+-- 2015 = #955251
+-- 2016 = #F7CAC9
+-- 2016_2 = #92A8D1
+-- 2017 = #88B04B
+-- 2018 = #5F4B8B
+-- 2019 = #FF6F61
+-- 2020 = #0F4C81
+-- 2021_1 = #939597
+-- 2021_2 = #F5DF4D
+-- 2022 = #6667AB
+-- 2023 = #BB2649
+-- 2024 = #FFBE98
+-- }
+
+return M
