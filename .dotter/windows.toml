@@ -1,2 +1,11 @@
+# packages = ["appdata"]
+
 [nvim.files]
 nvim = "~/AppData/Local/nvim"
+
+
+[wallomizer.files]
+wallomizer = "~/.local/bin"
+
+[appdata.files]
+appdata = "~/AppData/Roaming/"
