@@ -1,14 +1,13 @@
 local M = {}
 
-local utils = require("s.plugins.mini.statusline.utils")
 ---util for create custom hl for statusline diagnostic match bg
+local utils = require("s.plugins.mini.statusline.utils")
 M.diagnostic_status = function()
-	local status = require("s.util").hl.get("StatusLine", "StatusLineNC")
+	local status = require("s.util").hl.get("MiniStatuslineFileinfo")
 	local error = require("s.util").hl.get("DiagnosticSignError")
 	local warn = require("s.util").hl.get("DiagnosticSignWarn")
 	local info = require("s.util").hl.get("DiagnosticSignInfo")
 	local hint = require("s.util").hl.get("DiagnosticSignHint")
-
 	vim.api.nvim_set_hl(0, "DiagnosticStatusError", { bg = status.bg, fg = error.fg })
 	vim.api.nvim_set_hl(0, "DiagnosticStatusWarn", { bg = status.bg, fg = warn.fg })
 	vim.api.nvim_set_hl(0, "DiagnosticStatusInfo", { bg = status.bg, fg = info.fg })
@@ -19,7 +18,7 @@ local lsp_loading_status = function()
 	-- local icon, color = utils.icons.get("filetype", vim.bo.filetype)
 	local icon, color = utils.devicons.get_icon("",vim.bo.filetype)
 	color = require("s.util").hl.get(color)
-	local falback = require("s.util").hl.get("StatusLine", "StatusLineNC")
+	local falback = require("s.util").hl.get("MiniStatuslineFileinfo")
 	-- if vim.lsp.buf.server_ready() then
 	if #require("lsp-status").status_progress() == 0 then
 		-- for i, server in pairs(vim.lsp.get_active_clients({ bufnr = 0 })) do
@@ -30,7 +29,7 @@ local lsp_loading_status = function()
 		return icon, name
 		-- return "[" .. table.concat(names, " ") .. "]", "MoreMsg"
 	else
-		return require("lsp-status").status_progress(), "Comment"
+		return require("lsp-status").status_progress(), "MiniStatuslineDevInfo"
 		-- return "", "Comment"
 	end
 end

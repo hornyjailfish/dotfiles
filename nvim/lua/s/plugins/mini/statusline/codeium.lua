@@ -12,13 +12,14 @@ local codeium_loaded = function()
 	end
 end
 
+-- this if chain so ugly damn
 local codeium = function()
 	if codeium_loaded() then
 		local text = vim.trim(vim.fn["codeium#GetStatusString"]())
 		if text == "ON" then
 			return "", "MiniStatuslineFileinfo"
 		elseif text == "OFF" then
-			return "", "StatusLine"
+			return "", "MiniStatuslineFileinfo"
 		end
 		if text == "*" then
 			return " ", "MiniStatuslineModeOther"

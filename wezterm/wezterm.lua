@@ -43,10 +43,10 @@ config = {
 
 	audible_bell = "SystemBeep",
 	window_padding = {
-		left = "0.2cell",
-		right = "0.2cell",
+		left = "0cell",
+		right = "0cell",
 		top = "0cell",
-		bottom = "1cell",
+		bottom = "0cell",
 	},
 
 	default_mux_server_domain = "local",

@@ -48,25 +48,21 @@ return {
 				nushell = {},
 				templ = {},
 				ts_ls = {},
-				-- jsonls = {
-				-- 	settings = {
-				-- 		json = {
-				-- 			schemas = function()
-				-- 				return require("schemastore").json.schemas({
-				-- 					extra = {
-				-- 						{
-				-- 							description = "Meilisearch schema",
-				-- 							fileMatch = "*.json",
-				-- 							name = "*",
-				-- 							url = "https://bump.sh/meilisearch/doc/meilisearch.json",
-				-- 						},
-				-- 					},
-				-- 				})
-				-- 			end,
-				-- 			validate = { enable = false },
-				-- 		},
-				-- 	},
-				-- },
+				jsonls = {
+					-- lazy-load schemastore when needed
+					on_new_config = function(new_config)
+						new_config.settings.json.schemas = new_config.settings.json.schemas or {}
+						vim.list_extend(new_config.settings.json.schemas, require("schemastore").json.schemas())
+					end,
+					settings = {
+						json = {
+							format = {
+								enabled = true,
+							},
+							validate = { enable = true },
+						},
+					},
+				},
 				-- pyright = {},
 				pylsp = {
 					configurationSources = { "flake8" },
@@ -88,21 +84,21 @@ return {
 						-- rope = { enabled = true },
 					},
 				},
-				lua_ls = {
-					settings = {
-						Lua = {
-							workspace = {
-								library = {
-									-- "${3rd}/luv/library",
-								},
-								checkThirdParty = false,
-							},
-							completion = {
-								callSnippet = "Replace",
-							},
-						},
-					},
-				},
+				-- lua_ls = {
+				-- 	settings = {
+				-- 		Lua = {
+				-- 			workspace = {
+				-- 				library = {
+				-- 					-- "${3rd}/luv/library",
+				-- 				},
+				-- 				checkThirdParty = false,
+				-- 			},
+				-- 			completion = {
+				-- 				callSnippet = "Replace",
+				-- 			},
+				-- 		},
+				-- 	},
+				-- },
 				-- rust_analyzer = {
 				-- settings = {
 				-- ["rust_analyzer"] = {
@@ -139,11 +135,6 @@ return {
 			-- return true if you don't want this server to be setup with lspconfig
 			---@type table<string, fun(server:string, opts:_.lspconfig.options):boolean?>
 			setup = {
-				-- example to setup with typescript.nvim
-				-- tsserver = function(_, opts)
-				--   require("typescript").setup({ server = opts })
-				--   return true
-				-- end,
 				-- Specify * to use this function as a fallback for any server
 				["*"] = function(server, opts) end,
 			},
@@ -192,6 +183,7 @@ return {
 						on_attach = function(client, buffer) end,
 					})
 				end
+
 				if require("s.util").has("lsp-status.nvim") then
 					require("lsp-status").register_progress()
 					require("lsp-status").config({
@@ -220,13 +212,7 @@ return {
 			-- require("mason-lspconfig").setup({ ensure_installed = vim.tbl_keys(servers) })
 			require("mason-lspconfig").setup_handlers({
 				function(server)
-					local server_opts = servers[server] or {}
-					-- print(vim.inspect(server_opts))
-					-- if server_opts.filetypes ~= {} then
-					-- 	local default = require("lspconfig")[server].document_config.default_config.filetypes
-					-- 	local filetypes = server_opts.filetypes
-					-- 	server_opts.filetypes = vim.tbl_extend("force", default, { filetypes })
-					-- end
+					local server_opts = servers[server] or { enable = false }
 					server_opts.capabilities = capabilities
 					if opts.setup[server] then
 						if opts.setup[server](server, server_opts) then
@@ -253,33 +239,6 @@ return {
 		lazy = false, -- This plugin is already lazy
 	},
 	-- formatters
-	-- {
-	-- 	"nvimtools/none-ls.nvim",
-	-- 	event = "BufReadPre",
-	-- 	dependencies = { "mason.nvim" },
-	-- 	opts = function()
-	-- 		local nls = require("null-ls")
-	-- 		local util = require("util").get_root()
-	-- 		return {
-	-- 			root_dir = require("null-ls.utils").root_pattern(
-	-- 				util,
-	-- 				".null-ls-root",
-	-- 				".neoconf.json",
-	-- 				"pyproject.toml",
-	-- 				"Makefile",
-	-- 				".git"
-	-- 			),
-	-- 			sources = {
-	-- 				-- nls.builtins.formatting.prettierd,
-	-- 				nls.builtins.formatting.stylua,
-	-- 				-- nls.builtins.diagnostics.flake8,
-	-- 				nls.builtins.diagnostics.tidy,
-	-- 				nls.builtins.code_actions.gitsigns,
-	-- 				nls.builtins.hover.printenv,
-	-- 			},
-	-- 		}
-	-- 	end,
-	-- },
 	{
 		"stevearc/conform.nvim",
 		event = "BufReadPre",
@@ -296,7 +255,8 @@ return {
 				--
 				-- You can use a sub-list to tell conform to run *until* a formatter
 				-- is found.
-				javascript = { { "prettierd",  } },
+				javascript = { { "prettierd", "prettier" } },
+				typescript = { { "prettierd", "prettier" } },
 			},
 		},
 	},

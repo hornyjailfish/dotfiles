@@ -22,7 +22,7 @@ return {
 		-- 	end,
 		-- 	desc = "Switch Buffer",
 		-- },
-		-- { "<leader>/", Util.telescope("live_grep"), desc = "Find in Files (Grep)" },
+		{ "<leader>/", Util.telescope("live_grep"), desc = "Find in Files (Grep)" },
 		-- { "<leader><space>", Util.telescope("files", { cwd = false, previewer = false }), desc = "Find Files (cwd)" }, -- find
 		{ "<leader>ff", Util.telescope("files"), desc = "Find Files (root dir)" },
 		{ "<leader>fF", Util.telescope("files", { cwd = false }), desc = "Find Files (cwd)" },
@@ -35,7 +35,7 @@ return {
 		-- { "<leader>tb", "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Buffer" },
 		--do i realy need it?
 		-- { "<leader>tc", "<cmd>Telescope command_history theme=ivy<cr>", desc = "Command History" },
-		-- { "<leader>th", "<cmd>Telescope help_tags<cr>", desc = "Help Pages" },
+		{ "<leader>th", "<cmd>Telescope help_tags<cr>", desc = "Help Pages" },
 		-- { "<leader>tC", "<cmd>Telescope commands theme=ivy<cr>", desc = "Commands" },
 		{ "<leader>tC", Util.telescope("colorscheme", { enable_preview = true }), desc = "Colorscheme with preview" },
 		-- { "<leader>tm", "<cmd>Telescope marks<cr>", desc = "Jump to Mark" },

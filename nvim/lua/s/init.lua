@@ -9,8 +9,12 @@ vim.g.bg_color = ""
 -- vim.g.base_color = "#92A8D1"
 vim.g.base_color = "#d3869b"
 
-vim.g.enable_nushell_integration = true
+vim.g.ft_color = "" -- it filled with current buffer filetype devicons hex color from Bufenter au
+
+vim.g.enable_nushell_integration = false
 vim.g.transparent_enabled = true
+
+
 
 require("lazy").setup({
 	spec = {

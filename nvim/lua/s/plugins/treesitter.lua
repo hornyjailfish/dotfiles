@@ -4,7 +4,7 @@ return {
 		version = false, -- last release is way too old and doesn't work on Windows
 		build = ":TSUpdate",
 		-- lazy = false,
-		event = "VeryLazy",
+		event = "BufReadPost",
 		---@type TSConfig
 		opts = {
 			highlight = {
@@ -50,6 +50,7 @@ return {
 	{
 		"JoosepAlviste/nvim-ts-context-commentstring",
 		dependencies = { "nvim-treesitter/nvim-treesitter" },
+		event = "BufReadPost",
 		lazy = true,
 	},
 	{
@@ -99,26 +100,11 @@ return {
 		"chrisgrieser/nvim-various-textobjs",
 		-- lazy = false,
 		event = "UIEnter",
-		keys = {
-			{
-				"<M-i>",
-				-- function () vim.cmd[[norm cilb<c-o>l ]] end, mode = "i",
-				function() vim.cmd [[norm gsflbl]] end,
-				mode = "i",
-				"Change Inside Prev bracket"
-			},
-			{
-				"<M-a>",
-				-- function () vim.cmd[[norm cilb<c-o>l ]] end, mode = "i",
-				function() vim.cmd [[norm gsfnbl]] end,
-				mode = "i",
-
-				"Change Inside Prev bracket"
-			}
-		},
 		opts = {
-			useDefaultKeymaps = true,
-			disabledKeymaps = { "gc" },
+			keymaps = {
+				useDefaults = true,
+				disabledDefaults = { "gc" },
+			},
 		},
 	},
 	{
@@ -167,7 +153,7 @@ return {
 		-- 	}
 		-- },
 		config = function()
-			vim.keymap.set("i", "<M-o>",
+			vim.keymap.set({"i","n"}, "<M-o>",
 				function()
 					vim.call("matchup#motion#jump_inside_prev", 0)
 				end,

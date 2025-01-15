@@ -20,30 +20,40 @@ return {
 	"echasnovski/mini.sessions",
 	lazy = false,
 	-- event = "VeryLazy",
-	config = function()
-		require("mini.sessions").setup({
-			autoread = false,
-			autowrite = true,
-			file = ".session.vim",
-			hooks = {
-				pre = {
-					read = function(info)
-						return
-					end,
-					write = function()
-						close_bad_buffers()
-					end,
-				},
-				post = {
-					read = function(info) end,
-				},
+	opts = {
+		autoread = false,
+		autowrite = true,
+		file = ".session.vim",
+		hooks = {
+			pre = {
+				read = function(info)
+					return
+				end,
+				write = function()
+					close_bad_buffers()
+				end,
 			},
-			verbose = { read = false, write = true, delete = true },
-		})
+			post = {
+				read = function(info) end,
+			},
+		},
+		verbose = { read = false, write = true, delete = true },
+	},
+	config = function(_, opts)
+		require("mini.sessions").setup(opts)
+		local save_sesh = function()
+			local state, err = pcall(MiniSessions.write)
+			if state ~= true then
+				Snacks.input.input({ prompt = "Session name", default = opts.file },
+					function(name)
+						MiniSessions.write(name)
+					end)
+			end
+		end
 		vim.keymap.set("n", "<leader>ql", function() MiniSessions.select() end, { desc = "List of sessions" })
-		vim.keymap.set("n", "<leader>qs", function() MiniSessions.write() end, { desc = "Save session" })
+		vim.keymap.set("n", "<leader>qs", save_sesh, { desc = "Save session" })
 		vim.keymap.set("n", "<leader>qq", function()
-			MiniSessions.write()
+			save_sesh()
 			vim.cmd.qa()
 		end, { desc = "Save local" })
 		vim.api.nvim_create_autocmd({ "User" }, {

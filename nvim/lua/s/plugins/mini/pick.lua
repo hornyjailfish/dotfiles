@@ -13,13 +13,13 @@ return {
 			end,
 			desc = "Switch Buffer",
 		},
-		{
-			"<leader>/",
-			function()
-				MiniPick.builtin.grep_live()
-			end,
-			desc = "Find in Files (Grep)",
-		},
+		-- {
+		-- 	"<leader>/",
+		-- 	function()
+		-- 		MiniPick.builtin.grep_live()
+		-- 	end,
+		-- 	desc = "Find in Files (Grep)",
+		-- },
 		{
 			"<leader><space>",
 			function()
@@ -38,7 +38,7 @@ return {
 		-- { "<leader>tb", "<cmd>Pick buf_lines<cr>", desc = "Buffer" },
 		--do i realy need it?
 		{ "<leader>t:", "<cmd>Pick history<cr>", desc = "Command History" },
-		{ "<leader>th", "<cmd>Pick help<cr>", desc = "Help Pages" },
+		-- { "<leader>th", "<cmd>Pick help<cr>", desc = "Help Pages" },
 		{ "<leader>tm", "<cmd>Pick marks<cr>", desc = "Jump to Mark" },
 		{ "<leader>tr", "<cmd>Pick resume<cr>", desc = "Resume previous picker" },
 		{

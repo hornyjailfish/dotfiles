@@ -65,7 +65,7 @@ return {
 		-- },
 		config = function()
 			vim.g.codeium_bin = vim.fs.normalize("~/.codeium/bin/")
-			vim.g.codeium_tab_fallback = "<tab>"
+			vim.g.codeium_tab_fallback = "	"
 			vim.g.codeium_filetypes = {
 				markdown = false,
 			}

@@ -13,7 +13,7 @@ local palette = {
 	inactive = "#2B3A45",
 }
 
-local colorscheme = "neobones_"
+local colorscheme = "zenbones_"
 -- should lower in this case
 local appear = wezterm.gui.get_appearance():lower()
 -- local colorscheme = "seoulbones_light"

@@ -42,8 +42,6 @@ return function()
 			"GitSignsChange",
 			"GitSignsDelete",
 
-			"MiniPickNormal",
-
 			"ComposerNormal",
 			"ComposerTitle",
 			"ComposerBorder",

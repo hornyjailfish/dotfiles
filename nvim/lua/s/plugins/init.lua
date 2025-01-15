@@ -22,8 +22,9 @@ return {
 	{
 		"stevearc/overseer.nvim",
 		keys = {
-			{ "<leader>cg", "<cmd>OverseerRun<cr>",    desc = "Overseer Run" },
-			{ "<leader>ce", "<cmd>OverseerToggle<cr>", desc = "Toggle Overseer window" },
+			{ "<leader>cg", "<cmd>OverseerRun<cr>",         desc = "Overseer Run" },
+			{ "<leader>ce", "<cmd>OverseerToggle<cr>",      desc = "Toggle Overseer window" },
+			{ "<leader>ct", "<cmd>OverseerQuickAction<cr>", desc = "Overseer QuickAction" },
 		},
 		opts = {
 			task_list = {
@@ -99,6 +100,13 @@ return {
 				time_format = "%H:%M",
 			},
 		},
+	},
+	{
+		"nvzone/typr",
+		cmd = "TyprStats",
+		dependencies = "nvzone/volt",
+		enable = false,
+		opts = {},
 	},
 	{
 		"kawre/leetcode.nvim",

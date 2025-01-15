@@ -1,6 +1,6 @@
 return {
 	"folke/trouble.nvim",
-	cmd = { "TroubleToggle", "Trouble" },
+	cmd = { "Trouble" },
 	event = "LspAttach",
 	opts = {
 		height = 5,

@@ -17,61 +17,61 @@ return {
 	{ "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
 	-- snippets FU
 	--
-	{
-		"L3MON4D3/LuaSnip",
-		event = "LspAttach",
-		dependencies = {
-			-- "rafamadriz/friendly-snippets",
-			-- config = function()
-			-- 	require("luasnip.loaders.from_vscode").lazy_load()
-			-- end,
-		},
-		opts = {
-			history = false,
-			-- sometimes this not helps...still jumpable
-			region_check_events = "InsertEnter",
-			delete_check_events = "TextChanged",
-		},
-		keys = {
-			{
-				"<tab>",
-				function()
-					local snip = false
-					local ai = false
-					if utils.has("LuaSnip") then
-						snip = (require("luasnip").expand_or_locally_jumpable(1))
-					end
-					if utils.has("Codeium") then
-						ai = vim.fn["codeium#Accept"]()
-					end
-					return snip
-						or ai
-						or "/t"
-				end,
-				expr = true,
-				silent = true,
-				mode = "i",
-			},
-			{
-				"<tab>",
-				function()
-					if utils.has("LuaSnip") then
-						require("luasnip").jump(1)
-					end
-				end,
-				mode = "s",
-			},
-			{
-				"<s-tab>",
-				function()
-					if utils.has("LuaSnip") then
-						require("luasnip").jump(-1)
-					end
-				end,
-				mode = { "i", "s" },
-			},
-		},
-	},
+	-- {
+	-- 	"L3MON4D3/LuaSnip",
+	-- 	event = "LspAttach",
+	-- 	dependencies = {
+	-- 		-- "rafamadriz/friendly-snippets",
+	-- 		-- config = function()
+	-- 		-- 	require("luasnip.loaders.from_vscode").lazy_load()
+	-- 		-- end,
+	-- 	},
+	-- 	opts = {
+	-- 		history = false,
+	-- 		-- sometimes this not helps...still jumpable
+	-- 		region_check_events = "InsertEnter",
+	-- 		delete_check_events = "TextChanged",
+	-- 	},
+	-- 	keys = {
+	-- 		{
+	-- 			"<tab>",
+	-- 			function()
+	-- 				local snip = false
+	-- 				local ai = false
+	-- 				if utils.has("LuaSnip") then
+	-- 					snip = (require("luasnip").expand_or_locally_jumpable(1))
+	-- 				end
+	-- 				if utils.has("Codeium") then
+	-- 					ai = vim.fn["codeium#Accept"]()
+	-- 				end
+	-- 				return snip
+	-- 					or ai
+	-- 					or "/t"
+	-- 			end,
+	-- 			expr = true,
+	-- 			silent = true,
+	-- 			mode = "i",
+	-- 		},
+	-- 		-- {
+	-- 		-- 	"<tab>",
+	-- 		-- 	function()
+	-- 		-- 		if utils.has("LuaSnip") then
+	-- 		-- 			require("luasnip").jump(1)
+	-- 		-- 		end
+	-- 		-- 	end,
+	-- 		-- 	mode = "s",
+	-- 		-- },
+	-- 		{
+	-- 			"<s-tab>",
+	-- 			function()
+	-- 				if utils.has("LuaSnip") then
+	-- 					require("luasnip").jump(-1)
+	-- 				end
+	-- 			end,
+	-- 			mode = { "i", "s" },
+	-- 		},
+	-- 	},
+	-- },
 
 	-- auto completion
 	{
@@ -81,8 +81,39 @@ return {
 		dependencies = {
 			"hrsh7th/cmp-nvim-lsp",
 			-- {"hrsh7th/cmp-buffer", event = "VeryLazy"},
-			"hrsh7th/cmp-path",
+			{ "hrsh7th/cmp-path", event = "InsertCharPre", lazy = true },
 			-- "saadparwaiz1/cmp_luasnip",
+		},
+		keys = {
+			{
+				"<tab>",
+				function()
+					if vim.snippet.active({ direction = 1 }) then
+						return '<cmd>lua vim.snippet.jump(1)<cr>'
+					else
+						return '<Tab>'
+					end
+				end,
+				expr = true,
+				silent = true,
+				mode = "i",
+			},
+			{
+				"<S-tab>",
+				function()
+					if vim.snippet.active({ direction = -1 }) then
+						return '<cmd>lua vim.snippet.jump(-1)<cr>'
+					else
+						return '<S-Tab>'
+					end
+				end,
+				expr = true,
+				silent = true,
+				mode = "i",
+			},
+
+
+
 		},
 		opts = function()
 			local cmp = require("cmp")
@@ -93,7 +124,8 @@ return {
 				},
 				snippet = {
 					expand = function(args)
-						require("luasnip").lsp_expand(args.body)
+						-- require("luasnip").lsp_expand_or_jumpable(args.body)
+						vim.snippet.expand(args.body)
 					end,
 				},
 				mapping = cmp.mapping.preset.insert({
@@ -116,11 +148,11 @@ return {
 					{ name = "nvim_lsp" },
 					{ name = "buffer" },
 					{ name = "path" },
-					{ name = "luasnip" },
+					-- { name = "luasnip" },
 					{ name = "codeium" },
 
 					{ name = "cody" },
-					{ name = "lazydev",     group_index = 0 },
+					{ name = "lazydev", group_index = 0 },
 
 					-- TODO: add sources from plugins in dat plug initialization?
 					-- { name = "obsidian_new" },

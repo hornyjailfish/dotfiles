@@ -16,6 +16,7 @@ end
 return {
 	"echasnovski/mini.starter",
 	-- event = "VeryLazy",
+	enabled = false,
 	config = function()
 		local my_items = {
 			{ name = "Mason", action = [[Mason]], section = "Builtin actions" },

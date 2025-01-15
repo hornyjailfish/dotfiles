@@ -39,7 +39,7 @@ return {
 			height = 4,
 			col = 4,
 			focusable = false,
-			border = "rounded",
+			border = "none",
 			noautocmd = false,
 		},
 	},

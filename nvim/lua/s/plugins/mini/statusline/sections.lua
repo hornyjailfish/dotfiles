@@ -28,7 +28,7 @@ M.active = function()
 	local utils = require("s.plugins.mini.statusline.utils")
 	local filename = require("s.plugins.mini.statusline.filename")
 	local lspstatus = require("s.plugins.mini.statusline.lspstatus")
-	local composer = require("s.plugins.mini.statusline.neocomposer")
+	-- local composer = require("s.plugins.mini.statusline.neocomposer")
 	local codeium = require("s.plugins.mini.statusline.codeium")
 	local overseer = require("s.plugins.mini.statusline.overseer")
 
@@ -62,13 +62,13 @@ M.active = function()
 		icon, color = utils.icons.get("filetype", vim.bo.filetype)
 	end
 	---upd hl groups
-	composer.macro_status(color)
+	-- composer.macro_status(color)
 	lspstatus.diagnostic_status()
 	line = {
 		{ hl = mode_hl, strings = { mode } },
 		{ hl = mode_hl, strings = { graple_tag(), pinned_bufer() } },
-		composer.icon(),
-		composer.text(),
+		-- composer.icon(),
+		-- composer.text(),
 		{ hl = "MiniStatuslineDevInfo", strings = { git } },
 		overseer.failure(),
 		overseer.canceled(),
@@ -95,7 +95,7 @@ end
 M.inactive = function()
 	local utils = require("s.plugins.mini.statusline.utils")
 	local icon, color = utils.get_icon()
-	local status = require("s.util").hl.get("StatusLineNC")
+	local status = require("s.util").hl.get("MiniStatuslineFilename","StatusLineNC")
 	local filename = MiniStatusline.section_filename({ trunc_width = 2000 })
 	if utils.blocked_filetypes[vim.bo.filetype] then
 		filename = vim.bo.filetype

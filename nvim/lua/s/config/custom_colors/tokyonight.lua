@@ -8,6 +8,7 @@ return function()
 	local con = proc.darken(colors.red, 0.7)
 	local com = proc.darken(colors.blue7, 0.8)
 	if vim.o.background == "dark" then
+		vim.g.bg_color = colors.bg
 		-- --what i want to change
 		-- -- Special(buildins functions)
 		-- -- Type(too much blue)
@@ -29,6 +30,7 @@ return function()
 		return colors
 	else
 		vim.api.nvim_set_hl(0, "String", { fg = str })
+		vim.g.bg_color = colors.bg
 		return {}
 	end
 end

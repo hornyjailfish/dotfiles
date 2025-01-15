@@ -9,3 +9,6 @@ wallomizer = "~/.local/bin"
 
 [appdata.files]
 appdata = "~/AppData/Roaming/"
+
+[nushell.files]
+nushell = "~/AppData/Roaming/nushell"
