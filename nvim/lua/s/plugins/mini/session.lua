@@ -41,20 +41,23 @@ return {
 	},
 	config = function(_, opts)
 		require("mini.sessions").setup(opts)
-		local save_sesh = function()
+		local save_sesh = function(quit)
+			quit = quit or false
 			local state, err = pcall(MiniSessions.write)
 			if state ~= true then
 				Snacks.input.input({ prompt = "Session name", default = opts.file },
 					function(name)
 						MiniSessions.write(name)
+						if quit then
+							vim.schedule(vim.cmd.qa())
+						end
 					end)
 			end
 		end
 		vim.keymap.set("n", "<leader>ql", function() MiniSessions.select() end, { desc = "List of sessions" })
-		vim.keymap.set("n", "<leader>qs", save_sesh, { desc = "Save session" })
+		vim.keymap.set("n", "<leader>qs", function() save_sesh(false) end, { desc = "Save session" })
 		vim.keymap.set("n", "<leader>qq", function()
-			save_sesh()
-			vim.cmd.qa()
+			save_sesh(true)
 		end, { desc = "Save local" })
 		vim.api.nvim_create_autocmd({ "User" }, {
 			-- pattern = { vim.fs.normalize(vim.env.PWD) },

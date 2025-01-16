@@ -25,11 +25,11 @@ M.get = function(n, fallback)
 	if hl.bg then
 		hl.bg = string.format("#%06x", hl.bg)
 	end
-	-- if hl.reverse then
-	-- 	local tmp = hl.fg
-	-- 	hl.fg = hl.bg
-	-- 	hl.bg = tmp
-	-- end
+	if hl.reverse then
+		local tmp = hl.fg
+		hl.fg = hl.bg
+		hl.bg = tmp
+	end
 	return hl
 end
 
@@ -69,4 +69,11 @@ M.link = function(name, link)
 	vim.cmd.hi({ args = { str }, bang = true }) -- +-=etc
 end
 
+M.update_highlights = function (hl_group, opts)
+	opts = opts or {}
+	local hl_info = M.get(hl_group, hl_group)
+	if hl_info == nil then return end
+	local updated_opts = vim.tbl_deep_extend("keep", opts, hl_info)
+	vim.api.nvim_set_hl(0, hl_group, updated_opts)
+end
 return M

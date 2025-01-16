@@ -1,6 +1,6 @@
 -- create global var for keymaps depends on it
 -- @see util.layout().keymaps
-vim.g.layout = "colemak"
+vim.g.layout = "qwerty"
 -- vim.g.base_color = "#FFBE98"
 vim.g.bg_color = ""
 -- good colo

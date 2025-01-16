@@ -16,11 +16,11 @@ end
 return {
 	"echasnovski/mini.starter",
 	-- event = "VeryLazy",
-	enabled = false,
+	enabled = true,
 	config = function()
 		local my_items = {
 			{ name = "Mason", action = [[Mason]], section = "Builtin actions" },
-			{ name = "Lazy", action = [[Lazy]], section = "Builtin actions" },
+			{ name = "Lazy",  action = [[Lazy]],  section = "Builtin actions" },
 		}
 
 		require("mini.starter").setup({

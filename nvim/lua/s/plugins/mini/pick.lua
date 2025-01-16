@@ -1,6 +1,7 @@
 local keymap = require("s.util.keymap")
 return {
 	"echasnovski/mini.pick",
+	enabled = false,
 	event = "VeryLazy",
 	cmd = "Pick",
 	lazy = true,

@@ -35,7 +35,7 @@ return {
 				"Operator",
 				"Structure",
 				"LineNrAbove",
-				"LineNr",
+				-- "LineNr",
 				"LineNrBelow",
 				"NonText",
 				"SignColumn",

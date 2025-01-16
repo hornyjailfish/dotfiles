@@ -1,3 +1,4 @@
+local util = require("s.util")
 return {
 	{
 		"neogitorg/neogit",
@@ -20,6 +21,13 @@ return {
 	{
 		"lewis6991/gitsigns.nvim",
 		event = "BufReadPost",
+		keys = {
+			{ "<leader>gs", "<cmd>Gitsigns stage_hunk<cr>",   desc = "Stage hunk" },
+			{ "<leader>gS", "<cmd>Gitsigns stage_buffer<cr>", desc = "Stage buffer" },
+			{ "<leader>gB", "<cmd>Gitsigns blame<cr>",        desc = "Blame buffer" },
+			{ "[h", "<cmd>Gitsigns prev_hunk<cr>",        desc = "Previous hunk" },
+			{ "]h", "<cmd>Gitsigns next_hunk<cr>",        desc = "Next hunk" },
+		},
 		config = function()
 			if vim.g.transparent_enabled then
 				vim.g.transparent_groups = vim.list_extend(vim.g.transparent_groups or {}, {
@@ -31,6 +39,12 @@ return {
 					"GitSignsStagedDelete",
 				}
 				)
+				local cursor = Snacks.util.color("CursorLine", "bg")
+				util.hl.update_highlights("GitSignsAddCul", { bg = cursor, fg = Snacks.util.color("GitSignsAddCul") })
+				util.hl.update_highlights("GitSignsChangeCul",
+					{ bg = cursor, fg = Snacks.util.color("GitSignsChangeCul") })
+				util.hl.update_highlights("GitSignsDeleteCul",
+					{ bg = cursor, fg = Snacks.util.color("GitSignsDeleteCul") })
 			end
 
 			require("gitsigns").setup({})

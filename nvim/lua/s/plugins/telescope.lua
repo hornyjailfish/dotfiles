@@ -3,6 +3,7 @@
 local Util = require("s.util")
 return {
 	"nvim-telescope/telescope.nvim",
+	enabled = false,
 	cmd = "Telescope",
 	event = "BufRead",
 	-- version = false, -- telescope did only one release, so use HEAD for now
