@@ -2,11 +2,7 @@ local M = {}
 
 local codeium_loaded = function()
 	if require("s.util").has("Codeium") or vim.fn.exists("g:loaded_codeium") ~= 0 then
-		local text = vim.fn["codeium#GetStatusString"]()
-		if text == "off" then
-			return false
-		end
-		return true
+		return vim.fn["codeium#Enabled"]()
 	else
 		return false
 	end
@@ -15,21 +11,20 @@ end
 -- this if chain so ugly damn
 local codeium = function()
 	if codeium_loaded() then
-		local text = vim.trim(vim.fn["codeium#GetStatusString"]())
-		if text == "ON" then
-			return "", "MiniStatuslineFileinfo"
-		elseif text == "OFF" then
+		if vim.api.nvim_get_mode() ~= "^[iR]" then
 			return "", "MiniStatuslineFileinfo"
 		end
-		if text == "*" then
+
+		if vim.b._codeium_status == 1 then
 			return " ", "MiniStatuslineModeOther"
 		end
+		local text = vim.trim(vim.fn["codeium#GetStatusString"]())
 		if text == '0' then
 			return " " .. text, "MiniStatuslineFileinfo"
 		end
 		return " " .. text, "MiniStatuslineModeInsert"
 	else
-		return "", "Comment"
+		return "󱏏", "MiniStatuslineFileinfo"
 	end
 end
 

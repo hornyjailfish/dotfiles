@@ -60,7 +60,7 @@ M.inv_l = function(color)
 	return c
 end
 
-M.desat = function(color,delta)
+M.desat = function(color, delta)
 	local delta = delta or 1
 	if delta == 0 then
 		vim.notify("ratio cannot be 0")
@@ -69,9 +69,9 @@ M.desat = function(color,delta)
 
 	local c = convert_copy(color)
 	if c[3] > 50 then
-		c[3] = c[3]-delta
+		c[2] = c[2] - delta
 	else
-		c[3] = c[3]+delta
+		c[2] = c[2] + delta
 	end
 	return c
 end
@@ -83,23 +83,23 @@ M.gray = function(color)
 end
 
 M.ratio = function(color1, color2)
-	local color1 = convert_copy(color1 or vim.g.base_color)
-	local color2 = convert_copy(color2 or vim.g.base_color)
-	return (math.max(color1[3], color2[3]) + 0.05) / (math.min(color1[3], color2[3]) + 0.05)
+	local L1 = M.lum(color1)
+	local L2 = M.lum(color2)
+	if color1 == nil or color2 == nil then return end
+	return (math.max(L1, L2) + 0.05) / (math.min(L1, L2) + 0.05)
 end
 
 M.lum = function(color)
 	local c = convert_copy(color)
-	local lum = 0
-	if c[3] < 50 then
-		lum = c[3] * (c[2] / 100) * 2
-	else
-		lum = c[3] * (1 - (c[2] / 100)) * 2
-	end
-	return lum
+	if c == nil then return end
+	return hsluv.l_to_y(c[3])
+end
+M.lig = function(Y)
+	local c = convert_copy(color)
+	return hsluv.y_to_l(Y)
 end
 
-local function invert_sat(color)
+function M.invert_sat(color)
 	local c = convert_copy(color)
 	if c[2] >= 50 then
 		c[2] = c[2] - 50
@@ -109,30 +109,59 @@ local function invert_sat(color)
 	return c
 end
 
-M.contrasts = function(color,ratio)
+function M.compensate_lightness_with_saturation(color)
 	local c = convert_copy(color)
-	local light = vim.deepcopy(c)
-	local dark = vim.deepcopy(c)
-	local lum = c[3]
-	local target = ((lum+0.05)/ratio)-0.05
-	dark[3] = target
-	dark = invert_sat(dark)
-	light[3] = 100-target
-	light = invert_sat(light)
-	return light,dark
+
+	if c[3] < 0 then
+		c[3] = 0
+		c[2] = c[2] * (color[3] / 100)
+	elseif c[3] > 100 then
+		c[3] = 100
+		c[2] = c[2] * ((100 - color[2]) / 100)
+	end
+	c[2] = math.max(0, math.min(100, c[2]))
+
+	return c
+end
+
+local function calculate_target_luminance(L, CR)
+	return (L + 0.05) / CR - 0.05, (L + 0.05) * CR - 0.05
+end
+
+M.contrasts = function(color, ratio)
+	if ratio == nil or ratio <= 0 then
+		vim.notify("invalid contrast ratio")
+		ratio = nil
+	end
+	ratio = ratio or 7.5
+	local bg = convert_copy(color)
+	local L = M.lum(color)
+	-- local combine = math.sqrt(math.pow(bg[1],2)+math.pow(bg[2],2))
+	local chroma = (1 - math.abs(2 * L - 1)) * bg[2] / 100
+	print("pre", chroma)
+	local dark, light = calculate_target_luminance(L, ratio)
+	-- local new_lightness = math.max(0, math.min(100, L2 * 100))
+	local dark_l = M.lig(dark)
+	local light_l = M.lig(light)
+	-- local new_lightness = math.max(0,math.min(100,M.lig(L2)))
+	if vim.opt.background:get() == "light" then
+		bg[3] = light_l
+	elseif vim.opt.background:get() == "dark" then
+		bg[3] = dark_l
+	end
+	return M.compensate_lightness_with_saturation(bg)
 end
 
 --- main color is vim.g.base_color if nil
-M.cmp_contrasts = function(main,color1,color2)
+M.cmp_contrasts = function(main, color1, color2)
 	main = convert_copy(main or vim.g.base_color)
 	color1 = convert_copy(color1)
 	color2 = convert_copy(color2)
-	if M.ratio(main, color1)>=M.ratio(main, color2) then
+	if M.ratio(main, color1) >= M.ratio(main, color2) then
 		return color1
 	else
 		return color2
 	end
-
 end
 
 return M

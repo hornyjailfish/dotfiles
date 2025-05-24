@@ -1,8 +1,11 @@
 local wezterm = require("wezterm")
 local M = {}
-local palette = {
+M.palette = {
 	foreground = "#B4BDC3",
-	background = "#1C1917",
+	background = {
+		light = "#cccccc",
+		dark = "#333333",
+	},
 	cursor_fg = "#1C1917",
 	cursor_bg = "#C4CACF",
 	cursor_border = "#1C1917",
@@ -24,35 +27,27 @@ local colors = wezterm.color.get_builtin_schemes()[colorscheme .. appear]
 -- wezterm.add_to_config_reload_watch_list(shipwright_nvim_path)
 
 
-wezterm.on("update-status", function(window, pane)
-	-- local date = wezterm.strftime '%H:%M:%S'
-	window:set_left_status(wezterm.format({
-		{
-			Foreground = { Color = palette.muted },
-		},
-		{
-			Text = window:active_workspace() .. " ",
-		},
-	}))
-end)
 
+-- bg_color = colors.background,
 local inactive_tab = {
-	bg_color = colors.background,
+	bg_color = M.palette.background[appear],
 	fg_color = colors.ansi[8],
 }
 
+-- bg_color = colors.background,
 local active_tab = {
-	bg_color = colors.background,
+	bg_color = M.palette.background[appear],
 	fg_color = colors.brights[4],
 }
 
 M.custom_colors = {
-	quick_select_label_fg = { Color = palette.cursor_fg },
-	quick_select_label_bg = { Color = palette.muted },
+	quick_select_label_fg = { Color = M.palette.cursor_fg },
+	quick_select_label_bg = { Color = M.palette.muted },
 }
 M.tabs = {
 	tab_bar = {
-		background = colors.background,
+		-- background = colors.background,
+		background = M.palette.background[appear],
 		active_tab = active_tab,
 		inactive_tab = inactive_tab,
 

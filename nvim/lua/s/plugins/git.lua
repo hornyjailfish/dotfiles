@@ -6,10 +6,10 @@ return {
 		cmd = "Neogit",
 		-- event = "VeryLazy",
 		keys = {
-			{ "<leader>gg", "<cmd>Neogit<cr>",        desc = "Neogit" },
-			{ "<leader>gb", "<cmd>Neogit branch<cr>", desc = "Neogit branch" },
-			{ "<leader>gc", "<cmd>Neogit commit<cr>", desc = "Neogit commit" },
-			{ "<leader>gp", "<cmd>Neogit push<cr>",   desc = "Neogit push" },
+			{ "<leader>Gg", "<cmd>Neogit<cr>",        desc = "Neogit" },
+			{ "<leader>Gb", "<cmd>Neogit branch<cr>", desc = "Neogit branch" },
+			{ "<leader>Gc", "<cmd>Neogit commit<cr>", desc = "Neogit commit" },
+			{ "<leader>Gp", "<cmd>Neogit push<cr>",   desc = "Neogit push" },
 		},
 		opts = {
 			disable_builtin_notifications = true,
@@ -20,15 +20,16 @@ return {
 	},
 	{
 		"lewis6991/gitsigns.nvim",
-		event = "BufReadPost",
+		event = "FileReadPost",
 		keys = {
-			{ "<leader>gs", "<cmd>Gitsigns stage_hunk<cr>",   desc = "Stage hunk" },
-			{ "<leader>gS", "<cmd>Gitsigns stage_buffer<cr>", desc = "Stage buffer" },
-			{ "<leader>gB", "<cmd>Gitsigns blame<cr>",        desc = "Blame buffer" },
+			{ "<leader>Gs", "<cmd>Gitsigns stage_hunk<cr>",   desc = "Stage hunk" },
+			{ "<leader>GS", "<cmd>Gitsigns stage_buffer<cr>", desc = "Stage buffer" },
+			{ "<leader>GB", "<cmd>Gitsigns blame<cr>",        desc = "Blame buffer" },
+			{ '<leader>h', "<cmd>Gitsigns preview_hunk_inline<cr>", desc = "Show hunk inline" },
 			{ "[h", "<cmd>Gitsigns prev_hunk<cr>",        desc = "Previous hunk" },
 			{ "]h", "<cmd>Gitsigns next_hunk<cr>",        desc = "Next hunk" },
 		},
-		config = function()
+		config = function(_,opts)
 			if vim.g.transparent_enabled then
 				vim.g.transparent_groups = vim.list_extend(vim.g.transparent_groups or {}, {
 					"GitSignsAdd",
@@ -37,8 +38,7 @@ return {
 					"GitSignsStagedAdd",
 					"GitSignsStagedChange",
 					"GitSignsStagedDelete",
-				}
-				)
+				})
 				local cursor = Snacks.util.color("CursorLine", "bg")
 				util.hl.update_highlights("GitSignsAddCul", { bg = cursor, fg = Snacks.util.color("GitSignsAddCul") })
 				util.hl.update_highlights("GitSignsChangeCul",
@@ -47,7 +47,7 @@ return {
 					{ bg = cursor, fg = Snacks.util.color("GitSignsDeleteCul") })
 			end
 
-			require("gitsigns").setup({})
+			-- require("gitsigns").setup(opts)
 		end
 	},
 	-- {

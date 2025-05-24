@@ -1,18 +1,19 @@
 local M = {}
 
-local custom_fn = function(modified)
+local custom_filename = function(modified)
 	local fn = "%f%r"
 	if vim.bo.modified then
+		local modified = require("s.util.hl").statusline("Bold")
 		return
 			{ hl = modified, strings = { fn } }
 	else
 		return
-			{ hl = "MiniStatuslineFileinfo", strings = { fn } }
+			{ hl = "MiniStatuslineFilename", strings = { fn } }
 	end
 end
 
 
-local modified_buf = function(modified)
+local modified_buf_icon = function(modified)
 	local m = ""
 	--
 	if vim.bo.modified then
@@ -24,11 +25,9 @@ local modified_buf = function(modified)
 end
 
 M.status = function()
-	local modified = require("s.util.hl").statusline("Changed")
-	local name = custom_fn(modified)
-	local icon = modified_buf(modified)
+	local name = custom_filename()
 
-	return MiniStatusline.combine_groups({name,icon})
+	return MiniStatusline.combine_groups({name})
 end
 
 

@@ -23,9 +23,9 @@ vim.opt.expandtab = true                                           -- convert ta
 vim.opt.shiftwidth = 0                                             -- the number of spaces inserted for each indentation
 vim.opt.tabstop = 4                                                -- insert 2 spaces for a tab
 vim.opt.cursorline = true                                          -- highlight the current line
-vim.opt.number = true                                              -- set numbered lines
-vim.opt.relativenumber = true                                      -- set numbered lines
-vim.opt.laststatus = 1                                             -- only the last window will always have a status line
+vim.opt.number = false                                              -- set numbered lines
+vim.opt.relativenumber = false                                      -- set numbered lines
+vim.opt.laststatus = 2                                             -- only the last window will always have a status line
 vim.opt.showcmd = true                                             -- hide (partial) command in the last line of the screen (for performance)
 vim.opt.ruler = false                                              -- hide the line and column number of the cursor position
 vim.opt.numberwidth = 5                                            -- minimal number of columns to use for the line number {default 4}
@@ -40,6 +40,7 @@ vim.opt.whichwrap:append("<,>,[,],h,l")                            -- keys allow
 vim.opt.iskeyword:append("-")                                      -- treats words with `-` as single words
 
 -- for ts_context_commentstring
+-- maybe its wrong place?
 local get_option = vim.filetype.get_option
 vim.filetype.get_option = function(filetype, option)
   return option == "commentstring"
@@ -53,62 +54,5 @@ vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 25
 
 if vim.g.enable_nushell_integration == true then
-  -- INFO: settings to set nushell as the shell for the :! command
-  -- --
-  -- path to the Nushell executable
-  vim.opt.sh = "nu"
-
-  -- WARN: disable the usage of temp files for shell commands
-  -- because Nu doesn't support `input redirection` which Neovim uses to send buffer content to a command:
-  --      `{shell_command} < {temp_file_with_selected_buffer_content}`
-  -- When set to `false` the stdin pipe will be used instead.
-  -- NOTE: some info about `shelltemp`: https://github.com/neovim/neovim/issues/1008
-  vim.opt.shelltemp = false
-
-  -- string to be used to put the output of shell commands in a temp file
-  -- 1. when 'shelltemp' is `true`
-  -- 2. in the `diff-mode` (`nvim -d file1 file2`) when `diffopt` is set
-  --    to use an external diff command: `set diffopt-=internal`
-  vim.opt.shellredir = "out+err> %s"
-
-  -- flags for nu:
-  -- * `--stdin`       redirect all input to -c
-  -- * `--no-newline`  do not append `\n` to stdout
-  -- * `--commands -c` execute a command
-  vim.opt.shellcmdflag = "--stdin --no-newline -c"
-
-  -- disable all escaping and quoting
-  vim.opt.shellxescape = ""
-  vim.opt.shellxquote = ""
-  vim.opt.shellquote = ""
-
-  -- string to be used with `:make` command to:
-  -- 1. save the stderr of `makeprg` in the temp file which Neovim reads using `errorformat` to populate the `quickfix` buffer
-  -- 2. show the stdout, stderr and the return_code on the screen
-  -- NOTE: `ansi strip` removes all ansi coloring from nushell errors
-  vim.opt.shellpipe =
-  '| complete | update stderr { ansi strip } | tee { get stderr | save --force --raw %s } | into record'
-
-  -- NOTE: you can uncomment the following to for instance provide custom config paths
-  -- depending on the OS
-  -- In this particular example using vim.env.HOME is also cross-platform
-
-  -- utility method to detect the OS, if you use a custom config the following can be handy
-  -- local function getOS()
-  --   if jit then
-  --     return jit.os
-  --   end
-  --   local fh, err = assert(io.popen('uname -o 2>/dev/null', 'r'))
-  --   if fh then
-  --     Osname = fh:read()
-  --   end
-  --
-  --   return Osname or 'Windows'
-  -- end
-  --
-  -- if getOS() == 'Windows' then
-  --   vim.opt.sh = 'nu --env-config C:/Users/User/.dot/env/env.nu --config C:/Users/User/.dot/env/config.nu'
-  -- else
-  --   vim.opt.sh = 'nu --env-config /Users/mel/.dot/env/env.nu --config /Users/mel/.dot/env/config.nu'
-  -- end
+  require("./nushell.lua")
 end

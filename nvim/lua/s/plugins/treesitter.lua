@@ -7,12 +7,15 @@ return {
 		event = "BufReadPost",
 		---@type TSConfig
 		opts = {
+			auto_install = false,
+			sync_install = true,
+			ignore_install = {},
+			modules = {},
 			highlight = {
 				enable = true,
 				additional_vim_regex_highlighting = false,
 			},
 			indent = { enable = true },
-			-- context_commentstring = { enable = true, enable_autocmd = false },
 			ensure_installed = {
 				"bash",
 				"html",
@@ -37,9 +40,6 @@ return {
 		},
 		---@param opts TSConfig
 		config = function(plugin, opts)
-			-- if plugin.ensure_installed then
-			-- 	require("lazyvim.util").deprecate("treesitter.ensure_installed", "treesitter.opts.ensure_installed")
-			-- end
 			require("nvim-treesitter.install").compilers = { "gcc" }
 			require("nvim-treesitter.configs").setup(opts)
 			require("ts_context_commentstring").setup({
@@ -58,7 +58,6 @@ return {
 		dependencies = { "nvim-treesitter/nvim-treesitter" },
 		ft = "*.surql",
 		config = function()
-			-- setup step
 			require("tree-sitter-surrealdb").setup()
 		end,
 	},
@@ -99,7 +98,7 @@ return {
 	{
 		"chrisgrieser/nvim-various-textobjs",
 		-- lazy = false,
-		event = "UIEnter",
+		event = "FileReadPost",
 		opts = {
 			keymaps = {
 				useDefaults = true,
@@ -108,6 +107,7 @@ return {
 		},
 	},
 	{
+		enabled = false,
 		"theHamsta/crazy-node-movement",
 		event = "BufReadPost",
 		dependencies = { "nvim-treesitter", "nvim-treesitter-textobjects" },

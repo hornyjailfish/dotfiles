@@ -1,4 +1,4 @@
--- TODO: automaticly add pined bufers to Gradle.nvim(do i need it?) and Portal.nvim throu pined bufers
+-- TODO: automaticly add pined bufers to Graple.nvim(do i need it?) and Portal.nvim throu pined bufers
 return {
 	"axkirillov/hbac.nvim",
 	dependencies = { "echasnovski/mini.bufremove" },
@@ -8,9 +8,15 @@ return {
 			"<leader>b<space>",
 			function()
 				require("hbac").toggle_pin()
-				require("grapple").toggle()
-				require("neo-tree.sources.manager").refresh("filesystem")
-				require("neo-tree.sources.manager").refresh("buffers")
+				if require("s.util").has("grapple") then
+					if require("grapple").exists() == false then
+						require("grapple").toggle()
+					end
+				end
+				if require("s.util").has("neo-tree") then
+					require("neo-tree.sources.manager").refresh("filesystem")
+					require("neo-tree.sources.manager").refresh("buffers")
+				end
 				vim.cmd.redrawstatus()
 			end,
 			desc = "Pin or unpin current buffer",

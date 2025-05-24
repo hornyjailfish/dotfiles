@@ -5,7 +5,8 @@ return {
 		-- commit = "0a3c7f76a5e81452b5d4bd78a7bb8cd2603445b5",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
-			"nvim-telescope/telescope.nvim",
+			-- its needed for sg search
+			-- "nvim-telescope/telescope.nvim",
 			"MunifTanjim/nui.nvim",
 			"hrsh7th/nvim-cmp",
 		},
@@ -16,6 +17,7 @@ return {
 				require("s.util").on_attach(function(client, buffer) end)
 			end,
 		},
+        config = true,
 	},
 	-- {
 	-- 	"Exafunction/codeium.nvim",

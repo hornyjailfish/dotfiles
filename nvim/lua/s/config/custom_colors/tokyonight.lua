@@ -1,5 +1,5 @@
 return function()
-	-- INFO: returns wrong palette with light scheme
+	-- INFO: returns wrong palette with non-default style
 	local colors = require("tokyonight.colors").setup()
 	local proc = require("tokyonight.util")
 	-- vim.o.background = "dark"

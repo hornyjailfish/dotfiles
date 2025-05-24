@@ -1,7 +1,7 @@
 return {
 	"echasnovski/mini.extra",
 	dependencies = {
-		"echasnovski/mini.pick",
+		-- "echasnovski/mini.pick",
 	},
 	-- lazy = true,
 	version = false,

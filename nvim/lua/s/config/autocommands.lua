@@ -8,9 +8,15 @@ vim.api.nvim_create_autocmd({ "ColorSchemePre" }, {
 			-- INFO: switch transparent off to get bg color
 			-- its sets back on ColorScheme au
 			-- (some colorschemes set this on caching stage so use palette from them instead)
-			-- @look custom_colors/tokyonight
-			vim.cmd("TransparentToggle")
-			vim.g.was_transparent = true
+			-- @look nvim/lua/s/config/custom_colors/tokyonight
+			--
+			-- it depends on transparent plugin!
+			if require("s.util").has("transparent") then
+				vim.cmd("TransparentToggle")
+				vim.g.was_transparent = true
+			else
+				vim.notify("transparent plugin is not installed!", vim.log.levels.WARN)
+			end
 		else
 			vim.g.was_transparent = false
 		end
@@ -28,9 +34,8 @@ vim.api.nvim_create_autocmd({ "ColorScheme" }, {
 		if ok then
 			highlights()
 		else
-			vim.notify("cant load user-defined highlights for " .. e.match, 3)
+			vim.notify("cant load user highlights for " .. e.match, 3)
 		end
-		vim.cmd.redraw()
 		local bg = require("s.util.hl").get("Normal")
 		if bg.bg == nil then
 			return
@@ -38,71 +43,49 @@ vim.api.nvim_create_autocmd({ "ColorScheme" }, {
 			vim.g.bg_color = bg.bg
 		end
 		if vim.g.was_transparent == true then
-			vim.cmd("TransparentToggle")
+			if require("s.util").has("transparent") then
+				vim.cmd("TransparentToggle")
+			else
+				vim.notify("transparent plugin is not installed!", vim.log.levels.WARN)
+			end
 		end
-		-- try build theme for wezterm
-		-- require("util.shipwright_utils").create_palette(palette)
-		-- local shipfile = vim.fs.normalize(vim.fn.stdpath("config") .. "/shipwright_build.lua")
-		-- require("shipwright").build(shipfile)
+		require("s.plugins.mini.statusline.utils").statuslineHL = require("s.util.hl").get("StatusLine", "StatusLineNC")
+		-- vim.cmd.redraw()
 	end,
 })
+
 local cg = require("s.util.colorgen")
 
 -- this is for setting MiniStatusLineModeNormal bg to current filetype from devicons
-vim.api.nvim_create_autocmd({ "FileType", "WinEnter", "BufEnter" }, {
+vim.api.nvim_create_autocmd({ "BufEnter" }, {
 	group = augroup,
-	--filter?
 	callback = function()
 		-- check no init here
 		require("s.plugins.mini.statusline.utils").init()
-		local _, hl = require("s.plugins.mini.statusline.utils").devicons.get_icon_by_filetype(vim.bo.filetype)
+		local icon, hl = require("s.plugins.mini.statusline.utils").devicons.get_icon_by_filetype(vim.bo.filetype)
 		if hl == nil then
-			_, hl = require("s.plugins.mini.statusline.utils").icons.get("filetype", vim.bo.filetype)
+			icon, hl = require("s.plugins.mini.statusline.utils").icons.get("filetype", vim.bo.filetype)
 		end
 		if hl == nil then
 			return
 		end
-		local ft = require("s.util.hl").get(hl, "MiniStatusLineModeNormal")
-		local ins = require("s.util.hl").get("MiniStatusLineModeNormal")
-		local norm = require("s.util.hl").get("Normal")
-		if ft.fg == nil or ins.bg == nil or norm.fg == nil then
+
+		local ft_mod = require("s.util.hl").hl2dual(hl,"fg")
+		local norm = require("s.util.hl").hl2dual("Normal","bg")
+		local norm_fg = require("s.util.hl").hl2dual("Normal","fg")
+		if ft_mod == nil then
 			return
 		end
-		vim.g.ft_color = ft.fg
-		if cg.ratio(ft.fg, norm.fg) >= cg.ratio(ins.fg, ft.fg) then
-			vim.api.nvim_set_hl(0, "MiniStatusLineModeNormal", { bg = ft.fg, fg = norm.fg })
-		else
-			vim.api.nvim_set_hl(0, "MiniStatusLineModeNormal", { bg = ft.fg, fg = ins.fg })
+		vim.g.ft_color = ft_mod:hex()
+		vim.g.ft_icon = icon
+		if norm ~= nil then
+			ft_mod = ft_mod:mix(norm,0.2)
 		end
+		vim.api.nvim_set_hl(0, "MiniStatusLineModeNormal", { bg = ft_mod:pastel():hex(), fg = norm_fg:tint(2):hex() })
 	end
 })
--- vim.api.nvim_create_autocmd({ "BufEnter" }, {
--- 	group = augroup,
--- 	--filter?
--- 	callback = function()
--- 		-- check no init here
--- 		require("s.plugins.mini.statusline.utils").init()
--- 		local _, hl = require("s.plugins.mini.statusline.utils").devicons.get_icon_by_filetype(vim.bo.filetype)
--- 		if hl == nil then
--- 			_, hl = require("s.plugins.mini.statusline.utils").icons.get("filetype", vim.bo.filetype)
--- 		end
--- 		if hl == nil then
--- 			return
--- 		end
--- 		local ft = require("s.util.hl").get(hl, "MiniStatusLineModeNormal")
--- 		local ins = require("s.util.hl").get("MiniStatusLineModeNormal")
--- 		local norm = require("s.util.hl").get("Normal")
--- 		if ft.fg == nil or ins.bg == nil or norm.fg == nil then
--- 			return
--- 		end
--- 		if cg.ratio(ft.fg, norm.fg) >= cg.ratio(ins.fg, ft.fg) then
--- 			vim.api.nvim_set_hl(0, "MiniStatusLineModeNormal", { bg = ft.fg, fg = norm.fg })
--- 		else
--- 			vim.api.nvim_set_hl(0, "MiniStatusLineModeNormal", { bg = ft.fg, fg = ins.fg })
--- 		end
--- 	end
--- })
 
+-- quit buffers with q
 -- TODO: get patterns into utils.custom_ft table
 vim.api.nvim_create_autocmd({ "FileType" }, {
 	pattern = { "qf", "help", "man", "lspinfo", "neo-tree", "diff", "spectre_panel", "obsidianbacklinks", 'nofile' },
@@ -143,6 +126,7 @@ vim.api.nvim_create_autocmd({ "TextYankPost" }, {
 })
 
 -- trim whitespaces preWrite
+-- TODO: depends on mini so move out of here
 vim.api.nvim_create_autocmd("BufWritePre", {
 	group = vim.api.nvim_create_augroup("TrimWhitespace", { clear = true }),
 	pattern = "*",
@@ -152,60 +136,16 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 	end,
 })
 
-vim.api.nvim_create_autocmd({ "BufWritePost" }, {
-	pattern = { "*.java" },
-	callback = function()
-		-- if require("plugins.lsp.keymaps").has("codeLens") then
-		-- vim.lsp.codelens.refresh()
-		-- end
-	end,
-})
-
-vim.api.nvim_create_autocmd({ "BufWritePost" }, {
-	pattern = { "*.js" },
-	callback = function()
-		-- if require("plugins.lsp.keymaps").has("codeLens") then
-		-- vim.lsp.codelens.refresh()
-		-- end
-	end,
-})
-
-vim.api.nvim_create_autocmd({ "BufWritePost" }, {
-	pattern = { "*.ts" },
-	callback = function()
-		-- if require("plugins.lsp.keymaps").has("codeLens") then
-		-- vim.lsp.codelens.refresh()
-		-- end
-	end,
-})
-
-vim.api.nvim_create_autocmd({ "BufWritePost" }, {
-	pattern = { "*.py" },
-	callback = function()
-		-- if require("plugins.lsp.keymaps").has("codeLens") then
-		vim.lsp.codelens.refresh()
-		-- end
-	end,
-})
-
-vim.api.nvim_create_autocmd({ "BufWritePost" }, {
-	pattern = { "*.lua" },
-	callback = function()
-		-- if require("plugins.lsp.keymaps").has("codeLens") then
-		vim.lsp.codelens.refresh()
-		-- end
-	end,
-})
 
 --- now i use native kbd layouts
--- local kbd = require("config.socket")
+-- local kbd = require("s.config.socket")
 -- vim.api.nvim_create_autocmd({ "InsertLeave" }, {
 -- 	callback = function()
--- 		kbd.msg = "qwerty"
+-- 		kbd.msg = "main"
 -- 	end,
 -- })
 -- vim.api.nvim_create_autocmd({ "InsertEnter" }, {
 -- 	callback = function()
--- 		kbd.msg = "colemak"
+-- 		kbd.msg = "fumbol"
 -- 	end,
 -- })

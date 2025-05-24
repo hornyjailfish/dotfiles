@@ -2,22 +2,37 @@ require("s.config")
 return {
 	{
 		"nvim-lua/plenary.nvim",
+		lazy = false,
 	},
-	{ "tpope/vim-sleuth" },
-	{
-		"MunifTanjim/nui.nvim",
-	},
+
 	{
 		"stevearc/dressing.nvim",
 		lazy = false,
 		opts = {},
 	},
+
+	{ "tpope/vim-sleuth" },
+
+	{
+		"MunifTanjim/nui.nvim",
+	},
+
+	{
+		"laytan/cloak.nvim",
+		lazy = false,
+		config = true,
+	},
+
+	{
+		"m4xshen/hardtime.nvim",
+		lazy = false,
+		dependencies = { "MunifTanjim/nui.nvim" },
+		opts = {},
+	},
+
 	-- {
 	-- 	"uga-rosa/ccc.nvim",
 	-- 	config = true
-	-- },
-	-- {
-	-- 	"rktjmp/shipwright.nvim", -- disabled rn
 	-- },
 	{
 		"stevearc/overseer.nvim",
@@ -32,36 +47,7 @@ return {
 			},
 		},
 	},
-	-- {
-	-- 	"ecthelionvi/NeoComposer.nvim",
-	-- 	dependencies = {
-	-- 		{
-	-- 			"kkharji/sqlite.lua",
-	-- 			init = function()
-	-- 				if vim.fn.has("win32") == 1 then
-	-- 					local dir = vim.fs.dirname(vim.env.MYVIMRC)
-	-- 					local path = vim.fs.normalize(dir .. "\\vendor\\" .. "sqlite3.dll", { win = true })
-	-- 					vim.g.sqlite_clib_path = path
-	-- 				end
-	-- 			end,
-	-- 			config = false
-	-- 		},
-	-- 		-- { "echasnovski/mini.statusline" },
-	-- 	},
-	-- 	lazy = true,
-	-- 	opts = function()
-	-- 		return {}
-	-- 	end,
-	-- 	config = function(_, opts)
-	-- 		-- vim.g.transparent_groups = vim.list_extend(vim.g.transparent_groups or {}, {
-	-- 		--  "ComposerNormal", "ComposerTitle",
-	-- 		-- 			"ComposerBoarder",
-	-- 		-- 		}
-	-- 		-- )
-	-- 		-- "NormalFloat"
-	-- 		require("NeoComposer").setup(opts or {})
-	-- 	end,
-	-- },
+
 	{
 		-- dont like it because i cant preview diff while go through list
 		"mbbill/undotree",
@@ -73,6 +59,7 @@ return {
 			vim.g.undotree_SetFocusWhenToggle = 1
 		end,
 	},
+
 	{
 		-- daily notes naming need fixes
 		"epwalsh/obsidian.nvim",
@@ -101,20 +88,22 @@ return {
 			},
 		},
 	},
+
 	{
 		"nvzone/typr",
-		cmd = "TyprStats",
+		cmd = { "Typr", "TyprStats" },
 		dependencies = "nvzone/volt",
-		enable = false,
+		enabled = true,
 		opts = {},
 	},
+
 	{
 		"kawre/leetcode.nvim",
 		lazy = true,
 		build = ":TSUpdate html",
 		dependencies = {
-			"nvim-telescope/telescope.nvim",
-			"nvim-lua/plenary.nvim", -- required by telescope
+			-- "nvim-telescope/telescope.nvim",
+			-- "nvim-lua/plenary.nvim", -- required by telescope
 			"MunifTanjim/nui.nvim",
 
 			-- optional

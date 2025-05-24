@@ -1,3 +1,4 @@
+local map = require("s.util.keymap").map
 return {
 	"folke/which-key.nvim",
 	event = "BufEnter",
@@ -18,15 +19,13 @@ return {
 		wk.add({
 			{
 				mode = { "n", "v", "x" },
-				{ "<leader>C", group = "comment" },
-				{ "<leader>z", group = "sessions" },
-				{ "<leader>b", group = "buffer" },
-				{ "<leader>c", group = "code" },
-				{ "<leader>f", group = "file/find" },
-				{ "<leader>g", group = "git" },
-				{ "<leader>p", desc = "Paste from system clipboard" },
-				{ "<leader>s", group = "search" },
-				{ "<leader>x", group = "diagnostics/quickfix" },
+				{ map.l("b"), group = "buffer" },
+				{ map.l("c"), group = "code" },
+				{ map.l("f"), group = "file/find" },
+				{ map.l("G"), group = "git" },
+				{ map.l("p"), desc = "Paste from system clipboard" },
+				{ map.l("s"), group = "search" },
+				{ map.l("x"), group = "diagnostics/quickfix" },
 				-- { "<leader>y", group = "Yank to system clipboard" },
 				{ "[",         group = "prev" },
 				{ "]",         group = "next" },

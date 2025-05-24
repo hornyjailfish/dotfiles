@@ -2,7 +2,7 @@
 local M = {}
 
 -- List of filetypes that use custom statusline
-M.blocked_filetypes = {
+M.custom_ft = {
 	["neo-tree"] = true,
 	["ministarter"] = true,
 	["undotree"] = true,
@@ -11,6 +11,8 @@ M.blocked_filetypes = {
 	["trouble"] = true,
 	["DiffviewFiles"] = true,
 }
+
+M.statuslineHL = require("s.util.hl").get("StatusLine", "StatusLineNC")
 
 M.get_icon = function(filetype,fallback)
 	filetype = filetype or vim.bo.filetype
@@ -41,26 +43,13 @@ M.remove_empty_tables = function(t)
 end
 --- init icons?
 M.init = function()
-	if require("s.util").has("mini.icons") then
-		M.icons = require("mini.icons")
-	else
 		local opts = require("s.util").opts("mini.icons")
 		M.icons = require("mini.icons")
 		M.icons.setup(opts)
-	end
 
-	if require("s.util").has("nvim-web-devicons") then
-		M.devicons = require("nvim-web-devicons")
-	else
 		local opts = require("s.util").opts("nvim-web-devicons")
 		M.devicons = require("nvim-web-devicons")
 		M.devicons.setup(opts)
-	end
-
-	-- ---load devicons not sure do i need setup here?
-	-- local opts = require("s.util").opts("nvim-web-devicons")
-	-- M.devicons = require("nvim-web-devicons")
-	-- M.devicons.setup(opts)
 end
 
 return M

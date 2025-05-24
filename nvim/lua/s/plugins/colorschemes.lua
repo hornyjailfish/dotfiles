@@ -4,12 +4,6 @@ return {
 	--
 	-- vim.g.transparent_groups = vim.list_extend(vim.g.transparent_groups or {}, { "ExtraGroup" })
 	--
-	-- vim.g.transparent_groups = vim.list_extend(
-	--   vim.g.transparent_groups or {},
-	--   vim.tbl_map(function(v)
-	--     return v.hl_group
-	--   end, vim.tbl_values(require('bufferline.config').highlights))
-	-- )
 	{
 		"xiyaowong/nvim-transparent",
 		name = "transparent",
@@ -17,8 +11,8 @@ return {
 			groups = {
 				"Normal",
 				"NormalNC",
-				-- "NormalFloat",
-				-- "FloatBorder",
+				"NormalFloat",
+				"FloatBorder",
 				"Comment",
 				"Constant",
 				"Special",
@@ -44,21 +38,20 @@ return {
 				"EndOfBffer",
 			},
 			extra_groups = {
-				-- "StatusLine",
-				-- "NormalFloat",
-				-- "StatusLineNC",
 				-- sometimes i like it sometimes not
 				-- "DiagnosticSignError",
 				-- "DiagnosticSignWarn",
 				-- "DiagnosticSignHint",
 				-- "DiagnosticSignInfo",
 			},
-			exclude_groups = {},
+			exclude_groups = {
+				-- "FloatBorder",
+				-- "NormalFloat",
+			},
 		},
 	},
 
 	{
-		---TOOOOKKKKIIIIOOOO
 		"folke/tokyonight.nvim",
 		lazy = true,
 		opts = {
@@ -68,7 +61,6 @@ return {
 			sidebars = { "qf", "vista_kind", "terminal", "lazy", "undotree", "diff", "neo-tree", "telescope" },
 		},
 		config = function(_, opts)
-			-- vim.g.transparent_enabled = true
 			require("tokyonight").setup(opts)
 			vim.cmd.colo("tokyonight")
 		end,
@@ -81,10 +73,8 @@ return {
 			local name = "seoulbones"
 			vim.g.bones_compat = 1
 			vim.api.nvim_set_var(name, {
-				-- use vim.g.transparent_enabled with nvim-transparent is prefered way
 				transparent_background = vim.g.transparent_enabled,
 				colorize_diagnostic_underline_text = true,
-				-- transparent_background = true,
 
 				-- dark background opts
 				lighten_comments = 30,
@@ -100,18 +90,19 @@ return {
 	},
 	{
 		"ellisonleao/gruvbox.nvim",
-		-- priority = 99999,
 		lazy = true,
 		config = function()
 			require("gruvbox").setup({
 				-- contrast = "hard",
-				-- transparent_mode = true,
 				transparent_mode = vim.g.transparent_enabled,
 			})
-			-- vim.cmd.colo("gruvbox")
+			vim.cmd.colo("gruvbox")
 		end,
 	},
-
+	{
+		"alexxGmZ/e-ink.nvim",
+		config = true
+	},
 	{
 		"catppuccin/nvim",
 		lazy = true,

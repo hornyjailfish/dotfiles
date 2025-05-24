@@ -2,12 +2,9 @@ local M = {}
 
 M.macro_status = function(color)
 	if require("s.util").has("NeoComposer.nvim") then
-		local mode_hl = require("s.util").hl.get(color)
 		local config = require("s.util").opts("NeoComposer.nvim") or {}
 
-		local state = require("NeoComposer.state") or {}
 
-		-- local _,c = require("nvim-web-devicons").get_icon_color_by_filetype(vim.bo.filetype)
 		if vim.tbl_isempty(config) then
 			config = { colors = {} }
 			config.colors.red = require("s.util").hl.get("RecordingSymbol").fg

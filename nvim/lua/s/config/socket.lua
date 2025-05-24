@@ -59,7 +59,7 @@ function Kanata:callback(err)
 		end)
 	end
 	if vim.loop.is_writable(self.socket) and self.msg then
-		self:send()
+		-- self:send()
 	end
 end
 

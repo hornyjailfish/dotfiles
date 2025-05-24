@@ -5,8 +5,8 @@ return {
 		event = "BufReadPost",
 		dependencies = {
 			{ "folke/neoconf.nvim",   cmd = "Neoconf", config = true },
-			"mason.nvim",
-			"williamboman/mason-lspconfig.nvim",
+			"mason-org/mason.nvim",
+			"mason-org/mason-lspconfig.nvim",
 			"hrsh7th/cmp-nvim-lsp",
 			{ "b0o/schemastore.nvim", lazy = false },
 			"nvim-lua/lsp-status.nvim",
@@ -23,7 +23,7 @@ return {
 						[vim.diagnostic.severity.HINT] = require("s.config.icons").diagnostics.Hint,
 					},
 					linehl = {
-						[vim.diagnostic.severity.ERROR] = 'DiffDelete',
+						-- [vim.diagnostic.severity.ERROR] = 'Underlined',
 					},
 					numhl = {
 						[vim.diagnostic.severity.WARN] = 'WarningMsg',
@@ -46,7 +46,17 @@ return {
 			---@type lspconfig.options
 			servers = {
 				nushell = {},
+				denols = {
+					enable = false,
+					autostart = false,
+					root_dir = function()
+						local lsp_util = require("lspconfig.util")
+						return lsp_util.root_pattern("deno.json", "deno.jsonc")
+					end,
+				},
 				templ = {},
+				svelte = {},
+				tailwindcss = {},
 				ts_ls = {},
 				jsonls = {
 					-- lazy-load schemastore when needed
@@ -63,28 +73,22 @@ return {
 						},
 					},
 				},
-				-- pyright = {},
-				pylsp = {
-					configurationSources = { "flake8" },
-					plugins = {
-						-- ruff = { enabled = true },
-						-- pyflakes = { enabled = true },
-						flake8 = { enabled = true },
-						-- yapf = {
-						-- 	enabled = true,
-						-- 	based_on_style = "pep8",
-						-- 	column_limit = 120,
-						-- },
-						mypy = {
-							enabled = true,
-							live_mode = true,
-							strict = true,
-						},
-						isort = { enabled = true },
-						-- rope = { enabled = true },
-					},
-				},
-				-- lua_ls = {
+				pyright = {},
+				-- pylsp = {
+				-- 	configurationSources = { "flake8" },
+				-- 	plugins = {
+				-- 		flake8 = { enabled = true },
+				-- 		black = { enabled = true },
+				-- 		pylsp_mypy = {
+				-- 			enabled = true,
+				-- 			live_mode = true,
+				-- 			strict = true,
+				-- 		},
+				-- 		isort = { enabled = true },
+				-- 		-- rope = { enabled = true },
+				-- 	},
+				-- },
+				lua_ls = {
 				-- 	settings = {
 				-- 		Lua = {
 				-- 			workspace = {
@@ -98,7 +102,7 @@ return {
 				-- 			},
 				-- 		},
 				-- 	},
-				-- },
+				},
 				-- rust_analyzer = {
 				-- settings = {
 				-- ["rust_analyzer"] = {
@@ -141,17 +145,6 @@ return {
 		},
 		---@param opts PluginLspOpts
 		config = function(plugin, opts)
-			-- border override globally
-			-- local border = {
-			-- 	{ "🭽", "FloatBorder" },
-			-- 	{ "▔", "FloatBorder" },
-			-- 	{ "🭾", "FloatBorder" },
-			-- 	{ "▕", "FloatBorder" },
-			-- 	{ "🭿", "FloatBorder" },
-			-- 	{ "▁", "FloatBorder" },
-			-- 	{ "🭼", "FloatBorder" },
-			-- 	{ "▏", "FloatBorder" },
-			-- }
 			local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
 			function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
 				opts = opts or {}
@@ -209,27 +202,32 @@ return {
 			local capabilities =
 				require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 			capabilities = vim.tbl_extend("keep", capabilities or {}, require("lsp-status").capabilities)
-			-- require("mason-lspconfig").setup({ ensure_installed = vim.tbl_keys(servers) })
-			require("mason-lspconfig").setup_handlers({
-				function(server)
-					local server_opts = servers[server] or { enable = false }
-					server_opts.capabilities = capabilities
-					if opts.setup[server] then
-						if opts.setup[server](server, server_opts) then
-							return
-						end
-					elseif opts.setup["*"] then
-						if opts.setup["*"](server, server_opts) then
-							require("lspconfig")[server].setup(server_opts)
-							return
-						end
-					end
-					require("lspconfig")[server].setup(server_opts)
-				end,
-			})
+			require("mason-lspconfig").setup({ automatic_enable = false, ensure_installed = vim.tbl_keys(servers) })
+			-- require("mason-lspconfig").setup_handlers({
+			-- 	function(server)
+			-- 		local server_opts = servers[server] or { enable = false }
+			-- 		server_opts.capabilities = capabilities
+			-- 		if opts.setup[server] then
+			-- 			if opts.setup[server](server, server_opts) then
+			-- 				return
+			-- 			end
+			-- 		elseif opts.setup["*"] then
+			-- 			if opts.setup["*"](server, server_opts) then
+			-- 				require("lspconfig")[server].setup(server_opts)
+			-- 				return
+			-- 			end
+			-- 		end
+			-- 		require("lspconfig")[server].setup(server_opts)
+			-- 	end,
+			-- })
+			-- for name, opt in pairs(opts.servers) do
+			-- 	if opt.root_dir == nil or vim.tbl_empty(opt.root_dir) then
+			-- 		opt.root_dir = require("lspconfig.util").root_pattern(require("s.util").get_root())
+			-- 	end
+			-- end
 			for name, opt in pairs(opts.servers) do
-				-- opt.root_dir = require("lspconfig").util.root_pattern(require("util").get_root())
 				require("lspconfig")[name].setup(opt)
+				-- opt.root_dir = require("lspconfig").util.root_pattern(require("util").get_root())
 			end
 		end,
 	},
@@ -241,9 +239,11 @@ return {
 	-- formatters
 	{
 		"stevearc/conform.nvim",
+
 		event = "BufReadPre",
 		opts = {
 			notify_on_error = true,
+			stop_after_first = false,
 			-- format_on_save = {
 			-- 	timeout_ms = 500,
 			-- 	lsp_fallback = "prefer",
@@ -251,19 +251,20 @@ return {
 			formatters_by_ft = {
 				lua = { "stylua" },
 				-- Conform can also run multiple formatters sequentially
-				python = { "flake8" },
+				python = { "black", "isort" },
 				--
 				-- You can use a sub-list to tell conform to run *until* a formatter
 				-- is found.
-				javascript = { { "prettierd", "prettier" } },
-				typescript = { { "prettierd", "prettier" } },
+
+				javascript = { "prettierd", "prettier" },
+				typescript = { "prettierd", "prettier" },
 			},
 		},
 	},
 
 	-- cmdline tools and lsp servers
 	{
-		"williamboman/mason.nvim",
+		"mason-org/mason.nvim",
 		cmd = "Mason",
 		keys = { { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" } },
 		opts = {
@@ -289,4 +290,11 @@ return {
 			end
 		end,
 	},
+	{
+		"Sebastian-Nielsen/better-type-hover",
+		ft = { "svelte", "typescript", "typescriptreact" },
+		config = function()
+			require("better-type-hover").setup()
+		end,
+	}
 }

@@ -1,5 +1,6 @@
 # Nushell Environment Config File
 $env.EDITOR = "nvim"
+# $env.SHELL = "nu"
 
 def create_left_prompt [] {
     let path_segment = ($env.PWD)

@@ -5,8 +5,7 @@ return {
 	config = true,
 	keys = {
 		-- idk but i hate this hotkeys
-		{ "<leader>xt", "<cmd>TodoTrouble<cr>", desc = "Todo (Trouble)" },
-		{ "<leader>xT", "<cmd>TodoTrouble keywords=TODO,FIX,FIXME<cr>", desc = "Todo/Fix/Fixme (Trouble)" },
-		{ "<leader>st", "<cmd>TodoTelescope<cr>", desc = "Todo" },
+		{ "<leader>xt", "<cmd>TodoTrouble toggle<cr>", desc = "Todo (Trouble)" },
+		{ "<leader>xT", "<cmd>TodoTrouble toggle keywords=TODO,FIX,FIXME<cr>", desc = "Todo/Fix/Fixme (Trouble)" },
 	},
 }

@@ -25,13 +25,6 @@ M.filter.filters = {
 	file_name_contains = {},
 }
 
-M.filter.test = {
-	bo = {},
-	wo = {},
-	file_path_contains = {  },
-	file_name_contains = { "init.lua" },
-
-}
 
 local function cmp_bo(bufnr)
 	local res
@@ -52,7 +45,7 @@ local function cmp_wo(bufnr)
 end
 
 --- NOTE: this modifies input array so no aux list is created
-function filter(array, predicate)
+local function filter(array, predicate)
 	local index = 1
 	for i = 1, #array do
 		if predicate(array[i]) then
@@ -110,9 +103,7 @@ end
 
 
 M.hl = require("s.util.hl")
-M.keymaps = require("s.util.keymap")
--- shorthand for using global var
-M.keymap = M.keymaps.layout(vim.g.layout or "qwerty").keymap
+M.keymap = require("s.util.keymap").map
 
 M.root_patterns = { ".git", "lua", "pyproject.toml", "Cargo.toml", "package.json", "tsconfig.json", "Makefile" }
 
@@ -132,6 +123,14 @@ end
 ---@param plugin string
 function M.has(plugin)
 	return require("lazy.core.config").plugins[plugin] ~= nil
+end
+
+function M.get_tags_for_layout(layout)
+	if layout == "qwerty" then
+		return "FJDKSLA;CMRUEIWQP"
+	elseif layout == "colemak" then
+		return "TNSERIAOCHPLFUWQ;"
+	end
 end
 
 ---@param name string
@@ -263,8 +262,7 @@ function M.lazy_notify()
 			replay()
 		end
 	end)
-	-- or if it took more than 500ms, then something went wrong
-	timer:start(500, 0, replay)
+	timer:start(300, 0, replay)
 end
 
 local enabled = true

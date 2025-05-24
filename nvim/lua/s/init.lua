@@ -1,18 +1,21 @@
 -- create global var for keymaps depends on it
 -- @see util.layout().keymaps
 vim.g.layout = "qwerty"
--- vim.g.base_color = "#FFBE98"
-vim.g.bg_color = ""
--- good colo
--- vim.g.base_color = "#939597"
--- vim.g.base_color = "#DECDBE"
+
+vim.g.base_color = "#491B61"
+-- vim.g.base_color = "#96B093"
 -- vim.g.base_color = "#92A8D1"
-vim.g.base_color = "#d3869b"
+-- vim.g.base_color = "#31ACC6"
+-- vim.g.base_color = "#8E9F7F"
+-- vim.g.base_color = "#5AD795"
+-- vim.g.base_color = "#5DE8D9"
+-- vim.g.base_color = "#2548A9"
+-- vim.g.generation_type = "quadra"
 
 vim.g.ft_color = "" -- it filled with current buffer filetype devicons hex color from Bufenter au
 
 vim.g.enable_nushell_integration = false
-vim.g.transparent_enabled = true
+vim.g.transparent_enabled = false
 
 
 
@@ -37,7 +40,7 @@ require("lazy").setup({
 				"zipPlugin",
 				"rplugin",
 				-- thanks treesitter
-				-- "syntax",
+				"syntax",
 				-- thanks matchup
 				"matchit",
 				"matchparen",
@@ -46,9 +49,12 @@ require("lazy").setup({
 	},
 })
 
+-- get windows light/dark settings
 vim.o.background = require("s.util.theme").config.current_theme
+
 -- vim.o.background = "dark"
--- vim.cmd.colo("gruvbox")
--- sry my eyes hurts on dark mode
 -- vim.o.background = "light"
-vim.cmd.colo("neobones")
+-- vim.cmd.colo("gruvbox")
+-- vim.cmd.colo("dualism")
+-- sry my eyes hurts on dark mode
+vim.cmd.colo("e-ink")

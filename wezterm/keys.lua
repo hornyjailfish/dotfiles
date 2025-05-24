@@ -2,7 +2,7 @@ local wezterm = require("wezterm")
 local M = {}
 
 M = {
-	{ key = "/", mods = "ALT", action = wezterm.action.ShowLauncherArgs({ flags = "FUZZY|WORKSPACES" }) },
+	{ key = "/", mods = "ALT", action = wezterm.action.ShowLauncherArgs({ flags = "FUZZY|WORKSPACES|DOMAINS" }) },
 	{
 		key = "p",
 		mods = "ALT",
@@ -12,7 +12,7 @@ M = {
 			local home = wezterm.home_dir
 			local proj = wezterm.GLOBAL.projects_dir
 			local workspaces = {
-				{ id = home,            label = "Home" },
+				{ id = home, label = "Home" },
 				{ id = proj, label = "Projects" },
 			}
 			-- add all the workspaces in the projects directory
@@ -28,7 +28,7 @@ M = {
 			window:perform_action(
 				wezterm.action.InputSelector({
 					action = wezterm.action_callback(function(inner_window, inner_pane, id,
-										  label)
+															  label)
 						if not id and not label then
 							-- wezterm.log_info("Workspace selector cancelled")
 							return
@@ -38,6 +38,9 @@ M = {
 									name = label,
 									spawn = {
 										label = "Workspace: " .. label,
+										args = {
+											"nvim"
+										},
 										cwd = id,
 									},
 								}),
@@ -64,9 +67,9 @@ M = {
 				{ Text = "Enter name for new workspace" },
 			}),
 			action = wezterm.action_callback(function(window, pane, line)
-				-- line will be `nil` if they hit escape without entering anything
-				-- An empty string if they just hit enter
-				-- Or the actual line of text they wrote
+				-- line will be `nil` if hit escape without entering anything
+				-- An empty string if just hit enter
+				-- Or the actual line of text wrote
 				if line then
 					window:perform_action(
 						wezterm.action.SwitchToWorkspace({

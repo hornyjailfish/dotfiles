@@ -1,4 +1,6 @@
+local map = require("s.util.keymap").map
 local utils = require("s.util")
+
 return {
 	{
 		"folke/lazydev.nvim",
@@ -15,63 +17,6 @@ return {
 		},
 	},
 	{ "Bilal2453/luvit-meta", lazy = true }, -- optional `vim.uv` typings
-	-- snippets FU
-	--
-	-- {
-	-- 	"L3MON4D3/LuaSnip",
-	-- 	event = "LspAttach",
-	-- 	dependencies = {
-	-- 		-- "rafamadriz/friendly-snippets",
-	-- 		-- config = function()
-	-- 		-- 	require("luasnip.loaders.from_vscode").lazy_load()
-	-- 		-- end,
-	-- 	},
-	-- 	opts = {
-	-- 		history = false,
-	-- 		-- sometimes this not helps...still jumpable
-	-- 		region_check_events = "InsertEnter",
-	-- 		delete_check_events = "TextChanged",
-	-- 	},
-	-- 	keys = {
-	-- 		{
-	-- 			"<tab>",
-	-- 			function()
-	-- 				local snip = false
-	-- 				local ai = false
-	-- 				if utils.has("LuaSnip") then
-	-- 					snip = (require("luasnip").expand_or_locally_jumpable(1))
-	-- 				end
-	-- 				if utils.has("Codeium") then
-	-- 					ai = vim.fn["codeium#Accept"]()
-	-- 				end
-	-- 				return snip
-	-- 					or ai
-	-- 					or "/t"
-	-- 			end,
-	-- 			expr = true,
-	-- 			silent = true,
-	-- 			mode = "i",
-	-- 		},
-	-- 		-- {
-	-- 		-- 	"<tab>",
-	-- 		-- 	function()
-	-- 		-- 		if utils.has("LuaSnip") then
-	-- 		-- 			require("luasnip").jump(1)
-	-- 		-- 		end
-	-- 		-- 	end,
-	-- 		-- 	mode = "s",
-	-- 		-- },
-	-- 		{
-	-- 			"<s-tab>",
-	-- 			function()
-	-- 				if utils.has("LuaSnip") then
-	-- 					require("luasnip").jump(-1)
-	-- 				end
-	-- 			end,
-	-- 			mode = { "i", "s" },
-	-- 		},
-	-- 	},
-	-- },
 
 	-- auto completion
 	{
@@ -88,10 +33,14 @@ return {
 			{
 				"<tab>",
 				function()
+					local ai = false
 					if vim.snippet.active({ direction = 1 }) then
 						return '<cmd>lua vim.snippet.jump(1)<cr>'
 					else
-						return '<Tab>'
+						if utils.has("Codeium") then
+							ai = vim.fn["codeium#Accept"]()
+						end
+						return ai or'<Tab>'
 					end
 				end,
 				expr = true,
@@ -119,6 +68,10 @@ return {
 			local cmp = require("cmp")
 			local select_opts = { behavior = cmp.SelectBehavior.Insert }
 			return {
+				window = {
+					completion = cmp.config.window.bordered(),
+					documentation = cmp.config.window.bordered()
+				},
 				completion = {
 					completeopt = "menu,noinsert,preview",
 				},
@@ -129,34 +82,32 @@ return {
 					end,
 				},
 				mapping = cmp.mapping.preset.insert({
-
 					["<C-b>"] = cmp.mapping.scroll_docs(-4),
 					["<C-f>"] = cmp.mapping.scroll_docs(4),
 					["<Up>"] = cmp.mapping.select_prev_item(select_opts),
 					["<Down>"] = cmp.mapping.select_next_item(select_opts),
-					[utils.keymap.up({ ctrl = true }, true)] = cmp.mapping.select_prev_item(select_opts),
-					[utils.keymap.down({ ctrl = true }, true)] = cmp.mapping.select_next_item(select_opts),
-					["<C-y>"] = cmp.mapping.complete(select_opts),
+					-- [utils.keymap.up({ ctrl = true }, true)] = cmp.mapping.select_prev_item(select_opts),
+					-- [utils.keymap.down({ ctrl = true }, true)] = cmp.mapping.select_next_item(select_opts),
+					[map.c("up",true)] = cmp.mapping.select_prev_item(select_opts),
+					[map.c("down",true)] = cmp.mapping.select_next_item(select_opts),
+					["<C-Space>"] = cmp.mapping.complete(select_opts),
 					["<C-z>"] = cmp.mapping.abort(),
-					["<CR>"] = cmp.mapping.confirm({ select = false }),
-					-- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+					-- Acept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+					["<C-y>"] = cmp.mapping.confirm({ select = true }),
 				}),
 				view = {
 					entries = { name = "custom", selection_order = "near_cursor" },
 				},
 				sources = cmp.config.sources({
-					{ name = "nvim_lsp" },
+					{ name = "nvim_lsp", group_index = 2 },
 					{ name = "buffer" },
 					{ name = "path" },
-					-- { name = "luasnip" },
 					{ name = "codeium" },
-
-					{ name = "cody" },
-					{ name = "lazydev", group_index = 0 },
-
+					{ name = "cody",     group_index = 3 },
+					{ name = "lazydev",  group_index = 1 },
 					-- TODO: add sources from plugins in dat plug initialization?
-					-- { name = "obsidian_new" },
-					-- { name = "obsidian" },
+					{ name = "obsidian_new" },
+					{ name = "obsidian" },
 				}),
 				formatting = {
 					format = function(entry, item)
@@ -190,30 +141,4 @@ return {
 			}
 		end,
 	},
-	-- {
-	-- 	'saghen/blink.cmp',
-	-- 	lazy = false, -- lazy loading handled internally
-	-- 	-- optional: provides snippets for the snippet source
-	-- 	dependencies = 'rafamadriz/friendly-snippets',
-	--
-	-- 	-- use a release tag to download pre-built binaries
-	-- 	version = 'v0.*',
-	-- 	-- OR build from source, requires nightly: https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust
-	-- 	-- build = 'cargo build --release',
-	--
-	-- 	opts = {
-	-- 		highlight = {
-	-- 			-- sets the fallback highlight groups to nvim-cmp's highlight groups
-	-- 			-- useful for when your theme doesn't support blink.cmp
-	-- 			-- will be removed in a future release, assuming themes add support
-	-- 			use_nvim_cmp_as_default = true,
-	-- 		},
-	-- 		-- set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
-	-- 		-- adjusts spacing to ensure icons are aligned
-	-- 		nerd_font_variant = 'mono',
-	--
-	-- 		-- experimental auto-brackets support
-	-- 		-- accept = { auto_brackets = { enabled = true } }
-	-- 	}
-	-- }
 }
