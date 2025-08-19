@@ -11,22 +11,37 @@ return {
 		cmd = "Neotree",
 		keys = {
 			{
-				"<leader>fe",
+				"<leader>fE",
 				function()
+					require("neo-tree.sources.manager")._for_each_state("filesystem",
+						require("neo-tree.sources.common.commands").close_all_nodes)
 					require("neo-tree.command").execute({ toggle = true, dir = require("s.util").get_root() })
 				end,
 				desc = "Explorer NeoTree (root dir)",
 			},
-			{ "<leader>fE", "<cmd>Neotree toggle<CR>", desc = "Explorer NeoTree (cwd)" },
+			{
+				"<leader>fe",
+				function()
+					local reveal = true
+					if vim.bo.buftype == "nofile" then
+						reveal = false
+					end
+					vim.notify("Reveal: " .. tostring(reveal) .. " "..vim.bo.buftype)
+					require("neo-tree.command").execute({ toggle = true, reveal = reveal })
+				end,
+				desc = "Explorer NeoTree"
+			},
 			-- { "<leader>e", "<leader>fe", desc = "Explorer NeoTree (root dir)", remap = true },
 			-- { "<leader>E",  "<leader>fE",              desc = "Explorer NeoTree (cwd)", remap = true },
 		},
 		opts = {
 			enable_diagnostics = true,
 			enable_git_status = true,
+			hide_root_node = true,
+			open_files_do_not_replace_types = { "terminal", "Trouble", "qf", "edgy", "OverseerList" },
 			sources = {
 				"filesystem",
-				"git_status",
+				-- "git_status",
 				"buffers",
 
 				--omg document_symbols slow and sux
@@ -85,17 +100,18 @@ return {
 			},
 			follow_current_file = true,
 			window = {
-				width = 40,
+				width = 32,
 			},
 			source_selectior = {
-				statusline = false,
-				winbar = true,
+				statusline = true,
+				winbar = false,
 				sources = {
 					{ source = "filesystem" },
 					{ source = "git_status" },
 					-- { source = "document_symbols" },
 				},
 			},
+
 			event_handlers = {
 				{
 					event = "file_opened",
