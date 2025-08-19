@@ -45,7 +45,14 @@ return {
 			-- },
 			---@type lspconfig.options
 			servers = {
+				astro = {},
 				nushell = {},
+				clangd = {
+					root_dir = function(fname)
+						local lsp_util = require("lspconfig.util")
+						return lsp_util.root_pattern("compile_commands.json", ".git", ".clangd")(fname)
+					end,
+				},
 				denols = {
 					enable = false,
 					autostart = false,
@@ -89,19 +96,19 @@ return {
 				-- 	},
 				-- },
 				lua_ls = {
-				-- 	settings = {
-				-- 		Lua = {
-				-- 			workspace = {
-				-- 				library = {
-				-- 					-- "${3rd}/luv/library",
-				-- 				},
-				-- 				checkThirdParty = false,
-				-- 			},
-				-- 			completion = {
-				-- 				callSnippet = "Replace",
-				-- 			},
-				-- 		},
-				-- 	},
+					-- 	settings = {
+					-- 		Lua = {
+					-- 			workspace = {
+					-- 				library = {
+					-- 					-- "${3rd}/luv/library",
+					-- 				},
+					-- 				checkThirdParty = false,
+					-- 			},
+					-- 			completion = {
+					-- 				callSnippet = "Replace",
+					-- 			},
+					-- 		},
+					-- 	},
 				},
 				-- rust_analyzer = {
 				-- settings = {

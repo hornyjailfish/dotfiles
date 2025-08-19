@@ -56,7 +56,9 @@ return {
 		git = {},
 		gitbrowse = {},
 		input = {},
-		layout = {},
+		layout = {
+			enabled = true
+		},
 		notifier = {},
 		notify = {},
 		picker = {},

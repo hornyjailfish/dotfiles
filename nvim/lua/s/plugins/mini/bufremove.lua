@@ -1,7 +1,7 @@
 local function get_all_workspace_folders()
 	local workspace_folders = {}
 
-	local clients = vim.lsp.get_active_clients()
+	local clients = vim.lsp.get_clients()
 	for _, client in ipairs(clients) do
 		if not client.initialized then
 			print("LSP not ready yet")

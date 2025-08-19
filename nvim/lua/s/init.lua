@@ -23,6 +23,7 @@ require("lazy").setup({
 	spec = {
 		{ import = "s.plugins" },
 		{ import = "s.plugins.folke" },
+		{ import = "s.plugins.overseer" },
 		{ import = "s.plugins.mini" },
 	},
 	checker = {
@@ -58,3 +59,4 @@ vim.o.background = require("s.util.theme").config.current_theme
 -- vim.cmd.colo("dualism")
 -- sry my eyes hurts on dark mode
 vim.cmd.colo("e-ink")
+-- vim.cmd.colo("tokyonight")
