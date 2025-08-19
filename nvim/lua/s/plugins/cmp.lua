@@ -30,23 +30,28 @@ return {
 			-- "saadparwaiz1/cmp_luasnip",
 		},
 		keys = {
-			{
-				"<tab>",
-				function()
-					local ai = false
-					if vim.snippet.active({ direction = 1 }) then
-						return '<cmd>lua vim.snippet.jump(1)<cr>'
-					else
-						if utils.has("Codeium") then
-							ai = vim.fn["codeium#Accept"]()
-						end
-						return ai or'<Tab>'
-					end
-				end,
-				expr = true,
-				silent = true,
-				mode = "i",
-			},
+			-- {
+			-- 	"<tab>",
+			-- 	function()
+			-- 		if vim.snippet.active({ direction = 1 }) then
+			-- 			return '<cmd>lua vim.snippet.jump(1)<cr>'
+			-- 		else
+			-- 			-- if utils.has("Codeium") then
+			-- 			-- 	vim.fn["codeium#Accept"]()
+			-- 			-- end
+			-- 			if utils.has("supermaven-nvim") then
+			-- 				local suggestion = require('supermaven-nvim.completion_preview')
+			-- 				if suggestion.has_suggestion() then
+			-- 					suggestion.on_accept_suggestion()
+			-- 				end
+			-- 			end
+			-- 			-- return '<Tab>'
+			-- 		end
+			-- 	end,
+			-- 	expr = true,
+			-- 	-- silent = true,
+			-- 	mode = "i",
+			-- },
 			{
 				"<S-tab>",
 				function()
@@ -78,6 +83,12 @@ return {
 				snippet = {
 					expand = function(args)
 						-- require("luasnip").lsp_expand_or_jumpable(args.body)
+						if utils.has("supermaven-nvim") then
+							local suggestion = require('supermaven-nvim.completion_preview')
+							if suggestion.has_suggestion() then
+								suggestion.on_accept_suggestion()
+							end
+						end
 						vim.snippet.expand(args.body)
 					end,
 				},
@@ -88,8 +99,8 @@ return {
 					["<Down>"] = cmp.mapping.select_next_item(select_opts),
 					-- [utils.keymap.up({ ctrl = true }, true)] = cmp.mapping.select_prev_item(select_opts),
 					-- [utils.keymap.down({ ctrl = true }, true)] = cmp.mapping.select_next_item(select_opts),
-					[map.c("up",true)] = cmp.mapping.select_prev_item(select_opts),
-					[map.c("down",true)] = cmp.mapping.select_next_item(select_opts),
+					[map.c("up", true)] = cmp.mapping.select_prev_item(select_opts),
+					[map.c("down", true)] = cmp.mapping.select_next_item(select_opts),
 					["<C-Space>"] = cmp.mapping.complete(select_opts),
 					["<C-z>"] = cmp.mapping.abort(),
 					-- Acept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
@@ -99,12 +110,13 @@ return {
 					entries = { name = "custom", selection_order = "near_cursor" },
 				},
 				sources = cmp.config.sources({
-					{ name = "nvim_lsp", group_index = 2 },
+					{ name = "nvim_lsp",    group_index = 2 },
 					{ name = "buffer" },
 					{ name = "path" },
 					{ name = "codeium" },
-					{ name = "cody",     group_index = 3 },
-					{ name = "lazydev",  group_index = 1 },
+					{ name = "supermaven" },
+					{ name = "cody",        group_index = 3 },
+					{ name = "lazydev",     group_index = 1 },
 					-- TODO: add sources from plugins in dat plug initialization?
 					{ name = "obsidian_new" },
 					{ name = "obsidian" },

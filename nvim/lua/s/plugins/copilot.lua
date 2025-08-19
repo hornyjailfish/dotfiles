@@ -17,7 +17,7 @@ return {
 				require("s.util").on_attach(function(client, buffer) end)
 			end,
 		},
-        config = true,
+		config = true,
 	},
 	-- {
 	-- 	"Exafunction/codeium.nvim",
@@ -43,7 +43,9 @@ return {
 	-- },
 	{
 		name = "Codeium",
-		"Exafunction/codeium.vim",
+		"Exafunction/windsurf.vim",
+		enabled = false,
+
 		-- event = "InsertEnter",
 		-- keys = {
 		-- 	{
@@ -72,8 +74,16 @@ return {
 				markdown = false,
 			}
 			-- vim.g.codeium_no_map_tab = 1
-			-- vim.g.codeium_disable_keymaps = 1
+			vim.g.codeium_disable_keymaps = 1
 			vim.g.codeium_manual = 1
 		end,
+	},
+	{
+		"supermaven-inc/supermaven-nvim",
+		opts = {
+			ignore_filetypes = { "md" },
+			-- disable_keymaps = true
+		},
+		config = true
 	},
 }

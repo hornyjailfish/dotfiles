@@ -34,19 +34,6 @@ return {
 	-- 	"uga-rosa/ccc.nvim",
 	-- 	config = true
 	-- },
-	{
-		"stevearc/overseer.nvim",
-		keys = {
-			{ "<leader>cg", "<cmd>OverseerRun<cr>",         desc = "Overseer Run" },
-			{ "<leader>ce", "<cmd>OverseerToggle<cr>",      desc = "Toggle Overseer window" },
-			{ "<leader>ct", "<cmd>OverseerQuickAction<cr>", desc = "Overseer QuickAction" },
-		},
-		opts = {
-			task_list = {
-				direction = "bottom",
-			},
-		},
-	},
 
 	{
 		-- dont like it because i cant preview diff while go through list
