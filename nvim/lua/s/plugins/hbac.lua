@@ -1,6 +1,7 @@
 -- TODO: automaticly add pined bufers to Graple.nvim(do i need it?) and Portal.nvim throu pined bufers
 return {
 	"axkirillov/hbac.nvim",
+	enabled = false,
 	dependencies = { "echasnovski/mini.bufremove" },
 	keys = {
 		{ "<leader>bD", "<cmd>Hbac close_unpinned<cr>", desc = "Delete not pined buffers" },
