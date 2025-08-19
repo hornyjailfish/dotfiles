@@ -1,3 +1,13 @@
+--- @type Wezterm
+local wezterm = require("wezterm")
+
+local config = wezterm.config_builder or {}
+
+wezterm.GLOBAL.alpha = 1
+-- dir for InputSelector fuzzyfind
+-- projects_dir = (wezterm.home_dir .. "/gits/")
+wezterm.GLOBAL.projects_dir = (wezterm.home_dir:gsub("\\", "/") .. "/gits/")
+
 require("./event_handlers")
 local util = require("./utils")
 local hotkeys = require("./keys")
@@ -5,18 +15,12 @@ local launch_menu = require("./launch_menu")
 local color_config = require("./colors")
 local plugins = require("./plugins")
 
-local wezterm = require("wezterm")
 
 
 
-local config = wezterm.config_builder or {}
-
-wezterm.GLOBAL.alpha = 1
--- dir for InputSelector fuzzyfind
-wezterm.GLOBAL.projects_dir = (wezterm.home_dir .. "/gits/")
 
 
-local keys = util.tbl_merge(plugins.keys,hotkeys)
+local keys = util.tbl_merge(plugins.keys, hotkeys)
 config = {
 	automatically_reload_config = true,
 	use_dead_keys = false,
@@ -58,8 +62,8 @@ config = {
 	},
 	launch_menu = launch_menu,
 	default_prog = { "nu" },
-	default_domain = "localhost",
-	-- default_workspace = wezterm.mux.get_active_workspace(),
+	-- default_domain = "localhost",
+	default_workspace = wezterm.mux.get_active_workspace(),
 	unix_domains = {
 		{
 			name = "localhost",
@@ -68,8 +72,8 @@ config = {
 			skip_permissions_check = true,
 		},
 	},
-	default_gui_startup_args = { "start", "--domain", "localhost", "--attach", "--", "nu", "-l" },
-	default_mux_server_domain = "localhost",
+	-- default_gui_startup_args = { "start", "--domain", "localhost", "--attach", "--", "nu", "-l" },
+	-- default_mux_server_domain = "localhost",
 }
 
 -- need upd before loading

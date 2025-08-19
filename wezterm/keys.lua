@@ -1,47 +1,91 @@
+---@type Wezterm
 local wezterm = require("wezterm")
 local M = {}
 
+local ws = require("workspace.init").ws
+
+local home = wezterm.home_dir
+local proj = wezterm.GLOBAL.projects_dir
+local workspaces = ws:new():single(home, "Home"):add(proj, "Projects"):add(wezterm.home_dir .. "/.node-red/uibuilder", "uibuilder")
+-- local workspaces = {
+-- 	{ label = "Home",     id = wezterm.json_encode { dir = home } },
+-- 	{ label = "Projects", id = wezterm.json_encode { dir = proj } },
+-- }
+
+local function create_dir_list(path, truncate)
+	truncate = truncate or false
+	local out = {}
+	-- print("path:", path)
+	for _, d in ipairs(wezterm.glob(path .. "*")) do
+		if truncate then
+			d = wezterm.truncate_left(d,
+				d:len() - (proj:len()))
+			-- print("dir:", dir)
+			-- table.insert(out, d)
+		end
+		-- print("dir:", d)
+		table.insert(out, d)
+	end
+	-- print("out:", out)
+	return out
+end
+
+local function sort_dir_list_with(list, command)
+	-- print("list:", list)
+	list = wezterm.json_encode(list)
+	-- print("after:", list)
+	command = command or {
+		"nu", "-c", list ..
+	" | each {|$path| | path exists | if $in { ls -D $path }} | flatten | sort-by modified | get name | reverse | to json"
+	}
+	local success, stdout, stderr = wezterm.run_child_process(command)
+	-- print("out:", success, stdout, stderr)
+	if not success then
+		wezterm.log_error("Failed to run command: " .. command .. " " .. stderr)
+		return
+	end
+	return wezterm.json_parse(stdout)
+end
+
+
+-- local tst = create_dir_list(proj)
+-- sort_dir_list_with(tst)
+
 M = {
-	{ key = "/", mods = "ALT", action = wezterm.action.ShowLauncherArgs({ flags = "FUZZY|WORKSPACES|DOMAINS" }) },
+	{ key = "/", mods = "ALT", action = wezterm.action.ShowLauncherArgs({ flags = "FUZZY|WORKSPACES" }) },
 	{
 		key = "p",
 		mods = "ALT",
 		action = wezterm.action_callback(function(window, pane)
-			-- Here you can dynamically construct a longer list if needed
-
-			local home = wezterm.home_dir
-			local proj = wezterm.GLOBAL.projects_dir
-			local workspaces = {
-				{ id = home, label = "Home" },
-				{ id = proj, label = "Projects" },
-			}
 			-- add all the workspaces in the projects directory
-			for i, v in ipairs(wezterm.glob(proj .. "*")) do
-				local dir = wezterm.truncate_left(v,
-					v:len() - (proj:len()))
-				table.insert(workspaces, {
-					label = dir,
-					id = v,
-				})
-			end
-
+			-- for i, v in ipairs(wezterm.glob(wezterm.GLOBAL.projects_dir .. "*")) do
+			-- 	local dir = wezterm.truncate_left(v,
+			-- 		v:len() - (proj:len()))
+			-- 	table.insert(workspaces, {
+			-- 		label = dir,
+			-- 		id = wezterm.json_encode { dir = v, args = { "nvim" } }
+			-- 	})
+			-- end
+			local list = workspaces:make_actions({"nu","-c","nvim"})
+			local tst = workspaces
+			print(list)
 			window:perform_action(
 				wezterm.action.InputSelector({
-					action = wezterm.action_callback(function(inner_window, inner_pane, id,
-															  label)
-						if not id and not label then
-							-- wezterm.log_info("Workspace selector cancelled")
+					choices = list,
+					action = wezterm.action_callback(function(inner_window, inner_pane, id, label)
+						if not label then
+							wezterm.log_error("Workspace selector mailformed")
 							return
 						else
+							id = wezterm.json_parse(id)
+							local default_prog = inner_window:effective_config().default_prog
 							inner_window:perform_action(
 								wezterm.action.SwitchToWorkspace({
 									name = label,
 									spawn = {
 										label = "Workspace: " .. label,
-										args = {
-											"nvim"
-										},
-										cwd = id,
+										args = id.args or default_prog, -- INFO: this could fail
+										cwd = id.path,
 									},
 								}),
 								inner_pane
@@ -49,7 +93,6 @@ M = {
 						end
 					end),
 					title = "Choose Workspace",
-					choices = workspaces,
 					fuzzy = true,
 					-- fuzzy_description = "Fuzzy find and/or make a workspace",
 				}),
