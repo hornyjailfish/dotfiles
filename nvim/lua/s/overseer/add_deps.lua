@@ -1,5 +1,5 @@
 return {
-	["dependency"] = {
+	["~dependency"] = {
 		desc = "add dependency tasks",
 		priority = 50,
 		condition = function(task)
@@ -12,11 +12,11 @@ return {
 			-- local tasks = require("overseer.task_list").list_tasks({ name_not = true, name = task.name })
 			require("overseer.commands").preload_cache(nil, function(templates, _)
 				templates = vim.tbl_filter(function(tmpl)
-					return (not tmpl.hide) or tmpl.nam == task.name
+					return (not tmpl.hide) or tmpl.name == task.name
 				end, templates)
 				if (#templates > 0) then
 					vim.ui.select(templates, {
-							prompt = "Select dependency task",
+							prompt = "Select dependency task for "..task.name,
 							format_item = function(item)
 								return item.name
 							end
