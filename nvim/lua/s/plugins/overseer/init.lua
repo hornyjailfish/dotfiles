@@ -11,9 +11,6 @@ return {
 	opts = {
 		templates = vim.list_extend({ "builtin" }, custom_templates or {}),
 		template_dirs = vim.list_extend({ "overseer.template" }, template_dirs or {}),
-		task_list = {
-			direction = "right",
-		},
 		actions = custom_actions,
 	},
 	config = true
