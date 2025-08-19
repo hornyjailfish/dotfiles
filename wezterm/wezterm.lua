@@ -1,7 +1,7 @@
 --- @type Wezterm
 local wezterm = require("wezterm")
 
-local config = wezterm.config_builder or {}
+local config = wezterm.config_builder() or {}
 
 wezterm.GLOBAL.alpha = 1
 -- dir for InputSelector fuzzyfind
@@ -20,12 +20,12 @@ local plugins = require("./plugins")
 
 
 
-local keys = util.tbl_merge(plugins.keys, hotkeys)
+hotkeys.keys = util.tbl_merge(plugins.keys, hotkeys.keys)
+
 config = {
 	automatically_reload_config = true,
 	use_dead_keys = false,
 	allow_win32_input_mode = true,
-	keys = keys,
 	quick_select_alphabet = "qwerty",
 
 	display_pixel_geometry = "BGR",
@@ -78,5 +78,7 @@ config = {
 
 -- need upd before loading
 -- util.set_gpu(config)
+
+config = util.tbl_merge(config, hotkeys)
 
 return config

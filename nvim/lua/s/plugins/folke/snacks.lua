@@ -3,6 +3,7 @@ return {
 	priority = 1000,
 	lazy = false,
 	keys = {
+		{ "<leader>rp",      function() Snacks.profiler.start() end,                desc = "Profiler" },
 		-- { "<leader>,",       function() Snacks.picker.buffers() end,                                 desc = "Buffers" },
 		{ "<leader>/",       function() Snacks.picker.grep() end,                 desc = "Grep" },
 		{ "<leader>:",       function() Snacks.picker.command_history() end,      desc = "Command History" },
@@ -56,6 +57,7 @@ return {
 		git = {},
 		gitbrowse = {},
 		input = {},
+		image = {},
 		layout = {
 			enabled = true
 		},

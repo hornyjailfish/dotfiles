@@ -1,4 +1,3 @@
-local utils = require("s.plugins.mini.statusline.utils")
 -- utils.init()
 local combined = require("s.plugins.mini.statusline.sections")
 

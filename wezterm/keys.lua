@@ -6,7 +6,8 @@ local ws = require("workspace.init").ws
 
 local home = wezterm.home_dir
 local proj = wezterm.GLOBAL.projects_dir
-local workspaces = ws:new():single(home, "Home"):add(proj, "Projects"):add(wezterm.home_dir .. "/.node-red/uibuilder", "uibuilder")
+local workspaces = ws:new():single(home, "Home"):add(proj, "Projects"):add(wezterm.home_dir .. "/.node-red/uibuilder",
+	"uibuilder")
 -- local workspaces = {
 -- 	{ label = "Home",     id = wezterm.json_encode { dir = home } },
 -- 	{ label = "Projects", id = wezterm.json_encode { dir = proj } },
@@ -46,12 +47,27 @@ local function sort_dir_list_with(list, command)
 	end
 	return wezterm.json_parse(stdout)
 end
-
-
--- local tst = create_dir_list(proj)
--- sort_dir_list_with(tst)
-
-M = {
+M.leader = { key = 'a', mods = 'CTRL', timeout_milliseconds = 1000 }
+M.keys = {
+	{
+		key = "O",
+		mods = "LEADER",
+		action = wezterm.action_callback(function(window, pane)
+			--- @type UrlObject
+			local cwd_uri = pane:get_current_working_dir()
+			if cwd_uri then
+				local path = cwd_uri.file_path
+				if wezterm.target_triple == "x86_64-pc-windows-msvc" then
+					path = string.gsub(path, "^/", "")
+					path = string.gsub(path, "/", "\\")
+				end
+				print(path)
+				wezterm.open_with(path, "explorer")
+			else
+				window:toast_notification("WezTerm", "Cannot get current working directory", nil, 3000)
+			end
+		end)
+	},
 	{ key = "/", mods = "ALT", action = wezterm.action.ShowLauncherArgs({ flags = "FUZZY|WORKSPACES" }) },
 	{
 		key = "p",
@@ -66,7 +82,7 @@ M = {
 			-- 		id = wezterm.json_encode { dir = v, args = { "nvim" } }
 			-- 	})
 			-- end
-			local list = workspaces:make_actions({"nu","-c","nvim"})
+			local list = workspaces:make_actions({ "nu", "-c", "nvim" })
 			local tst = workspaces
 			print(list)
 			window:perform_action(
