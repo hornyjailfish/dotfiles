@@ -2,7 +2,7 @@
 return {
 	"axkirillov/hbac.nvim",
 	enabled = false,
-	dependencies = { "echasnovski/mini.bufremove" },
+	dependencies = { "nvim-mini/mini.bufremove" },
 	keys = {
 		{ "<leader>bD", "<cmd>Hbac close_unpinned<cr>", desc = "Delete not pined buffers" },
 		{

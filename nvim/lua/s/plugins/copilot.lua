@@ -1,6 +1,7 @@
 return {
 	{
 		"sourcegraph/sg.nvim",
+		enabled = false,
 		event = "LspAttach",
 		-- commit = "0a3c7f76a5e81452b5d4bd78a7bb8cd2603445b5",
 		dependencies = {

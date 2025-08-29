@@ -26,7 +26,6 @@ return {
 					if vim.bo.buftype == "nofile" then
 						reveal = false
 					end
-					vim.notify("Reveal: " .. tostring(reveal) .. " "..vim.bo.buftype)
 					require("neo-tree.command").execute({ toggle = true, reveal = reveal })
 				end,
 				desc = "Explorer NeoTree"
