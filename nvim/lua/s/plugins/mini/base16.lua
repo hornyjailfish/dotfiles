@@ -1,5 +1,5 @@
 return {
-	'echasnovski/mini.base16',
+	'nvim-mini/mini.base16',
 	name = "mini.base16",
 	version = false,
 	enabled = false,

@@ -1,5 +1,5 @@
 return {
-	"echasnovski/mini.surround",
+	"nvim-mini/mini.surround",
 	keys = function(plugin, keys)
 		-- Populate the keys based on the user's options
 		local opts = require("lazy.core.plugin").values(plugin, "opts", false)

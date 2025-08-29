@@ -14,7 +14,7 @@ end
 -- vim.cmd.autocmd("User LazyVimStarted let g:statuptime = luaeval('display_startuptime()')")
 
 return {
-	"echasnovski/mini.starter",
+	"nvim-mini/mini.starter",
 	-- event = "VeryLazy",
 	enabled = true,
 	config = function()

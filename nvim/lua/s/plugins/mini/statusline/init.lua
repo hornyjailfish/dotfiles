@@ -3,12 +3,12 @@ local combined = require("s.plugins.mini.statusline.sections")
 
 return {
 	{
-		"echasnovski/mini.statusline",
+		"nvim-mini/mini.statusline",
 		version = false,
 		lazy = false,
 		priority = 8888,
 		dependencies = {
-			"echasnovski/mini.icons",
+			"nvim-mini/mini.icons",
 			"nvim-tree/nvim-web-devicons",
 		},
 		config = function()

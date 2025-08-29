@@ -1,7 +1,7 @@
 return {
-	"echasnovski/mini.extra",
+	"nvim-mini/mini.extra",
 	dependencies = {
-		-- "echasnovski/mini.pick",
+		-- "nvim-mini/mini.pick",
 	},
 	-- lazy = true,
 	version = false,

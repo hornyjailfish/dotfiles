@@ -17,7 +17,7 @@ local close_bad_buffers = function()
 end
 -- TODO: hotkeys to save/load sessions
 return {
-	"echasnovski/mini.sessions",
+	"nvim-mini/mini.sessions",
 	lazy = false,
 	-- event = "VeryLazy",
 	opts = {

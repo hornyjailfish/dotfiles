@@ -1,1 +1,1 @@
-return { "echasnovski/mini.trailspace", version = false, event = "BufEnter", config = true }
+return { "nvim-mini/mini.trailspace", version = false, event = "BufEnter", config = true }

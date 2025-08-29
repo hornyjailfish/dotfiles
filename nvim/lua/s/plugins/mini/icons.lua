@@ -1,11 +1,11 @@
 return {
-	'echasnovski/mini.icons',
+	'nvim-mini/mini.icons',
 	lazy=false,
 	priority=999,
 	version = false,
 
 	dependencies = {
-		"echasnovski/mini.statusline",
+		"nvim-mini/mini.statusline",
 	},
 	config = true
 }

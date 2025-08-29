@@ -41,7 +41,7 @@ local function remove_non_workspace_buffers()
 end
 
 return {
-	"echasnovski/mini.bufremove",
+	"nvim-mini/mini.bufremove",
 	lazy = true,
 	keys = {
 		{

@@ -1,5 +1,5 @@
 return {
-	"echasnovski/mini.bracketed",
+	"nvim-mini/mini.bracketed",
 	event = "BufReadPost",
 	main = "mini.bracketed",
 	config = true,
